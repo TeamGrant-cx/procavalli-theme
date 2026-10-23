@@ -1,0 +1,52 @@
+{%- comment -%}
+  Pro Cavalli custom-work license check.
+
+  Hides elements marked with data-pc-gate when the agency license switch is OFF.
+  Fail-open: a network error, a bad response or a long outage leaves the site
+  as-is. Only an explicit `active: false` from the endpoint hides anything.
+
+  Rendered once from <head> in layout/theme.liquid.
+{%- endcomment -%}
+
+<style>
+  html.pc-off [data-pc-gate] { display: none !important; }
+  html.pc-off [data-pc-gate-stub] { display: block !important; }
+  [data-pc-gate-stub] { display: none; }
+</style>
+
+<script>
+(function () {
+  var ENDPOINT  = 'https://procavalli-license.vercel.app/status';
+  var CACHE_KEY = 'pc_lic_v1';
+  var MAX_AGE   = 10 * 60 * 1000;
+
+  function apply(active) {
+    var el = document.documentElement;
+    if (active) el.classList.remove('pc-off');
+    else el.classList.add('pc-off');
+  }
+
+  try {
+    var raw = sessionStorage.getItem(CACHE_KEY);
+    if (raw) {
+      var c = JSON.parse(raw);
+      if (c && typeof c.active === 'boolean' && (Date.now() - c.t) < MAX_AGE) {
+        apply(c.active);
+      }
+    }
+  } catch (e) {}
+
+  var ctl = ('AbortController' in window) ? new AbortController() : null;
+  if (ctl) setTimeout(function () { try { ctl.abort(); } catch (e) {} }, 4000);
+  try {
+    fetch(ENDPOINT, { cache: 'no-store', credentials: 'omit', signal: ctl && ctl.signal })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || typeof data.active !== 'boolean') return;
+        try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ active: data.active, t: Date.now() })); } catch (e) {}
+        apply(data.active);
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
+</script>

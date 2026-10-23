@@ -106,7 +106,7 @@
     assign enable_wishlist = settings.enable_wishlist
     assign enable_compare = settings.enable_compare
   -%}
-  <div class="card-wrapper product-card-wrapper">
+  <div class="card-wrapper product-card-wrapper" data-pc-gate>
     <div
       class="card card--{{ settings.card_style }}
         {% if card_product.featured_media %} card--media{% else %} card--text{% endif %}
@@ -523,7 +523,7 @@
       assign ratio = 0.8
     endif
   -%}
-  <div class="card-wrapper product-card-wrapper">
+  <div class="card-wrapper product-card-wrapper" data-pc-gate>
     <div
       class="card card--{{ settings.card_style }}{% if extend_height %} card--extend-height{% endif %}{% if image_shape and image_shape != 'default' %} card--shape{% endif %}{% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }}{% endif %}"
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"

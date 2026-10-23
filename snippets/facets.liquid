@@ -31,7 +31,7 @@
   assign filter_label_all = filter_label_all | strip | default: 'More filters'
 -%}
 
-<div class="facets-container w-full{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+<div class="facets-container w-full{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}" data-pc-gate>
   {%- if filter_type == 'vertical' or filter_type == 'horizontal' -%}
     {% comment %} Sorting and product count are the last elements when filter type is horizontal {% endcomment %}
     {% if enable_count %}

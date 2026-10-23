@@ -15,7 +15,7 @@
 {% capture children %}
   {% content_for 'blocks' %}
 {% endcapture %}
-<div class="spacing-style" style="{% render 'spacing-style', settings: sec_stts %}">
+<div class="spacing-style" style="{% render 'spacing-style', settings: sec_stts %}" data-pc-gate>
   <div
     class="
       relative z-0 spacing

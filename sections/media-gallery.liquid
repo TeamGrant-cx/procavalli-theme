@@ -1,15 +1,17 @@
 {% capture children %}
-  <div class="section-resource-list__header">
-    {%- content_for 'block', type: '_product-list-content', id: 'static-header' -%}
-  </div>
+  <div data-pc-gate style="display:contents">
+    <div class="section-resource-list__header">
+      {%- content_for 'block', type: '_product-list-content', id: 'static-header' -%}
+    </div>
 
-  {% content_for 'block', type: '_media-gallery', id: 'static-media-gallery' %}
+    {% content_for 'block', type: '_media-gallery', id: 'static-media-gallery' %}
 
-  <div
-    class="section-resource-list__content"
-    style="--horizontal-alignment: {{ section.settings.horizontal_alignment }};"
-  >
-    {%- content_for 'blocks' -%}
+    <div
+      class="section-resource-list__content"
+      style="--horizontal-alignment: {{ section.settings.horizontal_alignment }};"
+    >
+      {%- content_for 'blocks' -%}
+    </div>
   </div>
 {% endcapture %}
 

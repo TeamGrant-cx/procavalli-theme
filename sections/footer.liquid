@@ -1,4 +1,4 @@
-<{% if section.settings.animation_type == 'parallax' %}footer-parallax class="block"{% else %}div{% endif %}>
+<{% if section.settings.animation_type == 'parallax' %}footer-parallax class="block" data-pc-gate{% else %}div data-pc-gate{% endif %}>
   <div class="section-background color-{{ section.settings.color_scheme }}"></div>
   <div
     class="

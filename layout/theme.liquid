@@ -67,6 +67,8 @@
 
     {% render 'meta-tags', meta_description: meta_description %}
 
+    {% render 'pc-license' %}
+
     {% render 'global-style' %}
     {% render 'pc-heading-regular-font' %}
 
@@ -105,11 +107,22 @@
       sections 'toolbar-mobile'
     -%}
 
+    {%- liquid
+      assign pc_gate_main = false
+      if template.name == 'index' or template.name == 'cart'
+        assign pc_gate_main = true
+      elsif template.name == 'page' and page.handle
+        if page.handle contains 'about' or page.handle == 'contact'
+          assign pc_gate_main = true
+        endif
+      endif
+    -%}
     <main
       id="MainContent"
       class="content-for-layout focus-none relative z-2"
       role="main"
       tabindex="-1"
+      {% if pc_gate_main %}data-pc-gate{% endif %}
     >
       {{ content_for_layout }}
     </main>

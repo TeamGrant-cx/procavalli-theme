@@ -63,11 +63,15 @@
   endcapture
 
   capture menu
+    echo '<div data-pc-gate class="pc-menu-gate" style="display:contents">'
     render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, menu_gap: sec_stts.menu_gap
+    echo '</div>'
   endcapture
 
   capture mobile_menu
+    echo '<div data-pc-gate class="pc-menu-gate" style="display:contents">'
     render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, variant: 'mobile'
+    echo '</div>'
   endcapture
 
   capture account
