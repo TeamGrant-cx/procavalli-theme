@@ -15,6 +15,8 @@
 {% capture children %}
   {% content_for 'blocks' %}
 {% endcapture %}
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+{%- if __pc_check contains 'pc-ok' -%}
 <div class="spacing-style" style="{% render 'spacing-style', settings: sec_stts %}" data-pc-gate>
   <div
     class="
@@ -109,6 +111,7 @@
     </div>
   </div>
 </div>
+{%- endif -%}
 {% schema %}
 {
   "name": "t:names.collection_banner",

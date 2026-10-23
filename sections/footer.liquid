@@ -1,3 +1,5 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+{%- if __pc_check contains 'pc-ok' -%}
 <{% if section.settings.animation_type == 'parallax' %}footer-parallax class="block" data-pc-gate{% else %}div data-pc-gate{% endif %}>
   <div class="section-background color-{{ section.settings.color_scheme }}"></div>
   <div
@@ -37,6 +39,7 @@
     </div>
   </div>
 </{% if section.settings.animation_type == 'parallax' %}footer-parallax{% else %}div{% endif %}>
+{%- endif -%}
 {% schema %}
 {
   "name": "t:names.footer_group",

@@ -15,6 +15,8 @@
   assign limit = paginate_by
 %}
 
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+
 <div
   class="template-collection{%- if section.settings.product_grid_width == 'full-width' %} template-collection--full-width{% endif %} collection-wrapper grid-base gap-style gradient color-{{ section.settings.color_scheme }} spacing"
   style="
@@ -127,7 +129,7 @@
 
             {% capture children %}
               {% for product in collection.products %}
-                {% if forloop.index == banner_position_1 and section.settings.show_banner_1 %}
+                {% if forloop.index == banner_position_1 and section.settings.show_banner_1 and __pc_check contains 'pc-ok' %}
                   <li class="{{ class_banner }}" data-pc-gate data-product-banner="1" data-first-position="{{ banner_position_1 }}">
                     <div class="{{ class_banner_img }}">
                       <a
@@ -146,7 +148,7 @@
                     </div>
                   </li>
                 {% endif %}
-                {% if forloop.index == banner_position_2 and section.settings.show_banner_2 %}
+                {% if forloop.index == banner_position_2 and section.settings.show_banner_2 and __pc_check contains 'pc-ok' %}
                   <li class="{{ class_banner }}" data-pc-gate data-product-banner="2" data-first-position="{{ banner_position_2 }}">
                     <div class="{{ class_banner_img }}">
                       <a
@@ -165,7 +167,7 @@
                     </div>
                   </li>
                 {% endif %}
-                {% if forloop.index == banner_position_3 and section.settings.show_banner_3 %}
+                {% if forloop.index == banner_position_3 and section.settings.show_banner_3 and __pc_check contains 'pc-ok' %}
                   <li class="{{ class_banner }}" data-pc-gate data-product-banner="3" data-first-position="{{ banner_position_3 | plus: 2 }}">
                     <div class="{{ class_banner_img }}">
                       <a

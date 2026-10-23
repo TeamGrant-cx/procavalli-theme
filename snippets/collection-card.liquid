@@ -27,6 +27,8 @@
   endif
 %}
 
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+{%- if __pc_check contains 'pc-ok' -%}
 <div
   data-pc-gate
   class="
@@ -59,3 +61,4 @@
     </div>
   </div>
 </div>
+{%- endif -%}

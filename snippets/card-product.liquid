@@ -27,6 +27,7 @@
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
@@ -106,6 +107,7 @@
     assign enable_wishlist = settings.enable_wishlist
     assign enable_compare = settings.enable_compare
   -%}
+  {%- if __pc_check contains 'pc-ok' -%}
   <div class="card-wrapper product-card-wrapper" data-pc-gate>
     <div
       class="card card--{{ settings.card_style }}
@@ -516,6 +518,7 @@
       {% endif %}
     </div>
   </div>
+  {%- endif -%}
 {%- else -%}
   {%- liquid
     assign ratio = 1
@@ -523,6 +526,7 @@
       assign ratio = 0.8
     endif
   -%}
+  {%- if __pc_check contains 'pc-ok' -%}
   <div class="card-wrapper product-card-wrapper" data-pc-gate>
     <div
       class="card card--{{ settings.card_style }}{% if extend_height %} card--extend-height{% endif %}{% if image_shape and image_shape != 'default' %} card--shape{% endif %}{% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }}{% endif %}"
@@ -561,4 +565,5 @@
       </div>
     </div>
   </div>
+  {%- endif -%}
 {%- endif -%}

@@ -117,14 +117,21 @@
         endif
       endif
     -%}
+    {%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+    {%- assign __pc_ok = false -%}
+    {%- if __pc_check contains 'pc-ok' -%}{%- assign __pc_ok = true -%}{%- endif -%}
     <main
       id="MainContent"
       class="content-for-layout focus-none relative z-2"
       role="main"
       tabindex="-1"
-      {% if pc_gate_main %}data-pc-gate{% endif %}
+      {% if pc_gate_main and __pc_ok %}data-pc-gate{% endif %}
     >
-      {{ content_for_layout }}
+      {%- if pc_gate_main and __pc_ok == false -%}
+        {%- comment -%} pc-gates snippet missing — gated page content suppressed {%- endcomment -%}
+      {%- else -%}
+        {{ content_for_layout }}
+      {%- endif -%}
     </main>
 
     {% sections 'footer-group' %}

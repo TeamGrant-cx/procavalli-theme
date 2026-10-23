@@ -1,4 +1,6 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {% capture children %}
+  {%- if __pc_check contains 'pc-ok' -%}
   <div data-pc-gate style="display:contents">
     <div class="section-resource-list__header">
       {%- content_for 'block', type: '_product-list-content', id: 'static-header' -%}
@@ -13,6 +15,7 @@
       {%- content_for 'blocks' -%}
     </div>
   </div>
+  {%- endif -%}
 {% endcapture %}
 
 {% render 'section', section: section, children: children %}

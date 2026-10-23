@@ -5,6 +5,8 @@
   {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 </noscript>
 
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+
 {%- liquid
   assign sec_stts = section.settings
 
@@ -63,15 +65,19 @@
   endcapture
 
   capture menu
-    echo '<div data-pc-gate class="pc-menu-gate" style="display:contents">'
-    render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, menu_gap: sec_stts.menu_gap
-    echo '</div>'
+    if __pc_check contains 'pc-ok'
+      echo '<div data-pc-gate class="pc-menu-gate" style="display:contents">'
+      render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, menu_gap: sec_stts.menu_gap
+      echo '</div>'
+    endif
   endcapture
 
   capture mobile_menu
-    echo '<div data-pc-gate class="pc-menu-gate" style="display:contents">'
-    render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, variant: 'mobile'
-    echo '</div>'
+    if __pc_check contains 'pc-ok'
+      echo '<div data-pc-gate class="pc-menu-gate" style="display:contents">'
+      render 'header-menu-snippet', header_settings: sec_stts, blocks: section.blocks, variant: 'mobile'
+      echo '</div>'
+    endif
   endcapture
 
   capture account

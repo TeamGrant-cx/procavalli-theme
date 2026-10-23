@@ -262,6 +262,8 @@
   }
 </style>
 
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+{%- if __pc_check contains 'pc-ok' -%}
 <section id="pc-bundle-{{ section.id }}" class="pc-bundle" data-pc-gate>
   {%- if s.heading != blank -%}
     <h2 class="pc-bundle__heading">{{ s.heading }}</h2>
@@ -392,6 +394,7 @@
     </div>
   {%- endif -%}
 </section>
+{%- endif -%}
 
 <script>
   (function () {
