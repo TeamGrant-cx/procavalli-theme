@@ -1,0 +1,197 @@
+{%- doc -%}
+  Pro Cavalli: small round "?" button that opens a page (e.g. the Shipping Policy) in the theme's popup.
+  Uses Ella's side-drawer / side-drawer-opener (details-disclosure.js, loaded on every page) like blocks/popup-link.liquid.
+  Content = the chosen page's title and content; falls back to the block's own rich text.
+{%- enddoc -%}
+
+{%- liquid
+  assign bl_stts = block.settings
+  assign popup_page = bl_stts.page
+  assign popup_title = bl_stts.heading | default: popup_page.title
+  assign has_content = false
+  if popup_page != blank and popup_page.content != blank
+    assign has_content = true
+  elsif bl_stts.content != blank
+    assign has_content = true
+  endif
+-%}
+
+{%- if has_content -%}
+  <side-drawer-opener class="pc-info-popup" data-side-drawer="#PcInfoPopup-{{ block.id }}" {{ block.shopify_attributes }}>
+    <button
+      type="button"
+      class="pc-info-popup__button button-unstyled"
+      aria-haspopup="dialog"
+      aria-label="{{ bl_stts.button_label | default: popup_title | escape }}"
+      style="--pc-info-size: {{ bl_stts.size }}px;"
+    >
+      <svg class="pc-info-popup__icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <path fill="currentColor" d="M9.563 11.959a.367.367 0 0 1-.367-.367v-.127c-.003-.49.084-.91.316-1.303.227-.384.575-.715 1.04-1.063.415-.311.666-.566.817-.81a1.43 1.43 0 0 0 .208-.795v-.013c0-.894-.657-1.531-1.568-1.531-.862 0-1.527.606-1.612 1.609a.37.37 0 0 1-.097.219l-.006.006a.37.37 0 0 1-.264.117l-.471.007a.367.367 0 0 1-.362-.453c.112-1.519 1.219-2.712 2.825-2.712 1.603 0 2.791 1.176 2.791 2.718v.013c0 .512-.114.965-.366 1.387-.248.416-.619.783-1.101 1.145l-.003.002c-.414.305-.637.526-.764.738-.12.2-.172.422-.172.771v.075a.367.367 0 0 1-.367.367zm1.142 2.423c0 .473-.335.88-.838.88-.497 0-.845-.4-.845-.88 0-.477.351-.874.845-.874.5 0 .838.403.838.874"/>
+      </svg>
+    </button>
+  </side-drawer-opener>
+  <side-drawer
+    class="popup__content drawer fixed top-0 left-0 z-9 w-screen h-full flex-center no-js-hidden"
+    element-s-popup
+    id="PcInfoPopup-{{ block.id }}"
+    data-drawer-direction="center"
+  >
+    <div id="Drawer-Overlay-{{ block.id }}" class="drawer__overlay fixed inset-0 cursor-pointer"></div>
+    <div
+      class="popup__inner w-auto h-full flex flex-column color-{{ settings.popover_color_scheme }} global-settings-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ popup_title | escape }}"
+      tabindex="-1"
+      style="--modal-max-width: 72rem;"
+      data-drawer-content
+    >
+      <div class="popup__inner--content pc-info-popup__content relative w-full h-full overflow-auto cus-scrollbar">
+        {%- if popup_title != blank -%}
+          <h2 class="pc-info-popup__title">{{ popup_title | escape }}</h2>
+        {%- endif -%}
+        <div class="rte">
+          {%- if popup_page != blank and popup_page.content != blank -%}
+            {{ popup_page.content }}
+          {%- else -%}
+            {{ bl_stts.content }}
+          {%- endif -%}
+        </div>
+        <button
+          onclick="this.closest('side-drawer').close()"
+          class="button button-unstyled close-button popup__close drawer__close block t-button bor-none rounded-full cursor-pointer absolute button-close-circle minimum-touch-target-before"
+          type="button"
+          aria-label="{{ 'accessibility.close_dialog' | t }}"
+          style="--top: 1rem; --right: 1rem;"
+        >
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </button>
+      </div>
+    </div>
+  </side-drawer>
+{%- endif -%}
+
+{% stylesheet %}
+  .pc-info-popup {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+  .pc-info-popup__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--pc-info-size, 16px);
+    height: var(--pc-info-size, 16px);
+    padding: 0;
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .pc-info-popup__button:hover,
+  .pc-info-popup__button:focus-visible {
+    color: var(--pc-gold, #C2A260);
+  }
+  /* reset base.css ":not(.svg-wrapper) > svg" minimum icon size (20px), which overflowed the button */
+  .pc-info-popup__button .pc-info-popup__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+  }
+  .pc-info-popup__content {
+    padding: 4rem 3.2rem 3.2rem;
+  }
+  .pc-info-popup__title {
+    margin: 0 0 1.6rem;
+    padding-right: 3.2rem;
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: var(--pc-navy, #19264D);
+  }
+  .pc-info-popup__content .rte {
+    font-size: 1.4rem;
+    line-height: 1.6;
+  }
+  .pc-info-popup__content .rte h2 {
+    margin: 2.4rem 0 0.8rem;
+    font-size: 1.8rem;
+  }
+  .pc-info-popup__content .rte h3 {
+    margin: 1.6rem 0 0.6rem;
+    font-size: 1.6rem;
+  }
+  .pc-info-popup__content .rte table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .pc-info-popup__content .rte :is(th, td) {
+    padding: 0.8rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    text-align: left;
+    vertical-align: top;
+  }
+  @media (max-width: 749px) {
+    .pc-info-popup__content {
+      padding: 4.8rem 1.6rem 2.4rem;
+    }
+    .pc-info-popup__title {
+      font-size: 2.2rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Info popup (?)",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A small ? icon that opens a page (for example the Shipping Policy) in a popup."
+    },
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Page"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Popup title",
+      "info": "Leave empty to use the page title."
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "info": "Used when no page is chosen."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Accessible label",
+      "info": "Read by screen readers, e.g. 'Shipping policy'. Leave empty to use the popup title."
+    },
+    {
+      "type": "range",
+      "id": "size",
+      "label": "Icon size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Info popup (?)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,23 @@
+{%- comment -%}
+  Pro Cavalli: media placeholder for a product card whose product has no photo yet, so the card keeps the same
+  3:4 tint box as the others instead of collapsing to a text-only card. Shows the brand logo (the brand collection's
+  custom.brand_logo, collection handle = vendor handleized) or else the brand name, and "Photo coming soon".
+  Rendered inside a `.ratio` box by the card media blocks (_card-product-media-flex, _card-product-media,
+  _card-product-media-basic).
+
+  Accepts:
+  - card_product: {Object} product
+{%- endcomment -%}
+{%- liquid
+  assign pc_brand_handle = card_product.vendor | handleize
+  assign pc_brand = collections[pc_brand_handle]
+  assign pc_logo = pc_brand.metafields.custom.brand_logo.value
+-%}
+<a href="{{ card_product.url }}" class="pc-card-no-photo" tabindex="-1" aria-hidden="true">
+  {%- if pc_logo != blank -%}
+    {{ pc_logo | image_url: width: 400 | image_tag: class: 'pc-card-no-photo__logo', loading: 'lazy', alt: '' }}
+  {%- else -%}
+    <span class="pc-card-no-photo__brand">{{ card_product.vendor | escape }}</span>
+  {%- endif -%}
+  <span class="pc-card-no-photo__note">{{ 'content.photo_coming_soon' | t }}</span>
+</a>

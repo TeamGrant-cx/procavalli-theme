@@ -1,0 +1,588 @@
+/* ------------------------------------------------------------------
+   Pro Cavalli — sub-category (collection) page
+   Figma 177:2614 "single category list", 1920 canvas.
+
+   Layout from Figma: wrapper is HORIZONTAL, gap 64, padding 64/150,
+   sidebar 218 + gap 64 + content 1192 = 1474, centred in 1920.
+   Scaling uses the same 1920-canvas clamp() convention as the
+   homepage sections (150/1920 = 7.8125vw, 64/1920 = 3.333vw, etc).
+   ------------------------------------------------------------------ */
+
+.template-collection {
+  --pc-navy: #19264D;
+  --pc-gold: #C2A260;
+  --pc-tint: #DAE2F5;
+
+  /* Figma measures, as fractions of the 1920 canvas */
+  --pc-col-gap: clamp(24px, 3.333vw, 64px);   /* 64  */
+  --pc-side-w: clamp(180px, 11.354vw, 218px); /* 218 */
+  --pc-gutter: clamp(16px, 11.615vw, 223px);  /* 223 — Figma side gutter */
+  --pc-band: clamp(32px, 3.333vw, 64px);      /* 64  */
+
+  /* Figma palette for this page — note it is black, not navy */
+  --pc-rule: #000000;
+  --pc-item: #1C1C1C;
+  --pc-input-bd: #797979;
+  --pc-check-bd: #C7C7C7;
+  --pc-muted: #747A8D;
+  --pc-hr: #BABABA;
+}
+
+/* ---- wrapper -----------------------------------------------------
+   The theme lays this out as a 14-track grid (`grid-base`):
+     30px | 240px sidebar | 31.875px x11 | 30px
+   Children are placed on explicit track numbers, so the track list must
+   keep its shape. Resize only the sidebar track to the Figma 218 and
+   leave column-gap alone — setting it applies between ALL 14 tracks and
+   collapses the content column.
+
+   At 1920 the Figma row is 223 | 218 | 64 | 1192 | 223 = 1920. The theme
+   has no gap track, so the sidebar track carries sidebar+gap (282) and the
+   sidebar element itself is 218 — leaving exactly 64 of empty track.
+   That makes the 11 content tracks total 1920-446-282 = 1192.
+   `!important` is needed: the theme's own grid-base rule outranks this.
+   Phones keep the theme's own 12 equal tracks (collection-wrapper.css), on
+   which the product grid spans 1 / 13 = the full width; our 14-track list
+   there left the last track + gutter empty, so the cards sat off-centre.
+   ------------------------------------------------------------------ */
+.template-collection.collection-wrapper {
+  padding-inline: 0 !important;
+  padding-block: var(--pc-band);
+}
+@media screen and (min-width: 750px) {
+  .template-collection.collection-wrapper {
+    grid-template-columns:
+      var(--pc-gutter)
+      calc(var(--pc-side-w) + var(--pc-col-gap))
+      repeat(11, minmax(0, 1fr))
+      var(--pc-gutter) !important;
+    column-gap: 0 !important;
+  }
+}
+
+/* ---- breadcrumb: Inter 400 14/24 #828282, Title Case -------------- */
+.template-collection .breadcrumbs,
+.template-collection .breadcrumbs a,
+.template-collection .breadcrumbs span,
+.template-collection .pc-sidebar-breadcrumb,
+.template-collection .pc-sidebar-breadcrumb a,
+.template-collection .pc-sidebar-breadcrumb span {
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #828282;
+  text-transform: capitalize;
+  letter-spacing: 0;
+}
+.template-collection .breadcrumbs a:hover,
+.template-collection .pc-sidebar-breadcrumb a:hover { color: var(--pc-gold); }
+
+/* Desktop: the breadcrumb sits at the top of the sidebar column, level with
+   the banner (Figma 186:3371, 32 above CATEGORIES). The page-wide breadcrumb
+   row is hidden there by its section's custom CSS and still serves < 1025px,
+   where this block only appears inside the filter drawer. */
+.template-collection .pc-sidebar-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 8px;
+  margin: 0 0 32px;
+}
+.template-collection .pc-sidebar-breadcrumb a { text-decoration: none; }
+.template-collection .pc-sidebar-breadcrumb__sep {
+  display: inline-flex;
+  width: 9px;
+  height: 9px;
+  transform: rotate(-90deg);
+}
+.template-collection .pc-sidebar-breadcrumb__sep svg { width: 100%; height: 100%; }
+.mobile-facets .pc-sidebar-breadcrumb { display: none; }
+
+/* ---- sidebar ------------------------------------------------------ */
+/* sidebar sits at Figma's 218 inside the wider (218+64) track */
+.template-collection .facets-wrapper.facets--vertical {
+  width: var(--pc-side-w);
+  min-width: 0;
+  row-gap: clamp(16px, 1.667vw, 32px);   /* Figma: sidebar groups gap 32 */
+}
+
+/* panel heading: Inter 700 14/24 UPPER, black, 1px black rule under it
+   (Figma 186:3396, frame 218x33). The filter panels' heading is the h3
+   .facets__label inside the summary; the rule goes on the summary so the
+   chevron sits on the same line. The toolbar dropdowns reuse
+   .facets__summary, so these rules are scoped to the vertical panels. */
+.template-collection .blog-posts__sidebar-heading,
+.template-collection .facets__heading,
+.template-collection .facets__disclosure-vertical > .facets__summary h3.facets__label {
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--pc-rule);
+}
+.template-collection .blog-posts__sidebar-heading {
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--pc-rule);
+}
+/* collapsible Categories panel: the rule spans the summary, chevron on the
+   same line, pointing up while open (Figma 186:3396) */
+.template-collection .facets-wrapper .blog-posts__sidebar-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--pc-rule);
+}
+.template-collection .blog-posts__sidebar-item summary .blog-posts__sidebar-heading {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.template-collection .blog-posts__sidebar-item summary .icon-caret-wrapper {
+  color: var(--pc-rule);
+  transition: transform .2s ease;
+}
+.template-collection .blog-posts__sidebar-item details[open] > summary .icon-caret-wrapper {
+  transform: rotate(180deg);
+}
+.template-collection .facets__disclosure-vertical > .facets__summary {
+  padding: 0 0 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--pc-rule);
+  opacity: 1;
+}
+.template-collection .facets__disclosure-vertical > .facets__summary .icon-caret-wrapper {
+  color: var(--pc-rule);
+  transition: transform .2s ease;
+}
+.template-collection .facets__disclosure-vertical > .facets__summary .icon-caret { color: var(--pc-rule); }
+/* Figma: chevron points up while a panel is open */
+.template-collection .facets__disclosure-vertical[open] > .facets__summary .icon-caret-wrapper {
+  transform: rotate(180deg);
+}
+.template-collection .facets__disclosure-vertical .facets__header-vertical { display: none; } /* "The highest price is ..." */
+
+/* "Refined by / Clear all / N products" only once a filter is applied (Figma has none) */
+.template-collection .active-facets-desktop:not(:has(.active-facets__button)) { display: none; }
+
+/* filter values: Inter 400 14/24 #1C1C1C, upper case (Figma CWD / STUBBEN) */
+.template-collection .facets__disclosure-vertical label.facet-checkbox,
+.template-collection .facets__disclosure-vertical .facet-checkbox__text-label {
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--pc-item);
+}
+.template-collection .facets__disclosure-vertical label.facet-checkbox.disabled { opacity: .45; }
+
+/* price: EGP prefix inside each 94x42 box, value right-aligned, "to" between */
+.template-collection .facets-price__input { gap: 8px; }
+.template-collection .facets-price__input .field { flex: 1 1 0; min-width: 0; }
+.template-collection .facets-price__input .field-currency {
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 12px;
+  color: #000;
+}
+.template-collection .facets-price__input .field-to-price__text {
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 14px;
+  text-transform: lowercase;
+  color: #000;
+}
+/* APPLY: black, white Inter 700 16 upper case, 218x40 (Figma 186:3464) */
+.template-collection .facets-price__apply .button {
+  height: 40px;
+  min-height: 40px;
+  padding: 0 16px;              /* the theme's 14px block padding left a 10px text box */
+  border: 1px solid #000;
+  border-radius: var(--style-border-radius-buttons-primary);
+  background: #000;
+  color: #fff;
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.template-collection .facets-price__apply .button .button-text-main { color: #fff; }
+.template-collection .facets-price__apply .button:hover { background: var(--pc-navy); border-color: var(--pc-navy); }
+
+/* panel items: Inter 400 14/24 #1C1C1C, vertical gap 8 */
+.template-collection .blog-post__category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+.template-collection .blog-post__category-list-item { margin: 0; }
+.template-collection .blog-post__category-list-link,
+.template-collection .blog-post__category-list-link .text {
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-transform: capitalize;
+  color: var(--pc-item);
+}
+.template-collection .blog-post__category-list-link:hover .text { color: var(--pc-gold); }
+.template-collection .blog-post__category-list-item.current-cate .text {
+  font-weight: 700;
+  color: var(--pc-rule);
+}
+
+/* price inputs: 94x42, 1px #797979 */
+.template-collection .price-facet input,
+.template-collection input[name^="filter.v.price"] {
+  height: 42px;
+  border: 1px solid var(--pc-input-bd);
+  border-radius: var(--inputs-radius);
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 12px;
+  line-height: 24px;
+  color: #000;
+  padding: 8px 4px 8px 34px;   /* room for the EGP prefix; 425,000 must still fit in 94px */
+  text-align: right;
+}
+
+/* checkboxes: 12x12, 1px #C7C7C7 */
+.template-collection .facets__item input[type='checkbox'] + label::before,
+.template-collection .facet-checkbox__icon {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--pc-check-bd);
+  border-radius: 0;
+}
+
+/* ---- collection header: banner 1192x389, rule, title, blurb ------- */
+.template-collection .collection-header {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.667vw, 32px);           /* Figma 186:3281: banner -> title 32 */
+  padding-bottom: clamp(8px, 0.833vw, 16px);
+  /* the sort toolbar below draws the single divider (Figma has one rule) */
+}
+.template-collection .collection-header .image-block {
+  aspect-ratio: 1192 / 389;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--product-card-corner-radius);
+}
+.template-collection .collection-header .image-block img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* title + blurb read as one block (Figma 186:3276): drop the text blocks' own top padding */
+.template-collection .collection-header .text-block {
+  padding-block-start: 0;
+}
+.template-collection .collection-header .text-block + .text-block {
+  margin-block-start: calc(16px - clamp(16px, 1.667vw, 32px));
+}
+/* title: Playfair Display 700 24/32, ls 1.5, Title Case */
+.template-collection .collection-header h1,
+.template-collection .collection-header .text-block h1 {
+  margin: 0;
+  font-family: var(--font-heading--family, Georgia, serif);
+  font-weight: 700;
+  font-size: clamp(19px, 1.25vw, 24px);
+  line-height: 1.333;
+  letter-spacing: 1.5px;
+  text-transform: capitalize;
+  color: #000000;
+}
+
+/* blurb: Inter 400 16/24, max-width 758 */
+.template-collection .collection-header .text-block p {
+  margin: 0;
+  max-width: 758px;
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 400;
+  font-size: clamp(14px, 0.833vw, 16px);
+  line-height: 1.5;
+  color: #000000;
+}
+
+/* ---- toolbar: VIEW AS icons; ITEMS PER PAGE and SORT BY values in 1px boxes
+   (Figma image 18 under the title rule) ----------------------------- */
+.template-collection .sorting-wrapper,
+.template-collection .sorting-wrapper * {
+  font-family: var(--font-body--family, sans-serif);
+  font-size: clamp(11px, 0.729vw, 14px);
+  letter-spacing: .7px;
+  color: var(--pc-item);
+}
+.template-collection .sorting-wrapper .facet-filters__field-label,
+.template-collection .sorting-wrapper .switcher-grid__label {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.template-collection .sorting-wrapper .details--dropdown > .facets__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 88px;
+  height: 46px;
+  padding: 0 14px 0 20px;
+  border: 1px solid #C7C7C7;
+  border-radius: var(--inputs-radius);
+  letter-spacing: 0;
+}
+.template-collection .sorting-wrapper .facet-filters.sorting .details--dropdown > .facets__summary { min-width: 186px; }
+.template-collection .sorting-wrapper .details--dropdown > .facets__summary .uppercase { text-transform: none; }
+.template-collection .sorting-wrapper .details--dropdown > .facets__summary svg { width: 10px; height: 10px; color: #6F7786; }
+
+/* ---- product grid: 4 x 250, gap 64 --------------------------------
+   The grid is `ul.product-grid`. NOTE: `.desktop-grid-view` is the
+   VIEW AS density switcher (five icon buttons), NOT the product grid —
+   styling that as a grid breaks the toolbar. */
+.template-collection ul.product-grid {
+  display: grid;
+}
+/* fixed column counts apply to the grid views only: the VIEW AS list mode
+   (ul.product-grid[data-view="1"], first VIEW AS button) keeps the theme's one-card-per-row layout */
+.template-collection ul.product-grid:not([data-view="1"]) {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  column-gap: var(--pc-col-gap) !important;
+  row-gap: var(--pc-col-gap) !important;
+}
+
+/* card media is 250x350 in Figma */
+.template-collection .product-grid .card__media .ratio,
+.template-collection .product-grid .card--block-media .ratio {
+  aspect-ratio: 250 / 350;
+  padding-bottom: 0 !important;
+}
+/* card media panel (tint, contain, darken blend) now lives in pc-theme-card.css: all product cards */
+/* swatches centred under the info, 8px apart (Figma 177:2938) */
+:is(.template-collection, .template-search) :is(.product-grid, .swiper-wrapper) .card--block-variant { width: 100%; }
+:is(.template-collection, .template-search) :is(.product-grid, .swiper-wrapper) .card__swatch .swatch-list {
+  justify-content: center;
+  --gap: 8px;
+}
+
+/* ==================================================================
+   Make the THEME's card look like our pc-product-card (Figma 77:59).
+   Also used by the search results grid (same snippets/product-grid).
+   We keep the theme's card — it carries quick-add, badges, swatches and
+   the filter machinery — and restyle it, rather than swapping in our
+   snippet and losing those.
+
+   The quick-add button is a SIBLING of the media, not a child, so it
+   cannot be positioned against the media box. Instead the card becomes a
+   one-column grid and both media and button are placed in cell 1/1, with
+   the button aligned to the end — which lands it on the bottom edge of
+   the image. Info blocks auto-place into the rows beneath.
+   ================================================================== */
+:is(.template-collection, .template-search) .product-grid .card {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: clamp(10px, 0.833vw, 16px);   /* Figma card gap 16 */
+  padding-block: 0;                      /* theme ships 36px top/bottom */
+}
+:is(.template-collection, .template-search) .product-grid .card--block-media { grid-area: 1 / 1; overflow: hidden; }
+
+:is(.template-collection, .template-search) .product-grid .card--block-button {
+  grid-area: 1 / 1;
+  align-self: end;
+  z-index: 3;
+  width: 100%;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity .25s ease, transform .25s ease;
+}
+:is(.template-collection, .template-search) .product-grid .card:hover .card--block-button,
+:is(.template-collection, .template-search) .product-grid .card:focus-within .card--block-button {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* touch devices have no hover — keep the bar visible, as our card does */
+@media (hover: none) {
+  :is(.template-collection, .template-search) .product-grid .card--block-button { opacity: 1; transform: none; }
+}
+
+/* the bar itself — navy at 80%, gold uppercase Inter 700 */
+:is(.template-collection, .template-search) .product-grid .card--block-button button,
+:is(.template-collection, .template-search) .product-grid .card--block-button .quick-add button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: clamp(38px, 2.708vw, 52px);
+  min-height: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 0 0 var(--product-card-corner-radius) var(--product-card-corner-radius);
+  background: rgba(25, 38, 77, 0.8);
+  color: var(--pc-gold);
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 700;
+  font-size: clamp(12px, 0.833vw, 16px);
+  line-height: 20px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  transition: background .2s ease;
+}
+:is(.template-collection, .template-search) .product-grid .card--block-button button:hover {
+  background: rgba(25, 38, 77, 0.92);
+}
+
+/* image zoom on hover, as our card does */
+:is(.template-collection, .template-search) .product-grid .card__media img {
+  transition: transform .5s ease;
+}
+:is(.template-collection, .template-search) .product-grid .card:hover .card__media img { transform: scale(1.04); }
+
+/* title — Inter 400 20, navy, capitalize, tracking 1px */
+:is(.template-collection, .template-search) .product-grid .card__heading,
+:is(.template-collection, .template-search) .product-grid .card__heading a {
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 400;
+  font-size: clamp(14px, 1.0417vw, 20px);
+  line-height: 1.25;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  color: var(--pc-navy);
+  text-align: left;
+}
+
+/* prices — Inter 300 16; was #6F7786 struck through, now #D82C23 */
+:is(.template-collection, .template-search) .product-grid .price,
+:is(.template-collection, .template-search) .product-grid .price * {
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 300;
+  font-size: clamp(12px, 0.833vw, 16px);
+  line-height: 1.25;
+}
+/* .price__sale only when on sale: unscoped, it un-hid the theme's hidden sale
+   block and every full-price card showed its price twice */
+:is(.template-collection, .template-search) .product-grid .price__container,
+:is(.template-collection, .template-search) .product-grid .price--on-sale .price__sale {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+/* Order matters. The compare-at price is <s class="price-item--regular">, so
+   the plain `--regular` rule must come FIRST or it recolours the struck price.
+   One price style everywhere, as on the product page (review 10 Oct 2026):
+   sale price navy, larger and bold; compare-at price red, small, struck. */
+:is(.template-collection, .template-search) .product-grid .price-item--regular { color: var(--pc-navy); }
+:is(.template-collection, .template-search) .product-grid s.price-item,
+:is(.template-collection, .template-search) .product-grid .price__sale s {
+  color: var(--pc-red, #D82C23);
+  text-decoration: line-through;
+  text-decoration-skip-ink: none;
+}
+:is(.template-collection, .template-search) .product-grid .price-item--sale { color: var(--pc-navy); }
+:is(.template-collection, .template-search) .product-grid .price__sale .price-item--last {
+  font-weight: 600;
+  font-size: clamp(14px, 1vw, 19px);
+}
+
+/* the theme emits an empty information group block; it just adds 5px + a gap */
+:is(.template-collection, .template-search) .product-grid .card-product-information:empty,
+:is(.template-collection, .template-search) .product-grid .card-product-information:not(:has(*)) { display: none; }
+
+/* info column: left aligned, Figma padding-inline 16 */
+:is(.template-collection, .template-search) .product-grid .card-product-information,
+:is(.template-collection, .template-search) .product-grid .card-information {
+  align-items: flex-start;
+  text-align: left;
+  padding-inline: clamp(8px, 0.833vw, 16px);
+}
+/* blocks inside the info column also carry .card-information - don't pad them twice */
+:is(.template-collection, .template-search) .product-grid .card-product-information .card-information {
+  padding-inline: 0;
+}
+
+/* ---- pagination: count, progress rule, SHOW MORE ------------------ */
+.template-collection .pagination-wrapper,
+.template-collection [class*="load-more"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.template-collection .pagination-wrapper .product-count,
+.template-collection [class*="products-count"] {
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: .7px;
+  color: var(--pc-muted);
+}
+.template-collection [class*="load-more"] button,
+.template-collection .pagination-wrapper button {
+  width: 300px;
+  max-width: 100%;
+  height: 42px;
+  padding: 8px 32px;
+  border: 1px solid var(--pc-rule);
+  border-radius: var(--style-border-radius-buttons-primary);
+  background: transparent;
+  font-family: var(--font-body--family, sans-serif);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--pc-rule);
+  transition: background .2s ease, color .2s ease;
+}
+.template-collection [class*="load-more"] button:hover,
+.template-collection .pagination-wrapper button:hover {
+  background: var(--pc-rule);
+  color: #ffffff;
+}
+
+/* ---- recently viewed: Playfair 700 24/32 centred, 50px arrows ----- */
+.recently-viewed-products h2,
+.recently-viewed-products .section-header h2 {
+  margin: 0;
+  font-family: var(--font-heading--family, Georgia, serif);
+  font-weight: 700;
+  font-size: clamp(19px, 1.25vw, 24px);
+  line-height: 1.333;
+  letter-spacing: 1.5px;
+  text-transform: capitalize;
+  text-align: center;
+  color: #000000;
+}
+.recently-viewed-products .slider-button,
+.recently-viewed-products button[class*="slider"] {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000000;
+  border-radius: var(--arrow-radius);
+  background: transparent;
+}
+
+/* ---- responsive: sidebar drops below the content ------------------ */
+@media (max-width: 989px) {
+  .template-collection.collection-wrapper { display: block; }
+  .template-collection .facets-wrapper.facets--vertical {
+    width: 100%;
+    min-width: 0;
+    flex: none;
+    margin-bottom: 24px;
+  }
+  .template-collection ul.product-grid:not([data-view="1"]) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    row-gap: 32px !important;
+    column-gap: 16px !important;
+  }
+}

@@ -1,0 +1,387 @@
+{%- liquid
+  assign block_settings = block.settings
+  assign width = block_settings.width
+  assign mobile_width = block_settings.mobile_width
+  assign center_image = block_settings.center_image
+  assign center_size = block_settings.center_size | default: 28
+  assign stamp_text = block_settings.text | strip
+  if stamp_text contains '◆'
+    assign stamp_text = stamp_text | split: '◆' | first | strip
+  endif
+  if stamp_text == blank
+    assign stamp_text = 'TEXT'
+  endif
+  assign separator_icon = block_settings.separator_icon | default: 'sparkle'
+  assign separator_size = block_settings.separator_size | default: 10
+  assign stamp_font = block_settings.font | default: 'var(--font-heading--family)'
+  assign stamp_color = block_settings.color | default: 'var(--color-foreground)'
+  assign stamp_font_weight = 'var(--font-heading--weight)'
+  if stamp_font == 'var(--font-body--family)'
+    assign stamp_font_weight = 'var(--font-body--weight)'
+  elsif stamp_font == 'var(--font-subheading--family)'
+    assign stamp_font_weight = 'var(--font-subheading--weight)'
+  endif
+
+  assign letter_count = stamp_text | size
+  assign letter_gaps = letter_count | minus: 1
+  assign letter_arc = block_settings.letter_spacing | default: 11
+  if letter_gaps > 0
+    assign letter_span = letter_gaps | times: letter_arc
+    if letter_span > 54
+      assign letter_arc = 54.0 | divided_by: letter_gaps
+    endif
+  endif
+  assign letter_mid = letter_gaps | times: 1.0 | divided_by: 2.0
+
+  assign is_rtl = false
+  if settings.enable_rtl_layout
+    assign rtl_locales = "ar,ae,arc,fa,he,ur,ps,sd,dv,yi,ug,ha,ckb,ku,ks,pnb,bcc,bqi,azb,mzn,glk,nqo,kwh" | split: ","
+    if rtl_locales contains request.locale.iso_code
+      assign is_rtl = true
+    endif
+  endif
+
+  assign movement_direction_effective = block_settings.movement_direction
+  if is_rtl
+    if block_settings.movement_direction == 'normal'
+      assign movement_direction_effective = 'reverse'
+    else
+      assign movement_direction_effective = 'normal'
+    endif
+  endif
+-%}
+
+<div
+  class="
+    scroll-showcase__stamp
+    marquee-circle
+    relative
+    {% if block_settings.pause_on_hover %}pause-on-hover{% endif %}
+  "
+  style="
+    --width: {{ width }}vw;
+    --mobile-width: {{ mobile_width }}vw;
+    --marquee-speed: {{ block_settings.speed }}s;
+    --marquee-direction: {{ movement_direction_effective }};
+    --stamp-center-size: {{ center_size }}%;
+    --stamp-sep-size: {{ separator_size }}%;
+    --stamp-font: {{ stamp_font }};
+    --stamp-font-weight: {{ stamp_font_weight }};
+    --stamp-color: {{ stamp_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="scroll-showcase__stamp-ring circle-animation" aria-hidden="true">
+    {%- for i in (0..3) -%}
+      {%- assign word_center = i | times: 90 | plus: 45 -%}
+      {%- for char_i in (1..letter_count) -%}
+        {%- assign char_index = char_i | minus: 1 -%}
+        {%- assign char = stamp_text | slice: char_index, 1 -%}
+        {%- assign letter_offset = char_index | minus: letter_mid -%}
+        {%- assign letter_angle = letter_offset | times: letter_arc | plus: word_center -%}
+        <span class="scroll-showcase__stamp-letter" style="--angle: {{ letter_angle }}deg">
+          {{- char -}}
+        </span>
+      {%- endfor -%}
+      {%- if separator_icon != 'none' -%}
+        <span class="scroll-showcase__stamp-sep" style="--angle: {{ i | times: 90 }}deg">
+          <svg viewBox="0 0 20 20" fill="currentColor" focusable="false" aria-hidden="true">
+            {%- render 'icon', icon: separator_icon -%}
+          </svg>
+        </span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="scroll-showcase__stamp-center">
+    {%- if center_image != blank -%}
+      {%- render 'image',
+        image: center_image,
+        class: 'scroll-showcase__stamp-media',
+        width: 160,
+        height: 160,
+        sizes: '160px',
+        widths: '80, 120, 160, 240, 320'
+      -%}
+    {%- else -%}
+      <span class="scroll-showcase__stamp-star" aria-hidden="true"></span>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Scroll showcase stamp",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:names.content"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "TEXT",
+      "info": "Shown four times around the circle. Enter the word once only."
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "t:settings.font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "t:options.body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "t:options.subheading"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "t:options.heading"
+        }
+      ],
+      "default": "var(--font-heading--family)"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "t:settings.letter_spacing",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "unit": "°",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "separator_icon",
+      "label": "Separator icon",
+      "options": [
+        {
+          "value": "sparkle",
+          "label": "Sparkle"
+        },
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "star",
+          "label": "t:options.star"
+        },
+        {
+          "value": "heart",
+          "label": "t:options.heart"
+        },
+        {
+          "value": "plus",
+          "label": "Plus"
+        },
+        {
+          "value": "circle",
+          "label": "t:options.circle"
+        },
+        {
+          "value": "snowflake",
+          "label": "t:options.snowflake"
+        },
+        {
+          "value": "leaf",
+          "label": "t:options.leaf"
+        },
+        {
+          "value": "fire",
+          "label": "t:options.fire"
+        },
+        {
+          "value": "lightning_bolt",
+          "label": "t:options.lightning_bolt"
+        },
+        {
+          "value": "check_mark",
+          "label": "t:options.check_mark"
+        },
+        {
+          "value": "security",
+          "label": "t:options.security"
+        },
+        {
+          "value": "alert",
+          "label": "t:options.alert"
+        },
+        {
+          "value": "shopping-bag",
+          "label": "t:options.shopping_bag"
+        },
+        {
+          "value": "cart",
+          "label": "t:options.cart"
+        },
+        {
+          "value": "apple",
+          "label": "t:options.apple"
+        },
+        {
+          "value": "arrow",
+          "label": "t:options.arrow"
+        },
+        {
+          "value": "box",
+          "label": "t:options.box"
+        },
+        {
+          "value": "chat_bubble",
+          "label": "t:options.chat_bubble"
+        },
+        {
+          "value": "eye",
+          "label": "t:options.eye"
+        },
+        {
+          "value": "lock",
+          "label": "t:options.lock"
+        },
+        {
+          "value": "map_pin",
+          "label": "t:options.map_pin"
+        },
+        {
+          "value": "paw_print",
+          "label": "t:options.paw_print"
+        },
+        {
+          "value": "plane",
+          "label": "t:options.plane"
+        },
+        {
+          "value": "plant",
+          "label": "t:options.plant"
+        },
+        {
+          "value": "price_tag",
+          "label": "t:options.price_tag"
+        },
+        {
+          "value": "recycle",
+          "label": "t:options.recycle"
+        }
+      ],
+      "default": "sparkle"
+    },
+    {
+      "type": "range",
+      "id": "separator_size",
+      "label": "Separator size",
+      "min": 6,
+      "max": 18,
+      "step": 1,
+      "unit": "%",
+      "default": 10,
+      "visible_if": "{{ block.settings.separator_icon != 'none' }}"
+    },
+    {
+      "type": "select",
+      "id": "color",
+      "label": "t:settings.color",
+      "options": [
+        {
+          "value": "var(--color-foreground)",
+          "label": "t:options.text"
+        },
+        {
+          "value": "var(--color-foreground-heading)",
+          "label": "t:options.heading"
+        },
+        {
+          "value": "var(--color-primary)",
+          "label": "t:options.link"
+        }
+      ],
+      "default": "var(--color-foreground)"
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image",
+      "label": "Center image"
+    },
+    {
+      "type": "range",
+      "id": "center_size",
+      "label": "Center size",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "t:content.size"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "t:settings.width",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "%",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobile_width",
+      "label": "t:settings.width_mobile",
+      "min": 20,
+      "max": 70,
+      "step": 1,
+      "unit": "%",
+      "default": 42
+    },
+    {
+      "type": "header",
+      "content": "t:content.animation"
+    },
+    {
+      "type": "select",
+      "id": "movement_direction",
+      "label": "t:settings.motion_direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "t:options.forward"
+        },
+        {
+          "value": "reverse",
+          "label": "t:options.reverse"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "label": "t:settings.speed",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "t:settings.pause_on_hover",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll showcase stamp",
+      "category": "t:categories.decorative"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+{%- liquid
+  assign bl_stts = block.settings
+  assign popular_collection = bl_stts.popular_products_collection
+  assign max_items = bl_stts.popular_products_show | default: 3 | at_least: 1
+  assign show_arrows = bl_stts.popular_products_arrows
+  assign columns_gap = 12
+  assign bl_id = block.id
+  assign pagination_type = nil
+  assign products_to_show = popular_collection.products_count | default: 0
+
+  if products_to_show > max_items
+    assign products_to_show = max_items
+  endif
+
+  assign show_nav = false
+  if show_arrows and products_to_show > 1
+    assign show_nav = true
+  endif
+-%}
+
+{%- if popular_collection != blank and popular_collection.products_count > 0 -%}
+  <div class="cart-drawer__recommendations{% if show_nav %} arrow-on-header{% endif %}">
+    <div class="cart-drawer__recommendations-header flex justify-between items-center">
+      <h3 class="cart-drawer__recommendations-title h5 m-0">{{ bl_stts.popular_products_title }}</h3>
+      {%- if show_nav -%}
+        <div class="swiper-btns-on-header swiper-btns-wrap">
+          {%- render 'swiper-button' -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {% capture list_items %}
+      {% for product in popular_collection.products limit: max_items %}
+        <div
+          id="Slide-{{ bl_id }}-{{ product.id }}-{{ forloop.index }}"
+          class="cart-popular-product-slide swiper-slide"
+        >
+          {%- render 'cart-popular-product-card',
+            card_product: product,
+            section_id: bl_id
+          -%}
+        </div>
+      {% endfor %}
+    {% endcapture %}
+
+    <swiper-component
+      {%- render 'swiper-data',
+        loop: false,
+        slides_per_view: 1,
+        space_between: columns_gap,
+        pagination_type: pagination_type
+      -%}
+    >
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          {{ list_items | strip }}
+        </div>
+      </div>
+    </swiper-component>
+  </div>
+{%- endif -%}

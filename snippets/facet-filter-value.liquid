@@ -1,0 +1,180 @@
+{%- doc -%}
+  Renders a single facet filter value as a list item (color swatch or checkbox).
+
+  @param {object} value - The filter value object.
+  @param {object} filter - The parent filter object.
+  @param {number} index - 1-based index of the value in the loop.
+  @param {boolean} is_swatch - Whether to render as a color swatch.
+  @param {string} presentation - Filter presentation type.
+  @param {boolean} has_variant_pill - Whether the filter uses variant pills.
+  @param {string} text_label_font_size - Font size for the label.
+  @param {string} text_label_case - CSS class for label text casing.
+  @param {boolean} show_filter_count - Whether to show the result count.
+  @param {string} form_id - Form id associated with the input.
+  @param {boolean} [is_mobile] - Whether the filter is in the mobile drawer.
+  @param {number} [value_index] - Visible item index used for show-more.
+  @param {number} [show_more_number] - Number of items shown before show-more.
+  @param {string} [filter_type] - Facet layout type (`vertical` or `horizontal`).
+  @param {string} [additional_props] - Extra attributes for the swatch input.
+  @param {boolean} [disabled] - Whether the input is disabled.
+
+  @example
+    {% render 'facet-filter-value',
+      value: value,
+      filter: filter,
+      index: forloop.index,
+      is_swatch: is_swatch,
+      presentation: presentation,
+      has_variant_pill: has_variant_pill,
+      text_label_font_size: text_label_font_size,
+      text_label_case: text_label_case,
+      show_filter_count: block.settings.show_filter_count,
+      form_id: 'FacetFiltersForm',
+      value_index: value_index,
+      show_more_number: show_more_number,
+      filter_type: filter_type
+    %}
+{%- enddoc -%}
+
+{%- liquid
+  assign is_swatch = is_swatch | default: false
+  assign has_variant_pill = has_variant_pill | default: false
+  assign is_mobile = is_mobile | default: false
+  assign show_filter_count = show_filter_count | default: false
+  assign form_id = form_id | default: 'FacetFiltersForm'
+  assign is_disabled = false
+  if value.count == 0 and value.active == false
+    assign is_disabled = true
+  endif
+
+  if is_mobile
+    assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-mobile-' | append: index
+    assign label_class = 'facets__label mobile-facets__label'
+    if presentation == 'swatch' or has_variant_pill
+      assign label_class = label_class | append: ' input--primary'
+    endif
+  else
+    assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: index
+    assign label_class = 'facets__label facet-checkbox'
+    if is_swatch or has_variant_pill
+      assign label_class = label_class | append: ' input--primary'
+    endif
+  endif
+  if is_disabled
+    assign label_class = label_class | append: ' disabled'
+  endif
+  if value.active
+    assign label_class = label_class | append: ' active'
+  endif
+
+  assign item_class = 'list-menu__item'
+  if is_mobile
+    assign item_class = 'mobile-facets__item list-menu__item'
+  else
+    assign item_class = 'list-menu__item facets__item'
+    if value_index > show_more_number and filter_type == 'vertical'
+      assign item_class = item_class | append: ' show-more-item hidden'
+    endif
+  endif
+  if is_swatch
+    assign item_class = item_class | append: ' swatch-item'
+  endif
+
+  if value.count == 1
+    assign count_label = 'products.facets.product_count_simple.one' | t: count: value.count
+  else
+    assign count_label = 'products.facets.product_count_simple.other' | t: count: value.count
+  endif
+
+  assign lowercase_class = ''
+  if is_swatch or presentation == 'swatch'
+    assign lowercase_class = ' lowercase'
+  endif
+-%}
+
+<li class="{{ item_class }}">
+  {%- if is_swatch -%}
+    <div class="{{ label_class }}" style="--font-size: {{ text_label_font_size }};">
+      <div class="swatch-input-wrapper {{ value.swatch }}">
+        <input
+          type="checkbox"
+          id="{{ input_id }}"
+          name="{{ value.param_name }}"
+          value="{{ value.value }}"
+          form="{{ form_id }}"
+          class="swatch-input__input{% if is_disabled %} visually-disabled{% endif %}"
+          {% if value.active %}
+            checked
+          {% endif %}
+          {% if disabled %}
+            disabled
+          {% endif %}
+          {% if additional_props %}
+            {{ additional_props }}
+          {% endif %}
+        >
+        <label
+          for="{{ input_id }}"
+          class="swatch-input__label"
+          title="{{ value.label | escape }}"
+        >
+          {% render 'facet-color-swatch', value: value %}
+          <span class="visually-hidden">
+            {{ value.label | escape }} ({{ count_label }})
+          </span>
+        </label>
+      </div>
+    </div>
+  {%- else -%}
+    <label for="{{ input_id }}" class="{{ label_class }}" style="--font-size: {{ text_label_font_size }};">
+      <input
+        {% if is_mobile %}
+          class="mobile-facets__checkbox"
+        {% endif %}
+        type="checkbox"
+        name="{{ value.param_name }}"
+        value="{{ value.value }}"
+        id="{{ input_id }}"
+        {% if value.active %}
+          checked
+        {% endif %}
+        {% if is_disabled %}
+          disabled
+        {% endif %}
+      >
+
+      {%- if presentation == 'image' -%}
+        <div class="facets__image-wrapper">
+          {%- if value.image != blank -%}
+            {{
+              value.image
+              | image_url: width: 300
+              | image_tag: class: 'facets__image', alt: value.alt
+            }}
+          {%- endif -%}
+        </div>
+      {%- elsif has_variant_pill == false -%}
+        {%- if is_mobile -%}
+          <span class="mobile-facets__highlight"></span>
+          {{- 'square.svg' | inline_asset_content -}}
+          {{- 'icon-checkmark.svg' | inline_asset_content -}}
+        {%- else -%}
+          {{- 'square.svg' | inline_asset_content -}}
+          <div class="svg-wrapper">
+            {{- 'icon-checkmark.svg' | inline_asset_content -}}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      <span class="facet-checkbox__text" aria-hidden="true">
+        <span class="facet-checkbox__text-label {{ text_label_case }}{{ lowercase_class }}">{{ value.label | escape }}</span>
+        {%- if show_filter_count -%}
+          ({{ value.count }})
+        {%- endif -%}
+      </span>
+      <span class="visually-hidden">
+        {{ value.label | escape }} ({{ count_label }})
+      </span>
+    </label>
+  {%- endif -%}
+</li>

@@ -1,0 +1,182 @@
+/* ==================================================================
+   Pro Cavalli — theme product card, Figma 77:59.
+
+   Almost everything here is now done with THEME SETTINGS, not CSS:
+     price colours   -> settings_data: default_price / compare_price /
+                        sale_price  (#19264D / #6F7786 / #D82C23)
+     title type      -> _card-product-title-flex  (font, size, weight,
+                        case, alignment)
+     price type      -> _card-product-price-flex  (font, size, weight,
+                        alignment, regular_gap)
+     button type     -> _card-product-button-flex (size, case, weight,
+                        width, height, padding)
+     card gap/pad    -> card-product-flex (gap, padding-block-*)
+
+   What remains below cannot be expressed by any setting:
+     1. the hover add-to-cart bar must OVERLAY the image, and the button
+        is a sibling of the media, not a child — no setting reorders it
+     2. media aspect 250/350; image_ratio offers only
+        adapt | portrait | square | landscape
+   Scoped to .product-card-wrapper, which both the homepage rows and the
+   collection grid emit.
+   ================================================================== */
+
+.product-card-wrapper {
+  --pc-navy: #19264D;
+  --pc-gold: #C2A260;
+  --pc-atc-h: clamp(38px, 2.708vw, 52px);
+}
+
+/* (1) overlay the quick-add bar on the image.
+   The card becomes a one-column grid; media and button both sit in cell
+   1/1 with the button aligned to the end, so it lands flush on the
+   image's bottom edge with no hard-coded offsets. */
+.product-card-wrapper .card {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.product-card-wrapper .card--block-media { grid-area: 1 / 1; overflow: hidden; }
+
+.product-card-wrapper .card--block-button {
+  grid-area: 1 / 1;
+  align-self: end;
+  z-index: 3;
+  width: 100%;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.product-card-wrapper .card:hover .card--block-button,
+.product-card-wrapper .card:focus-within .card--block-button {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (hover: none) {
+  .product-card-wrapper .card--block-button { opacity: 1; transform: none; }
+}
+
+/* The wrapper is full width but its children are flex items that shrink
+   to their content, so the bar ended up ~40% wide. The inline <span>
+   between .quick-add and <form> has no class, hence the `> *`. */
+.product-card-wrapper .card--block-button { display: block; }
+.product-card-wrapper .card--block-button .quick-add,
+.product-card-wrapper .card--block-button .quick-add > *,
+.product-card-wrapper .card--block-button form {
+  display: block;
+  width: 100%;
+  max-width: none;
+}
+
+/* the bar's colours — navy at 80% with a gold label. Not a scheme:
+   this is a translucent overlay on the photo, which no scheme expresses. */
+.product-card-wrapper .card--block-button button,
+.product-card-wrapper .card--block-button .quick-add button {
+  background: rgba(25, 38, 77, 0.8);
+  color: var(--pc-gold);
+  border: 0;
+  border-radius: 0 0 var(--product-card-corner-radius) var(--product-card-corner-radius);
+  transition: background .2s ease;
+}
+.product-card-wrapper .card--block-button button:hover { background: rgba(25, 38, 77, 0.92); }
+
+/* "Choose options" showed twice: the theme's text-roll wrapper
+   (.button-overflow) can only clip its ::after copy of the label when it is
+   a block box. In the bar the button is display:block, so the wrapper stayed
+   inline and the copy showed under the label. Any card bar, any page. */
+.card--block-button .button-overflow { display: inline-block; vertical-align: top; }
+
+/* (2) media 3:4 — Figma cards are 395x528 on every page; image_ratio has no 3:4 option */
+.product-card-wrapper .card__media .ratio,
+.product-card-wrapper .card--block-media .ratio {
+  aspect-ratio: 3 / 4;
+  padding-bottom: 0 !important;
+}
+.product-card-wrapper .card__media img { transition: transform .5s ease; }
+.product-card-wrapper .card:hover .card__media img { transform: scale(1.04); }
+
+/* the theme emits an empty information group block */
+.product-card-wrapper .card-product-information:not(:has(*)) { display: none; }
+
+/* (5) Figma 3:4 media: the theme sizes .ratio from an inline --ratio-percent on its ::before */
+.product-card-wrapper .card__media .ratio::before,
+.product-card-wrapper .card--block-media .ratio::before {
+  padding-bottom: 133.33%;
+}
+
+/* (6) Figma card title: Inter 16px (the title block's font settings never reach .card__heading) */
+.product-card-wrapper .card__heading {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------------------
+   Product card media, every product card on the site (review 10 Oct
+   2026: one product card style). Figma 177:2925: the whole product sits
+   on a tint panel. contain, not cover: the shots are square and cover cut
+   the products off. Most shots are on white, so the image is blended with
+   `darken`: white backgrounds take the panel colour (a cut-out look)
+   while anything darker than the panel keeps its exact colour. The panel
+   is a lighter step of the Figma #DAE2F5 - at full strength white
+   breeches and show shirts turned visibly blue.
+   ------------------------------------------------------------------ */
+:root {
+  --pc-card-tint: #EDF0FA;
+}
+.product-card-wrapper .card--block-media,
+.product-card-wrapper .card__media .media {
+  background: var(--pc-card-tint);
+}
+.product-card-wrapper .card--block-media {
+  border-radius: var(--product-card-corner-radius);
+}
+.product-card-wrapper .card__media img {
+  object-fit: contain;
+  mix-blend-mode: darken;
+}
+
+/* Product without a photo yet (snippets/pc-card-no-photo.liquid): the same
+   tint box as the other cards, with the brand logo (or name) and a note,
+   instead of the theme's text-only card that broke the rows. */
+.pc-card-no-photo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12%;
+  background: var(--pc-card-tint);
+  color: var(--pc-navy, #19264D);
+  text-align: center;
+  text-decoration: none;
+}
+.pc-card-no-photo__logo {
+  width: auto;
+  max-width: 70%;
+  max-height: 22%;
+  object-fit: contain;
+  mix-blend-mode: darken;
+}
+.pc-card-no-photo__brand {
+  font-family: var(--font-heading--family, serif);
+  font-size: clamp(16px, 1.25vw, 24px);
+  line-height: 1.2;
+}
+.pc-card-no-photo__note {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6F7786;
+}
+
+/* A carousel whose products all fit (Swiper locks it and tags the arrows
+   .swiper-button-lock) sits centred, as the Figma rows do. Not when it
+   scrolls: centring a scrollable track pushes its first slides out of view.
+   `safe`: Swiper puts its gap after the last slide too, so a row that exactly
+   fills the track overflows by one gap; plain centring then shifted the first
+   card half a gap off the left edge (Recently viewed, 4-up collection rows). */
+swiper-component:has(.swiper-button-lock) .swiper-wrapper {
+  justify-content: safe center;
+}

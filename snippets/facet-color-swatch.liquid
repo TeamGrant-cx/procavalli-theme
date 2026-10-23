@@ -1,0 +1,43 @@
+{%- doc -%}
+  Renders a color swatch for collection and search facet filters.
+
+  @param {object} value - The filter value object.
+
+  @example
+    {% render 'facet-color-swatch', value: value %}
+{%- enddoc -%}
+
+{%- liquid
+  assign swatch_value = value.value
+  assign swatch_label = value.label | default: value.value
+  assign value_handle = swatch_value | handle
+  assign label_handle = swatch_label | handle
+  assign png_from_value = value_handle | append: '.png'
+  assign png_from_label = label_handle | append: '.png'
+  assign background_image = ''
+  assign background_color = ''
+
+  if images[png_from_value] != blank
+    assign background_image = png_from_value | file_url
+  elsif png_from_label != png_from_value and images[png_from_label] != blank
+    assign background_image = png_from_label | file_url
+  elsif value.swatch.image != blank
+    assign background_image = value.swatch.image | image_url: width: 50
+  elsif value.swatch.color != blank
+    assign background_color = value.swatch.color
+  endif
+
+  if background_color == blank
+    assign background_color = swatch_label | split: ' ' | last | handle
+  endif
+-%}
+
+<span
+  class="swatch block color-swacth-color--{{ value_handle }}{% if label_handle != value_handle %} color-swacth-color--{{ label_handle }}{% endif %}"
+  data-swatch-handle="{{ label_handle }}"
+  data-swatch-value="{{ value_handle }}"
+  style="
+    --swatch--background-color: {{ background_color }};
+    {%- if background_image != blank -%}--swatch--background: url({{ background_image }});{%- endif -%}
+  "
+></span>

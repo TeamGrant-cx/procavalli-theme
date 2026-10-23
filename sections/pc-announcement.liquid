@@ -1,0 +1,155 @@
+{%- liquid
+  assign s = section.settings
+-%}
+<style>
+  #pc-ann-{{ section.id }} {
+    --pc-navy: #19264D;
+    --pc-gold: #C2A260;
+    background: {{ s.background }};
+    padding: 8px clamp(16px, 5.2vw, 100px);
+  }
+  #pc-ann-{{ section.id }} .pc-ann__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(10px, 1.667vw, 32px);
+    min-height: 28px;
+  }
+  #pc-ann-{{ section.id }} .pc-ann__txt,
+  #pc-ann-{{ section.id }} .pc-ann__sep,
+  #pc-ann-{{ section.id }} .pc-ann__date {
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 500;
+    font-size: clamp(12px, .833vw, 16px);
+    line-height: 16px;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+  #pc-ann-{{ section.id }} .pc-ann__sep { opacity: .7; }
+  #pc-ann-{{ section.id }} .pc-ann__group {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, .833vw, 16px);
+  }
+  #pc-ann-{{ section.id }} .pc-ann__ico {
+    width: 28px; height: 28px;
+    object-fit: contain;
+    display: block;
+    flex: 0 0 auto;
+  }
+  /* gold pill — Figma 125:486 */
+  #pc-ann-{{ section.id }} .pc-ann__pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--pc-gold);
+    border-radius: 50px;
+    padding: 4px 16px;
+  }
+  #pc-ann-{{ section.id }} .pc-ann__pill img { width: 20px; height: 20px; object-fit: contain; flex: 0 0 auto; }
+  #pc-ann-{{ section.id }} .pc-ann__count {
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 500;
+    font-size: clamp(12px, .833vw, 16px);
+    line-height: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: {{ s.pill_text }};
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 749px) {
+    #pc-ann-{{ section.id }} .pc-ann__sep { display: none; }
+    #pc-ann-{{ section.id }} .pc-ann__ico { width: 20px; height: 20px; }
+    #pc-ann-{{ section.id }} .pc-ann__txt,
+    #pc-ann-{{ section.id }} .pc-ann__date { white-space: normal; text-align: center; }
+    #pc-ann-{{ section.id }} .pc-ann__count { letter-spacing: 1px; }
+  }
+</style>
+
+<section id="pc-ann-{{ section.id }}" class="pc-ann">
+  <div class="pc-ann__row">
+    {%- if s.message != blank -%}
+      <span class="pc-ann__txt">{{ s.message }}</span>
+      <span class="pc-ann__sep" aria-hidden="true">|</span>
+    {%- endif -%}
+
+    {%- if s.date_text != blank -%}
+      <span class="pc-ann__group">
+        {%- if s.date_icon != blank -%}
+          <img class="pc-ann__ico" src="{{ s.date_icon | image_url: width: 56 }}" width="28" height="28" alt="" loading="eager">
+        {%- endif -%}
+        <span class="pc-ann__date">{{ s.date_text }}</span>
+      </span>
+    {%- endif -%}
+
+    {%- if s.countdown_to != blank -%}
+      <span class="pc-ann__pill">
+        {%- if s.pill_icon != blank -%}
+          <img src="{{ s.pill_icon | image_url: width: 40 }}" width="20" height="20" alt="" loading="eager">
+        {%- endif -%}
+        <span
+          class="pc-ann__count"
+          data-pc-countdown="{{ s.countdown_to }}"
+          data-days="{{ s.days_label }}"
+          data-hours="{{ s.hours_label }}"
+          data-expired="{{ s.expired_text | escape }}"
+        >&nbsp;</span>
+      </span>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('[data-pc-countdown]');
+    function tick() {
+      var now = Date.now();
+      els.forEach(function (el) {
+        var target = new Date(el.getAttribute('data-pc-countdown')).getTime();
+        if (isNaN(target)) { el.textContent = ''; return; }
+        var diff = target - now;
+        if (diff <= 0) {
+          var expired = el.getAttribute('data-expired') || '';
+          el.textContent = expired;
+          /* nothing to say after the date: hide the whole pill */
+          var pill = el.closest('.pc-ann__pill');
+          if (pill) pill.style.display = expired ? '' : 'none';
+          return;
+        }
+        var totalHours = Math.floor(diff / 3600000);
+        var days = Math.floor(totalHours / 24);
+        var hours = totalHours % 24;
+        var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+        el.textContent = pad(days) + ' ' + el.getAttribute('data-days') +
+                         ' : ' + pad(hours) + ' ' + el.getAttribute('data-hours');
+      });
+    }
+    tick();
+    setInterval(tick, 60000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Pro Cavalli announcement",
+  "tag": "section",
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#19264D" },
+    { "type": "text", "id": "message", "label": "Message", "default": "Meet us @Cairo International Equestrian Center" },
+    { "type": "header", "content": "Date" },
+    { "type": "image_picker", "id": "date_icon", "label": "Date icon (28x28)" },
+    { "type": "text", "id": "date_text", "label": "Date text", "default": "24-27 October 2026" },
+    { "type": "header", "content": "Countdown pill" },
+    { "type": "image_picker", "id": "pill_icon", "label": "Pill icon (20x20)" },
+    { "type": "text", "id": "countdown_to", "label": "Counts down to (YYYY-MM-DDTHH:MM:SS)", "default": "2026-10-24T09:00:00" },
+    { "type": "text", "id": "days_label", "label": "Days label", "default": "Days" },
+    { "type": "text", "id": "hours_label", "label": "Hours label", "default": "Hours" },
+    { "type": "text", "id": "expired_text", "label": "Text after the date passes", "info": "Leave empty to hide the countdown once the date has passed." },
+    { "type": "color", "id": "pill_text", "label": "Pill text colour", "default": "#FFFFFF" }
+  ],
+  "presets": [{ "name": "Pro Cavalli announcement" }]
+}
+{% endschema %}

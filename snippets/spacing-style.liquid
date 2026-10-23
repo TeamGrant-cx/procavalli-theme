@@ -1,0 +1,73 @@
+{%- comment -%}
+  Intended for blocks and sections that provide values for all the referenced settings.
+
+  <div class="spacing-style" style="{%  render 'spacing-style', settings: section.settings %}">
+
+   Accepts:
+      settings: {block.settings || section.settings}
+      suffix: {string}
+      type: {string} Optional. When 'section', caps padding-inline-start/end at breakpoints.
+            When section_width is page-width or custom, tablet/mobile inline padding is 0.
+      scale_min {number}: Value above which spacing scaling will be applied. Default: 20
+      disable_scaling {boolean}: Disable scaling. Default: false
+            Scaling is never applied for mobile settings.
+{%- endcomment -%}
+{%- liquid
+  assign properties = 'padding,margin' | split: ','
+  assign directions = 'block,inline' | split: ','
+  assign edges = ',start,end' | split: ','
+  assign devices = 'desktop,mobile' | split: ','
+  assign min = scale_min | default: 10
+
+  assign section_width = settings.section_width
+-%}
+{%- capture variables -%}
+  {%- for device in devices -%}
+    {%- for property in properties -%}
+      {%- for direction in directions -%}
+        {%- for edge in edges -%}
+          {%-liquid
+            assign name = property | append: '-' | append: direction
+            if edge != blank
+              assign name = name | append: '-' | append: edge
+            endif
+            if device == 'mobile'
+              assign name = name | append: '-mobile'
+            endif
+            assign setting_id = name
+            if suffix != blank
+              assign setting_id = setting_id | append: '-' | append: suffix
+            endif
+            assign value = settings[setting_id]
+          -%}
+          {%- if value != blank -%}
+            {%- liquid
+              if disable_scaling != true and device != 'mobile' and value > min
+                assign css_value = 'max(' | append: min | append: 'px, calc(var(--spacing-scale) * ' | append: value | append: 'px))'
+              else
+                assign css_value = value | append: 'px'
+              endif
+            -%}
+            --{{ name }}: {{ css_value }};
+            {%- if type == 'section' and property == 'padding' and direction == 'inline' -%}
+              {%- if section_width == 'page-width' or section_width == 'custom' -%}
+                {%- if device == 'desktop' -%}
+                  --{{ name }}-at-tablet: 0;
+                  --{{ name }}-at-mobile: 0;
+                {%- else -%}
+                  --{{ name }}-at-mobile: 0;
+                {%- endif -%}
+              {%- elsif device == 'desktop' -%}
+                --{{ name }}-at-tablet: min({{ css_value }}, 1.5rem);
+                --{{ name }}-at-mobile: min({{ css_value }}, 1rem);
+              {%- else -%}
+                --{{ name }}-at-mobile: min({{ css_value }}, 1rem);
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{{- variables | strip | strip_newlines -}}

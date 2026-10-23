@@ -1,0 +1,614 @@
+{%- comment -%}
+  Pro Cavalli bundles: a horizontally scrollable set of bundles (blocks of type "bundle"). Each bundle = lifestyle photo with hotspots +
+  up to 4 products + one "Add to cart" button. Bundle price = total of the ticked products minus the bundle discount (default 3%).
+  The discount is real: an AUTOMATIC discount in the Shopify admin (percentage off, limited to the bundle's products, minimum quantity =
+  number of products) gives the bundle price in the cart and at checkout. Optionally a discount code can be applied on add to cart.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign has_slides = false
+  if section.blocks.size > 1
+    assign has_slides = true
+  endif
+-%}
+<style>
+  #pc-bundle-{{ section.id }} {
+    --pc-navy: #19264D;
+    --pc-gold: #C2A260;
+    --pc-tint: #DAE2F5;
+    display: block;
+    position: relative;
+    background: {{ s.background }};
+    padding: clamp(24px, 1.875vw, 36px) 0 clamp(40px, 4.48vw, 86px);
+    overflow: clip;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__heading {
+    margin: 0 0 clamp(16px, 1.667vw, 32px);
+    padding-inline: clamp(16px, 5.2vw, 100px);
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-weight: 600;
+    font-size: clamp(20px, 1.667vw, 32px);
+    line-height: 1.2;
+    text-transform: capitalize;
+    color: var(--pc-navy);
+  }
+
+  /* ---------- slider ---------- */
+  #pc-bundle-{{ section.id }} .pc-bundle__viewport {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__viewport::-webkit-scrollbar { display: none; }
+  #pc-bundle-{{ section.id }} .pc-bundle__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__row {
+    display: grid;
+    grid-template-columns: minmax(0, 838fr) minmax(0, 817fr);   /* Figma: image 838, gap 65, panel 817 */
+    align-items: center;
+    gap: clamp(24px, 3.333vw, 64px);
+    padding-inline: clamp(16px, 5.2vw, 100px);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 44px; height: 44px;
+    margin: 0; padding: 0;
+    display: grid; place-items: center;
+    border: 1px solid var(--pc-navy);
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--pc-navy);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: background .2s ease, color .2s ease, opacity .2s ease;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__arrow:hover:not([disabled]) { background: var(--pc-navy); color: #ffffff; }
+  #pc-bundle-{{ section.id }} .pc-bundle__arrow[disabled] { opacity: .3; cursor: default; }
+  #pc-bundle-{{ section.id }} .pc-bundle__arrow--prev { left: clamp(6px, 1.4vw, 28px); }
+  #pc-bundle-{{ section.id }} .pc-bundle__arrow--next { right: clamp(6px, 1.4vw, 28px); }
+  #pc-bundle-{{ section.id }} .pc-bundle__arrow svg { width: 8px; height: 14px; min-width: 0; min-height: 0; }
+  #pc-bundle-{{ section.id }} .pc-bundle__dots {
+    display: flex; justify-content: center; gap: 10px;
+    margin-top: clamp(20px, 2vw, 36px);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__dotnav {
+    width: 10px; height: 10px; padding: 0; margin: 0;
+    border: 1px solid var(--pc-navy); border-radius: 50%;
+    background: transparent; cursor: pointer;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__dotnav[aria-current='true'] { background: var(--pc-navy); }
+
+  /* ---------- left: image with hotspots ---------- */
+  #pc-bundle-{{ section.id }} .pc-bundle__figure {
+    position: relative;
+    aspect-ratio: var(--pc-fig-ratio, 838 / 797);
+    border-radius: var(--product-card-corner-radius);
+    overflow: hidden;
+    background: var(--pc-tint);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__figure img.pc-bundle__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  /* Figma: 27px ring holding a 15px white dot */
+  #pc-bundle-{{ section.id }} .pc-bundle__dot {
+    position: absolute;
+    width: 27px; height: 27px;
+    transform: translate(-50%, -50%);
+    border: 0; padding: 0; margin: 0;
+    background: rgba(255,255,255,.35);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+    transition: transform .2s ease, background .2s ease;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__dot::after {
+    content: '';
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.35);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__dot:hover,
+  #pc-bundle-{{ section.id }} .pc-bundle__dot[aria-current='true'] {
+    transform: translate(-50%, -50%) scale(1.18);
+    background: rgba(194,162,96,.55);
+  }
+
+  /* ---------- right: bundle list ---------- */
+  #pc-bundle-{{ section.id }} .pc-bundle__panel {
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: center;
+    gap: clamp(16px, 1.667vw, 32px);
+    min-width: 0;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__title {
+    margin: 0;
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-weight: 600;
+    font-size: clamp(20px, 1.667vw, 32px);
+    line-height: 1.2;
+    color: var(--pc-navy);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__save {
+    margin: -8px 0 0;
+    font-family: var(--font-body--family, sans-serif);
+    font-size: clamp(13px, .9vw, 16px);
+    color: #D82C23;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__list {
+    display: flex; flex-direction: column;
+    gap: clamp(16px, 1.667vw, 32px);
+    width: 100%;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__item {
+    display: flex; align-items: center;
+    gap: clamp(12px, 1.5625vw, 30px);
+    width: 100%;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__check {
+    flex: 0 0 auto;
+    width: 14px; height: 14px; margin: 0;
+    accent-color: #000000;
+    cursor: pointer;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__item.is-off .pc-bundle__thumb,
+  #pc-bundle-{{ section.id }} .pc-bundle__item.is-off .pc-bundle__info { opacity: .45; }
+  #pc-bundle-{{ section.id }} .pc-bundle__thumb {
+    flex: 0 0 auto;
+    width: clamp(88px, 6.98vw, 134px);
+    aspect-ratio: 134 / 180;
+    border-radius: var(--product-card-corner-radius);
+    background: var(--pc-tint);
+    overflow: hidden;
+    display: block;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__info {
+    flex: 1 1 0; min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 16px;
+    row-gap: clamp(10px, 1.04vw, 20px);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__info .pc-bundle__variant { grid-column: 1 / -1; justify-self: start; }
+  #pc-bundle-{{ section.id }} .pc-bundle__name {
+    margin: 0;
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 400;
+    font-size: clamp(14px, 1.042vw, 20px);
+    line-height: 1.2;
+    letter-spacing: 1px;
+    color: var(--pc-navy);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__prices {
+    display: flex; align-items: center; gap: 8px;
+    justify-self: end; white-space: nowrap;
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 400;
+    font-size: clamp(12px, .833vw, 16px);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__was { color: #6F7786; text-decoration: line-through; }
+  #pc-bundle-{{ section.id }} .pc-bundle__now { color: #D82C23; }
+  #pc-bundle-{{ section.id }} .pc-bundle__price { color: var(--pc-navy); }
+
+  #pc-bundle-{{ section.id }} .pc-bundle__variant {
+    position: relative; display: inline-flex; align-items: center;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__variant select {
+    appearance: none; -webkit-appearance: none;
+    border: 0; background: transparent; outline: none;
+    padding: 0 20px 0 0; margin: 0; cursor: pointer;
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 400;
+    font-size: clamp(14px, 1.042vw, 20px);
+    line-height: 1.2; letter-spacing: 1px;
+    color: var(--pc-navy);
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__variant svg {
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    width: 10.5px; height: 6px; pointer-events: none;
+    min-width: 0; min-height: 0; /* base.css gives every svg a 20px minimum */
+  }
+
+  #pc-bundle-{{ section.id }} .pc-bundle__cart {
+    width: 100%;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: clamp(12px, 1.667vw, 32px);
+    background: var(--color-primary-button-background, #C2A260); color: var(--color-primary-button-text, #19264D);
+    border: 0; border-radius: var(--style-border-radius-buttons-primary);
+    padding: 12px 32px; cursor: pointer;
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 700; font-size: 14px; line-height: 20px;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    transition: background .2s ease;
+  }
+  #pc-bundle-{{ section.id }} .pc-bundle__cart:hover:not([disabled]) { background: var(--color-primary-button-hover-background, var(--pc-navy)); color: var(--color-primary-button-hover-text, #ffffff); }
+  #pc-bundle-{{ section.id }} .pc-bundle__cart-was { font-weight: 400; color: inherit; opacity: .7; text-decoration: line-through; }
+  #pc-bundle-{{ section.id }} .pc-bundle__cart-now { color: inherit; }
+  #pc-bundle-{{ section.id }} .pc-bundle__cart-was[hidden] { display: none; }
+  #pc-bundle-{{ section.id }} .pc-bundle__cart[disabled] { opacity: .45; cursor: not-allowed; }
+  #pc-bundle-{{ section.id }} .pc-bundle__status {
+    margin: 0; font-family: var(--font-body--family, sans-serif);
+    font-size: 13px; color: #6F7786; min-height: 18px;
+  }
+
+  @media (max-width: 989px) {
+    #pc-bundle-{{ section.id }} .pc-bundle__row { grid-template-columns: 1fr; }
+    #pc-bundle-{{ section.id }} .pc-bundle__figure { aspect-ratio: var(--pc-fig-ratio, 4 / 3); }
+    #pc-bundle-{{ section.id }} .pc-bundle__arrow { top: calc(var(--pc-bundle-fig-h, 40vw) / 2); }
+  }
+  @media (max-width: 749px) {
+    #pc-bundle-{{ section.id }} .pc-bundle__info { grid-template-columns: 1fr; row-gap: 8px; }
+    #pc-bundle-{{ section.id }} .pc-bundle__prices { justify-self: start; flex-wrap: wrap; }
+    #pc-bundle-{{ section.id }} .pc-bundle__cart {
+      flex-wrap: wrap; row-gap: 4px; column-gap: 10px;
+      padding: 12px 16px; font-size: 13px; letter-spacing: 1px;
+    }
+    #pc-bundle-{{ section.id }} .pc-bundle__arrow { width: 36px; height: 36px; }
+  }
+</style>
+
+<section id="pc-bundle-{{ section.id }}" class="pc-bundle">
+  {%- if s.heading != blank -%}
+    <h2 class="pc-bundle__heading">{{ s.heading }}</h2>
+  {%- endif -%}
+
+  <div class="pc-bundle__viewport" data-pc-viewport>
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign b = block.settings
+        assign pct = b.discount_percent | default: 0
+        assign slot_keys = '1,2,3,4' | split: ','
+      -%}
+      <div class="pc-bundle__slide" data-pc-bundle data-pc-discount="{{ pct }}" data-pc-code="{{ b.discount_code | escape }}" {{ block.shopify_attributes }}>
+        <div class="pc-bundle__row">
+
+          <div class="pc-bundle__figure"{% if b.image_ratio == 'landscape' %} style="--pc-fig-ratio: 3 / 2;"{% endif %}>
+            {%- if b.image != blank -%}
+              <img class="pc-bundle__bg"
+                   src="{{ b.image | image_url: width: 1700 }}"
+                   srcset="{{ b.image | image_url: width: 840 }} 840w, {{ b.image | image_url: width: 1280 }} 1280w, {{ b.image | image_url: width: 1700 }} 1700w"
+                   sizes="(max-width: 989px) 100vw, 44vw"
+                   alt="{{ b.image.alt | default: b.title | escape }}" loading="lazy">
+            {%- endif -%}
+
+            {%- for key in slot_keys -%}
+              {%- liquid
+                assign p_id = 'product_' | append: key
+                assign x_id = 'hotspot_x_' | append: key
+                assign y_id = 'hotspot_y_' | append: key
+                assign p = b[p_id]
+              -%}
+              {%- if p != blank -%}
+                <button class="pc-bundle__dot" type="button"
+                        style="left: {{ b[x_id] }}%; top: {{ b[y_id] }}%;"
+                        data-pc-dot="{{ key }}"
+                        aria-label="{{ p.title | escape }}"></button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <div class="pc-bundle__panel">
+            {%- if b.title != blank -%}
+              <h3 class="pc-bundle__title">{{ b.title }}</h3>
+            {%- endif -%}
+            {%- if pct > 0 and s.save_label != blank -%}
+              <p class="pc-bundle__save">{{ s.save_label | replace: '[percent]', pct }}</p>
+            {%- endif -%}
+
+            <div class="pc-bundle__list">
+              {%- for key in slot_keys -%}
+                {%- liquid
+                  assign p_id = 'product_' | append: key
+                  assign p = b[p_id]
+                  assign v = nil
+                  if p != blank
+                    assign v = p.selected_or_first_available_variant
+                  endif
+                -%}
+                {%- if p != blank -%}
+                  <div class="pc-bundle__item" data-pc-item="{{ key }}">
+                    <input class="pc-bundle__check" type="checkbox" checked data-pc-check="{{ key }}" aria-label="{{ p.title | escape }}">
+
+                    <a class="pc-bundle__thumb" href="{{ p.url }}">
+                      {%- if p.featured_image -%}
+                        <img src="{{ p.featured_image | image_url: width: 268 }}" alt="{{ p.title | escape }}" loading="lazy">
+                      {%- endif -%}
+                    </a>
+
+                    <div class="pc-bundle__info">
+                      <p class="pc-bundle__name">
+                        {%- assign short_title = p.title | remove_first: p.vendor | strip -%}
+                        {{ p.vendor | upcase }} / {{ short_title | default: p.title }}
+                      </p>
+
+                      <span class="pc-bundle__prices">
+                        {%- if v -%}
+                          {%- if v.compare_at_price > v.price -%}
+                            <span class="pc-bundle__was">{%- if settings.currency_code_enabled -%}{{ v.compare_at_price | money_with_currency }}{%- else -%}{{ v.compare_at_price | money }}{%- endif -%}</span>
+                            <span class="pc-bundle__now">{%- if settings.currency_code_enabled -%}{{ v.price | money_with_currency }}{%- else -%}{{ v.price | money }}{%- endif -%}</span>
+                          {%- else -%}
+                            <span class="pc-bundle__price">{%- if settings.currency_code_enabled -%}{{ v.price | money_with_currency }}{%- else -%}{{ v.price | money }}{%- endif -%}</span>
+                          {%- endif -%}
+                        {%- endif -%}
+                      </span>
+
+                      {%- if p.variants.size > 1 -%}
+                        <span class="pc-bundle__variant">
+                          <select data-pc-variant="{{ key }}" aria-label="{{ p.title | escape }} option">
+                            {%- for var in p.variants -%}
+                              <option value="{{ var.id }}" data-price="{{ var.price }}" data-compare="{{ var.compare_at_price | default: var.price }}" {% if var == v %}selected{% endif %} {% unless var.available %}disabled{% endunless %}>{{ var.title }}</option>
+                            {%- endfor -%}
+                          </select>
+                          <svg viewBox="0 0 11 6" fill="none" aria-hidden="true"><path d="M1 1l4.5 4L10 1" stroke="#19264D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                      {%- elsif v -%}
+                        <input type="hidden" data-pc-variant="{{ key }}" value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price | default: v.price }}">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            <button class="pc-bundle__cart" type="button" data-pc-add>
+              <span>{{ s.button_label }}</span>
+              <span aria-hidden="true">|</span>
+              {%- if s.show_was_price -%}<span class="pc-bundle__cart-was" data-pc-compare hidden></span>{%- endif -%}
+              <span class="pc-bundle__cart-now" data-pc-total>—</span>
+            </button>
+            <p class="pc-bundle__status" data-pc-status role="status"></p>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if has_slides -%}
+    <button class="pc-bundle__arrow pc-bundle__arrow--prev" type="button" data-pc-prev aria-label="Previous bundle">
+      <svg viewBox="0 0 8 14" fill="none" aria-hidden="true"><path d="M7 1L1 7l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="pc-bundle__arrow pc-bundle__arrow--next" type="button" data-pc-next aria-label="Next bundle">
+      <svg viewBox="0 0 8 14" fill="none" aria-hidden="true"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="pc-bundle__dots" role="tablist">
+      {%- for block in section.blocks -%}
+        <button class="pc-bundle__dotnav" type="button" role="tab" data-pc-goto="{{ forloop.index0 }}" aria-label="{{ block.settings.title | default: forloop.index | escape }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('pc-bundle-{{ section.id }}');
+    if (!root) return;
+    var moneyFormat = {% if settings.currency_code_enabled %}{{ shop.money_with_currency_format | json }}{% else %}{{ shop.money_format | json }}{% endif %};
+    function money(cents) {
+      function group(value, decimals, thousands, decimal) {
+        var parts = (cents / 100).toFixed(decimals).split('.');
+        return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands) + (parts[1] ? decimal + parts[1] : '');
+      }
+      return moneyFormat.replace(/\{\{\s*(\w+)\s*\}\}/, function (_, key) {
+        switch (key) {
+          case 'amount_no_decimals': return group(cents, 0, ',', '.');
+          case 'amount_with_comma_separator': return group(cents, 2, '.', ',');
+          case 'amount_no_decimals_with_comma_separator': return group(cents, 0, '.', ',');
+          case 'amount_with_apostrophe_separator': return group(cents, 2, "'", '.');
+          default: return group(cents, 2, ',', '.');
+        }
+      }).replace(/<[^>]*>/g, '');
+    }
+    var addingLabel = {{ s.adding_label | default: 'Adding…' | json }};
+    var cartAddUrl = (window.Shopify && Shopify.routes ? Shopify.routes.root : '/') + 'cart/add.js';
+    var discountUrlBase = (window.Shopify && Shopify.routes ? Shopify.routes.root : '/') + 'discount/';
+
+    /* ---------- one bundle (slide) ---------- */
+    function initBundle(slide) {
+      var addBtn = slide.querySelector('[data-pc-add]');
+      var totalEl = slide.querySelector('[data-pc-total]');
+      var compareEl = slide.querySelector('[data-pc-compare]');
+      var statusEl = slide.querySelector('[data-pc-status]');
+      var pct = parseFloat(slide.getAttribute('data-pc-discount') || '0') || 0;
+      var code = slide.getAttribute('data-pc-code') || '';
+      if (!addBtn) return;
+
+      function row(i) { return slide.querySelector('[data-pc-item="' + i + '"]'); }
+      function isOn(i) { var c = slide.querySelector('[data-pc-check="' + i + '"]'); return !c || c.checked; }
+      function pickers() {
+        return Array.prototype.slice.call(slide.querySelectorAll('[data-pc-variant]')).filter(function (el) {
+          return isOn(el.getAttribute('data-pc-variant'));
+        });
+      }
+      function chosen(el) { return el.tagName === 'SELECT' ? el.options[el.selectedIndex] : el; }
+      var itemCount = slide.querySelectorAll('[data-pc-variant]').length;
+      function recalc() {
+        var sum = 0, n = 0;
+        pickers().forEach(function (el) {
+          var price = parseInt(chosen(el).getAttribute('data-price') || '0', 10);
+          if (price > 0) { sum += price; n++; }
+        });
+        /* the bundle discount (an automatic discount in the Shopify admin) needs the whole bundle in the cart */
+        var applies = pct > 0 && n > 0 && n === itemCount;
+        var now = applies ? Math.round(sum * (1 - pct / 100)) : sum;
+        totalEl.textContent = n > 0 ? money(now) : '—';
+        if (compareEl) { compareEl.textContent = money(sum); compareEl.hidden = !applies; }
+        addBtn.disabled = n === 0;
+      }
+
+      slide.querySelectorAll('[data-pc-check]').forEach(function (box) {
+        box.addEventListener('change', function () {
+          var r = row(box.getAttribute('data-pc-check'));
+          if (r) r.classList.toggle('is-off', !box.checked);
+          recalc();
+        });
+      });
+      slide.querySelectorAll('select[data-pc-variant]').forEach(function (el) { el.addEventListener('change', recalc); });
+
+      /* hotspot <-> row highlight */
+      slide.querySelectorAll('[data-pc-dot]').forEach(function (dot) {
+        var r = row(dot.getAttribute('data-pc-dot'));
+        function on(v) {
+          dot.setAttribute('aria-current', v ? 'true' : 'false');
+          if (!r) return;
+          r.style.outline = v ? '2px solid rgba(194,162,96,.6)' : '';
+          r.style.outlineOffset = v ? '6px' : '';
+        }
+        dot.addEventListener('mouseenter', function () { on(true); });
+        dot.addEventListener('mouseleave', function () { on(false); });
+        dot.addEventListener('click', function () {
+          if (r) r.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+          on(true); setTimeout(function () { on(false); }, 1200);
+        });
+      });
+
+      addBtn.addEventListener('click', function () {
+        var items = pickers().map(function (el) {
+          var opt = chosen(el);
+          return { id: Number(el.tagName === 'SELECT' ? opt.value : el.value), quantity: 1 };
+        }).filter(function (item) { return item.id; });
+        if (!items.length) return;
+
+        var drawer = document.querySelector('cart-drawer');
+        var body = { items: items };
+        if (drawer && typeof drawer.getSectionsToRender === 'function') {
+          body.sections = drawer.getSectionsToRender().map(function (sec) { return sec.id; });
+          body.sections_url = window.location.pathname;
+        }
+
+        addBtn.disabled = true;
+        statusEl.textContent = addingLabel;
+
+        /* optional discount code (leave the setting empty when the bundle uses an automatic discount) */
+        var applyCode = code && pct > 0
+          ? fetch(discountUrlBase + encodeURIComponent(code), { credentials: 'same-origin' }).catch(function () {})
+          : Promise.resolve();
+
+        applyCode
+          .then(function () {
+            return fetch(cartAddUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(body)
+            });
+          })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error(res.body && res.body.description ? res.body.description : 'Could not add to cart');
+            statusEl.textContent = '';
+            if (drawer && typeof drawer.renderContents === 'function' && res.body.sections) {
+              drawer.renderContents(res.body);
+            } else {
+              window.location = '{{ routes.cart_url }}';
+            }
+          })
+          .catch(function (err) { statusEl.textContent = err.message; })
+          .finally(function () { recalc(); });
+      });
+
+      recalc();
+    }
+    root.querySelectorAll('[data-pc-bundle]').forEach(initBundle);
+
+    /* ---------- slider ---------- */
+    var viewport = root.querySelector('[data-pc-viewport]');
+    var slides = root.querySelectorAll('[data-pc-bundle]');
+    var prev = root.querySelector('[data-pc-prev]');
+    var next = root.querySelector('[data-pc-next]');
+    var dots = root.querySelectorAll('[data-pc-goto]');
+    if (!viewport || slides.length < 2) return;
+
+    function current() { return Math.round(viewport.scrollLeft / viewport.clientWidth); }
+    function go(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      viewport.scrollTo({ left: i * viewport.clientWidth, behavior: 'smooth' });
+    }
+    function sync() {
+      var i = current();
+      dots.forEach(function (d, k) { d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      if (prev) prev.disabled = i <= 0;
+      if (next) next.disabled = i >= slides.length - 1;
+      var fig = slides[i] && slides[i].querySelector('.pc-bundle__figure');
+      if (fig) root.style.setProperty('--pc-bundle-fig-h', fig.offsetHeight + 'px');
+    }
+    if (prev) prev.addEventListener('click', function () { go(current() - 1); });
+    if (next) next.addEventListener('click', function () { go(current() + 1); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { go(parseInt(d.getAttribute('data-pc-goto'), 10)); }); });
+    viewport.addEventListener('scroll', function () { window.requestAnimationFrame(sync); }, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Pro Cavalli bundles",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFFFF" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Product bundle" },
+    { "type": "text", "id": "save_label", "label": "Saving message ([percent] = the bundle discount)", "info": "Leave empty to show only the price after the discount." },
+    { "type": "checkbox", "id": "show_was_price", "label": "Show the price before the discount (struck through) on the button", "default": false },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add to cart" },
+    { "type": "text", "id": "adding_label", "label": "Adding message", "default": "Adding…" }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Bundle",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Bundle name", "default": "Bundle" },
+        { "type": "image_picker", "id": "image", "label": "Lifestyle image (838x797)" },
+        {
+          "type": "select", "id": "image_ratio", "label": "Image shape", "default": "standard",
+          "options": [
+            { "value": "standard", "label": "Standard (838:797, crops wide photos)" },
+            { "value": "landscape", "label": "Landscape (3:2, shows the whole photo)" }
+          ]
+        },
+        { "type": "range", "id": "discount_percent", "label": "Bundle discount (%)", "min": 0, "max": 30, "step": 1, "default": 3 },
+        { "type": "text", "id": "discount_code", "label": "Discount code (optional)", "info": "Leave empty when the 3% is an automatic discount in Shopify admin (percentage off, limited to these products, minimum quantity = number of products). A code entered here is applied when the bundle is added to the cart." },
+        { "type": "header", "content": "Product 1" },
+        { "type": "product", "id": "product_1", "label": "Product" },
+        { "type": "range", "id": "hotspot_x_1", "label": "Hotspot X (%)", "min": 0, "max": 100, "step": 1, "default": 50 },
+        { "type": "range", "id": "hotspot_y_1", "label": "Hotspot Y (%)", "min": 0, "max": 100, "step": 1, "default": 30 },
+        { "type": "header", "content": "Product 2" },
+        { "type": "product", "id": "product_2", "label": "Product" },
+        { "type": "range", "id": "hotspot_x_2", "label": "Hotspot X (%)", "min": 0, "max": 100, "step": 1, "default": 50 },
+        { "type": "range", "id": "hotspot_y_2", "label": "Hotspot Y (%)", "min": 0, "max": 100, "step": 1, "default": 55 },
+        { "type": "header", "content": "Product 3" },
+        { "type": "product", "id": "product_3", "label": "Product" },
+        { "type": "range", "id": "hotspot_x_3", "label": "Hotspot X (%)", "min": 0, "max": 100, "step": 1, "default": 50 },
+        { "type": "range", "id": "hotspot_y_3", "label": "Hotspot Y (%)", "min": 0, "max": 100, "step": 1, "default": 75 },
+        { "type": "header", "content": "Product 4 (optional)" },
+        { "type": "product", "id": "product_4", "label": "Product" },
+        { "type": "range", "id": "hotspot_x_4", "label": "Hotspot X (%)", "min": 0, "max": 100, "step": 1, "default": 70 },
+        { "type": "range", "id": "hotspot_y_4", "label": "Hotspot Y (%)", "min": 0, "max": 100, "step": 1, "default": 50 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pro Cavalli bundles",
+      "blocks": [
+        { "type": "bundle" }
+      ]
+    }
+  ]
+}
+{% endschema %}

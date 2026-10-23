@@ -1,0 +1,105 @@
+{%- if card_product and card_product != empty -%}
+  {%- liquid
+    assign product_form_id = 'quick-add-' | append: section_id | append: '-' | append: card_product.id
+    assign featured_media = card_product.featured_media
+    assign qty_rules = false
+    if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
+      assign qty_rules = true
+    endif
+    assign needs_quick_add = false
+    if card_product.variants.size > 1 or qty_rules
+      assign needs_quick_add = true
+    endif
+  -%}
+
+  <div class="cart-popular-product">
+    <a href="{{ card_product.url }}" class="cart-popular-product__media">
+      {%- if featured_media -%}
+        {{
+          featured_media
+          | image_url: width: 200
+          | image_tag:
+            loading: 'lazy',
+            widths: '80, 120, 160, 200',
+            sizes: '200px',
+            alt: card_product.title
+        }}
+      {%- else -%}
+        {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </a>
+
+    <div class="cart-popular-product__info">
+      <a href="{{ card_product.url }}" class="cart-popular-product__title">
+        {{- card_product.title | escape -}}
+      </a>
+      {% render 'price', product: card_product, price_class: 'cart-popular-product__price', show_compare_at_price: true %}
+    </div>
+
+    <div class="cart-popular-product__action">
+      {%- if needs_quick_add -%}
+        <modal-opener data-modal="#QuickAddStandard">
+          <button
+            id="{{ product_form_id }}-submit"
+            type="button"
+            class="cart-popular-product__add button-secondary"
+            aria-haspopup="dialog"
+            aria-label="{{ 'actions.add' | t }} {{ card_product.title | escape }}"
+            data-product-url="{{ card_product.url }}"
+          >
+            <span class="cart-popular-product__add-label">+ {{ 'actions.add' | t }}</span>
+            <span class="cart-popular-product__add-icon svg-wrapper">
+              {{- 'icon-plus.svg' | inline_asset_content -}}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </modal-opener>
+      {%- else -%}
+        <product-form-component data-section-id="{{ section_id }}">
+          {%- form 'product',
+            card_product,
+            id: product_form_id,
+            class: 'cart-popular-product__form',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ card_product.selected_or_first_available_variant.id }}"
+              class="product-variant-id"
+              {% if card_product.selected_or_first_available_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+            <button
+              id="{{ product_form_id }}-submit"
+              type="submit"
+              name="add"
+              class="add-to-cart-button cart-popular-product__add button"
+              aria-label="{{ 'actions.add' | t }} {{ card_product.title | escape }}"
+              aria-live="polite"
+              data-sold-out-message="true"
+              {% if card_product.selected_or_first_available_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+              <span class="cart-popular-product__add-label">
+                {%- if card_product.selected_or_first_available_variant.available -%}
+                  + {{ 'actions.add' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              <span class="cart-popular-product__add-icon svg-wrapper">
+                {{- 'icon-plus.svg' | inline_asset_content -}}
+              </span>
+              <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        </product-form-component>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

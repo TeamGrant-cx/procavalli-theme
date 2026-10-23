@@ -1,0 +1,129 @@
+
+
+{% liquid
+  assign block_settings = block.settings
+  assign product = product | default: closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign selected_variant = product.selected_or_first_available_variant
+  assign quantity_default = selected_variant.quantity_rule.min | default: 1
+  if quantity_default < 1
+    assign quantity_default = 1
+  endif
+%}
+
+{%- if product != blank and selected_variant != blank -%}
+  <div
+    class="product-form__subtotal spacing-style{% if block_settings.show_in_button %} product-form__subtotal--in-button{% endif %}"
+    data-product-subtotal
+    data-section-id="{{ section.id }}"
+    data-money-format="{{ shop.money_format | escape }}"
+    data-currency-code="{{ cart.currency.iso_code | default: shop.currency }}"
+    style="{% render 'spacing-style', settings: block_settings %}"
+    {{ block.shopify_attributes }}
+  >
+    <script type="application/json" data-subtotal-variants>
+      {{ product.variants | json }}
+    </script>
+    <div class="product-form__subtotal-text">
+      <span>{{ 'content.product_subtotal' | t }}:</span>
+      <strong data-subtotal-price>
+        {{ selected_variant.price | times: quantity_default | money }}
+      </strong>
+    </div>
+    {%- if block_settings.show_in_button -%}
+      <pc-atc-summary data-unit="{{ block_settings.unit_label | escape }}"></pc-atc-summary>
+      <script src="{{ 'pc-atc-summary.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  /* Pro Cavalli: when the total is shown on the Add to cart button, hide the separate line */
+  .product-form__subtotal--in-button {
+    display: none;
+  }
+  .product-form__buttons [name="add"]:not([disabled]) .add-to-cart-text[data-pc-summary]::after {
+    content: attr(data-pc-summary);
+    display: block;
+    margin-block-start: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: none;
+  }
+  .product-form__buttons [name="add"] .add-to-cart-text[data-pc-summary] {
+    display: block;
+    text-align: center;
+    line-height: 1.25;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Subtotal",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_in_button",
+      "label": "Show quantity and total on the Add to cart button",
+      "info": "e.g. Add to cart — 1 pc · EGP 12,000.00. Hides the separate subtotal line.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "unit_label",
+      "label": "Unit label",
+      "default": "pc",
+      "visible_if": "{{ block.settings.show_in_button }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

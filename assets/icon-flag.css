@@ -1,0 +1,746 @@
+.icon-flag {
+  --icon-flag-width: 30px;
+  --icon-flag-height: 22.5px;
+  --icon-flag-circle-inset: 0px;
+  --icon-flag-sprite-offset-x: 0px;
+  width: calc(var(--icon-flag-width) - var(--icon-flag-circle-inset));
+  height: var(--icon-flag-height);
+  flex-shrink: 0;
+  background: image-set(url("./icon-flag.png") 1x, url("./icon-flag-2x.png") 2x) no-repeat center left;
+}
+.icon-flag--rounded {
+  --icon-flag-circle-inset: 7.5px;
+  --icon-flag-sprite-offset-x: 3.75px;
+  border-radius: 50%;
+}
+.icon-flag--AF, .icon-flag--ps {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AX {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AL, .icon-flag--sq {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--DZ {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AD, .icon-flag--ca {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AO {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AI {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AG {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AR {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AM, .icon-flag--hy {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AW {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AC {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AU {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AT {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--AZ, .icon-flag--az {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--BS {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--BH {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--BD, .icon-flag--bn {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--BB {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--BY, .icon-flag--be {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -10px;
+}
+.icon-flag--BE {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BZ {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BJ {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BM {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BT, .icon-flag--dz {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BO {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BA, .icon-flag--bs {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BW {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BR, .icon-flag--pt-BR {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--IO {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--VG {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BN {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BG, .icon-flag--bg {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BF {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BI, .icon-flag--rn {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--KH, .icon-flag--km {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--CM {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--CA {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--CV {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--BQ {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -42.5px;
+}
+.icon-flag--KY {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CF, .icon-flag--sg {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--TD {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CL {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CN, .icon-flag--zh-CN, .icon-flag--ii, .icon-flag--ug {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CX {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CC {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CO {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--KM {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CG {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CD, .icon-flag--ln, .icon-flag--lu {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CK {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CR {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CI {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--HR, .icon-flag--hr {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CW {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CY {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--CZ, .icon-flag--cs {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--DK, .icon-flag--da {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--DJ {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -75px;
+}
+.icon-flag--DM {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--DO {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--EC {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--EG {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--SV {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--GQ {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--ER, .icon-flag--ti {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--EE, .icon-flag--et {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--SZ {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--ET, .icon-flag--am, .icon-flag--om {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--FK {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--FO, .icon-flag--fo {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--FJ {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--FI, .icon-flag--fi {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--FR, .icon-flag--br, .icon-flag--fr {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--GF {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--PF {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--TF {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--GA {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--GM {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -107.5px;
+}
+.icon-flag--GE, .icon-flag--ka {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--DE, .icon-flag--de {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GH, .icon-flag--ak {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GI {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GR, .icon-flag--el {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GL, .icon-flag--kl {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GD {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GP {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GT {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GG {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GN {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GW {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--GY {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--HT {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--HN {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--HK {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--HU, .icon-flag--hu {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--IS, .icon-flag--is {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--IN, .icon-flag--as, .icon-flag--gu, .icon-flag--hi, .icon-flag--kn, .icon-flag--ks, .icon-flag--ml, .icon-flag--mr, .icon-flag--or, .icon-flag--pa, .icon-flag--sa, .icon-flag--ta, .icon-flag--te {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--ID, .icon-flag--id, .icon-flag--jv, .icon-flag--su {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -140px;
+}
+.icon-flag--IQ, .icon-flag--ckb, .icon-flag--ku {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--IE, .icon-flag--ga {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--IM, .icon-flag--gv {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--IL, .icon-flag--he, .icon-flag--yi {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--IT, .icon-flag--it, .icon-flag--sc {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--JM {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--JP, .icon-flag--ja {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--JE {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--JO {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--KZ, .icon-flag--kk {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--KE, .icon-flag--ki {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--KI {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--XK {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--KW {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--KG, .icon-flag--ky {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--LA, .icon-flag--lo {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--LV, .icon-flag--lv {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--LB {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--LS {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--LR {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -172.5px;
+}
+.icon-flag--LY {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--LI {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--LT, .icon-flag--lt {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--LU, .icon-flag--lb {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MO {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MG, .icon-flag--mg {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MW {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MY, .icon-flag--ms {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MV {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--ML, .icon-flag--bm {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MT, .icon-flag--mt {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MQ {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MR {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MU {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--YT {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MX {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MD {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MC {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MN, .icon-flag--mn {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--ME {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -205px;
+}
+.icon-flag--MS {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--MA {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--MZ {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--MM, .icon-flag--my {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NA {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NR {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NP, .icon-flag--ne {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NL, .icon-flag--nl, .icon-flag--fy {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NC {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NZ, .icon-flag--mi {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NI {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NE {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NG, .icon-flag--ha, .icon-flag--ig, .icon-flag--yo {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NU {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NF {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--MK, .icon-flag--mk {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--NO, .icon-flag--se, .icon-flag--no, .icon-flag--nb, .icon-flag--nn {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--OM {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--PK, .icon-flag--sd, .icon-flag--ur {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--PS {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -237.5px;
+}
+.icon-flag--PA {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PG {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PY {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PE, .icon-flag--qu {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PH, .icon-flag--fil {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PN {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PL, .icon-flag--pl {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--PT, .icon-flag--pt-PT {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--QA {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--RE {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--RO, .icon-flag--ro {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--RU, .icon-flag--ce, .icon-flag--os, .icon-flag--ru, .icon-flag--tt {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--RW, .icon-flag--rw {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--WS {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--SM {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--ST {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--SA, .icon-flag--ar {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--SN, .icon-flag--ff, .icon-flag--wo {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--RS, .icon-flag--sr {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--SC {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -270px;
+}
+.icon-flag--SL {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SG {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SX {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SK, .icon-flag--sk {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SI, .icon-flag--sl {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SB {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SO, .icon-flag--so {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--ZA, .icon-flag--af, .icon-flag--xh, .icon-flag--zu {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--GS {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--KR, .icon-flag--ko {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SS {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--ES, .icon-flag--eu, .icon-flag--gl, .icon-flag--es {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--LK, .icon-flag--si {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--BL {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SH {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--KN {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--LC {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--MF {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--PM {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--VC {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -302.5px;
+}
+.icon-flag--SD {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--SR {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--SJ {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--SE, .icon-flag--sv {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--CH, .icon-flag--rm {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TW, .icon-flag--zh-TW {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TJ, .icon-flag--tg {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TZ, .icon-flag--sw {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TH, .icon-flag--th {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TL {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TG, .icon-flag--ee {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TK {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TO, .icon-flag--to {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TT {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TA {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TN {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TR, .icon-flag--tr {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TM, .icon-flag--tk {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TC {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--TV {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -335px;
+}
+.icon-flag--UM {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--UG, .icon-flag--lg {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag-UA, .icon-flag--uk {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--AE {
+  background-position: calc(-130px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--GB, .icon-flag--en {
+  background-position: calc(-170px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--US {
+  background-position: calc(-210px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--UY {
+  background-position: calc(-250px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--UZ, .icon-flag--uz {
+  background-position: calc(-290px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--VU {
+  background-position: calc(-330px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--VA {
+  background-position: calc(-370px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--VE {
+  background-position: calc(-410px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--VN, .icon-flag--vi {
+  background-position: calc(-450px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--WF {
+  background-position: calc(-490px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--EH {
+  background-position: calc(-530px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--YE {
+  background-position: calc(-570px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--ZM {
+  background-position: calc(-610px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--ZW, .icon-flag--nd, .icon-flag--sn {
+  background-position: calc(-650px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+/* Start add national flag */
+.icon-flag--kw {
+  background-position: calc(-690px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--eo {
+  background-position: calc(-730px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--fa {
+  background-position: calc(-770px - var(--icon-flag-sprite-offset-x)) -367.5px;
+}
+.icon-flag--gd {
+  background-position: calc(-10px - var(--icon-flag-sprite-offset-x)) -400px;
+}
+.icon-flag--bo {
+  background-position: calc(-50px - var(--icon-flag-sprite-offset-x)) -400px;
+}
+.icon-flag--cy {
+  background-position: calc(-90px - var(--icon-flag-sprite-offset-x)) -400px;
+}
+/* End add national flag */

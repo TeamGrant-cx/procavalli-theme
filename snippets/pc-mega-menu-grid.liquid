@@ -1,0 +1,164 @@
+{%- doc -%}
+  Pro Cavalli: mega menu showing the sub-menu items as a grid of image tiles with the name under each image
+  (e.g. 6 per row, wrapping onto a second row). Image comes from the linked collection (or product), falling back
+  to the first product of the collection.
+  Tile style "logo" (Brands): image = the collection's custom.brand_logo, fitted inside the tile; a collection
+  without a logo shows its name in the tile instead.
+{%- enddoc -%}
+
+{%- liquid
+  assign bl_stts = block.settings
+  assign columns = bl_stts.columns | default: 6
+  assign max_items = bl_stts.max_items | default: 12
+  assign tile_style = bl_stts.tile_style | default: 'photo'
+  assign show_title = true
+  if bl_stts.show_title == false
+    assign show_title = false
+  endif
+  assign hide_empty = true
+  if bl_stts.hide_empty == false
+    assign hide_empty = false
+  endif
+
+  assign section_fetch = section_fetch | default: false
+  if section.index == nil
+    assign section_fetch = true
+  endif
+
+  assign mega_width_style = ''
+  if bl_stts.width == 'custom'
+    assign page_width_custom = bl_stts.page_width_custom | default: 1570 | divided_by: 10
+    assign mega_width_style = '--page-content-width: [w]rem; --page-width: calc(var(--page-content-width) + var(--page-margin) * 2);' | replace: '[w]', page_width_custom
+  endif
+-%}
+
+{%- unless section_fetch -%}
+  <div
+    id="MegaMenu-Content-{{ section.id }}-{{ forloopIndex }}-{{ block_id }}"
+    class="list-menu--wrapper pc-mega-grid"
+    tabindex="-1"
+    style="{{ mega_width_style }}"
+  ></div>
+{%- else -%}
+  <div
+    id="MegaMenu-Content-{{ section.id }}-{{ forloopIndex }}-{{ block_id }}"
+    class="list-menu--wrapper pc-mega-grid pc-mega-grid--{{ tile_style }}"
+    tabindex="-1"
+    style="--pc-mega-columns: {{ columns }}; --pc-mega-ratio: {{ bl_stts.image_ratio | default: '4 / 3' }}; {{ mega_width_style }}"
+  >
+    <div class="mega-menu__container page-width page-width--{{ bl_stts.width }}">
+      <ul class="pc-mega-grid__list list-unstyled" role="list">
+        {%- assign shown = 0 -%}
+        {%- for childlink in link.links -%}
+          {%- liquid
+            if shown >= max_items
+              break
+            endif
+            assign object = childlink.object
+            if hide_empty and childlink.type == 'collection_link' and object.products_count == 0
+              continue
+            endif
+            assign shown = shown | plus: 1
+
+            assign image = nil
+            if tile_style == 'logo'
+              assign image = object.metafields.custom.brand_logo.value
+            else
+              assign image = object.image
+              if image == blank
+                assign image = object.featured_image
+              endif
+              if image == blank and childlink.type == 'collection_link'
+                assign image = object.products.first.featured_image
+              endif
+            endif
+          -%}
+          <li class="pc-mega-grid__item">
+            <a href="{{ childlink.url }}" class="pc-mega-grid__link"{% if show_title == false %} aria-label="{{ childlink.title | escape }}"{% endif %}>
+              <span class="pc-mega-grid__media">
+                {%- if image != blank -%}
+                  {{ image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 1025px) 16vw, 30vw', alt: childlink.title }}
+                {%- elsif tile_style == 'logo' -%}
+                  <span class="pc-mega-grid__name">{{ childlink.title | escape }}</span>
+                {%- endif -%}
+              </span>
+              {%- if show_title -%}
+                <span class="pc-mega-grid__title">{{ childlink.title | escape }}</span>
+              {%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+{%- endunless -%}
+
+{% stylesheet %}
+  .pc-mega-grid__list {
+    display: grid;
+    grid-template-columns: repeat(var(--pc-mega-columns, 6), minmax(0, 1fr));
+    gap: 28px 24px;
+    margin: 0;
+    padding: 28px 0 8px;
+  }
+  .pc-mega-grid__link {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .pc-mega-grid__media {
+    display: block;
+    aspect-ratio: var(--pc-mega-ratio, 4 / 3);
+    min-height: 0;
+    overflow: hidden;
+    background: #F4F5F7;
+  }
+  .pc-mega-grid__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .pc-mega-grid__link:hover .pc-mega-grid__media img {
+    transform: scale(1.04);
+  }
+  .pc-mega-grid__title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .pc-mega-grid__link:hover .pc-mega-grid__title {
+    color: var(--pc-gold, #C2A260);
+  }
+
+  /* logo tiles (Brands): the logo is fitted inside a white tile with a hairline border */
+  .pc-mega-grid--logo .pc-mega-grid__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6% 16%;
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    transition: border-color 0.2s ease;
+  }
+  .pc-mega-grid--logo .pc-mega-grid__media img {
+    object-fit: contain;
+  }
+  .pc-mega-grid--logo .pc-mega-grid__link:hover .pc-mega-grid__media {
+    border-color: var(--pc-gold, #C2A260);
+  }
+  .pc-mega-grid--logo .pc-mega-grid__link:hover .pc-mega-grid__media img {
+    transform: none;
+  }
+  .pc-mega-grid__name {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: 18px;
+    line-height: 1.25;
+    text-align: center;
+    color: var(--pc-navy, #19264D);
+  }
+{% endstylesheet %}

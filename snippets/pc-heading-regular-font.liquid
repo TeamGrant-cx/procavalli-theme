@@ -1,0 +1,13 @@
+{%- comment -%}
+  Pro Cavalli: the theme loads the heading font (Playfair Display) only at its setting weight (600) plus bold and
+  italic, so every heading set to Regular (400), as the Figma titles are, rendered semi-bold. Load the 400 face
+  (and its italic) so those headings render as designed. Rendered in layout/theme.liquid after global-style.
+{%- endcomment -%}
+{%- liquid
+  assign pc_heading_regular = settings.type_header_font | font_modify: 'weight', '400'
+  assign pc_heading_regular_italic = pc_heading_regular | font_modify: 'style', 'italic'
+-%}
+<style>
+  {{ pc_heading_regular | font_face: font_display: 'swap' }}
+  {{ pc_heading_regular_italic | font_face: font_display: 'swap' }}
+</style>

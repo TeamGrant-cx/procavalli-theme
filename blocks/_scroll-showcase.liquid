@@ -1,0 +1,85 @@
+{%- liquid
+  assign enable_animation = block.settings.enable_scroll_animation
+  assign scroll_distance = block.settings.scroll_distance | default: 260
+-%}
+
+<scroll-showcase
+  class="scroll-showcase"
+  {{ block.shopify_attributes }}
+  data-animate="{% if enable_animation %}true{% else %}false{% endif %}"
+  {% if request.visual_preview_mode %}data-preview{% endif %}
+  style="
+    display: block;
+    {% if enable_animation %}
+      height: {{ scroll_distance }}svh;
+      min-height: {{ scroll_distance }}svh;
+      clip-path: inset(0);
+    {% endif %}
+    --scroll-track: {{ scroll_distance }}svh;
+  "
+>
+  <div
+    class="scroll-showcase__sticky"
+    {% if enable_animation %}
+      style="position: sticky; top: 0; height: 100svh; overflow: hidden;"
+    {% endif %}
+  >
+    {% content_for 'blocks' %}
+  </div>
+</scroll-showcase>
+
+{% schema %}
+{
+  "name": "Scroll showcase",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "text"
+    },
+    {
+      "type": "group"
+    },
+    {
+      "type": "button"
+    },
+    {
+      "type": "_scroll-showcase-stamp"
+    },
+    {
+      "type": "_scroll-showcase-image"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.animations"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scroll_animation",
+      "label": "Enable scroll animation",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "scroll_distance",
+      "label": "Scroll distance",
+      "min": 160,
+      "max": 400,
+      "step": 10,
+      "unit": "vh",
+      "default": 260,
+      "info": "How long the section stays pinned while the collage animates.",
+      "visible_if": "{{ block.settings.enable_scroll_animation }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll showcase"
+    }
+  ]
+}
+{% endschema %}

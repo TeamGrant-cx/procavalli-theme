@@ -1,0 +1,38 @@
+{% if settings.show_custom_links %}
+  {%- liquid
+    assign custom_link_weight = settings.custom_link_weight
+    if custom_link_weight == 'default'
+      assign custom_link_weight = blank
+    endif
+
+    assign has_custom_links = false
+    if settings.custom_link_label_1 != blank
+      assign has_custom_links = true
+    elsif settings.custom_link_label_2 != blank
+      assign has_custom_links = true
+    elsif settings.custom_link_label_3 != blank
+      assign has_custom_links = true
+    endif
+  -%}
+  {% if has_custom_links %}
+    <div
+      class="header-custom-links custom-typography custom-font-size flex gap-style max-md:hidden"
+      style="
+        {% render 'typography-style', settings: settings, preset: 'custom', font: settings.custom_link_font, font_size: settings.custom_link_font_size, weight: custom_link_weight, line_height: settings.custom_link_line_height, case: settings.custom_link_case %}
+        {% render 'gap-style', value: settings.custom_link_gap %}
+        --padding-inline-start: {{ settings.custom_link_padding_inline_start }}px;
+        --padding-inline-end: {{ settings.custom_link_padding_inline_end }}px;
+      "
+    >
+      {% if settings.custom_link_label_1 != blank %}
+        <a {% if settings.custom_link_url_1 != blank %}href="{{ settings.custom_link_url_1 }}"{% else %}role="link" aria-disabled="true"{% endif %} class="link link--text link--hover-underline">{{ settings.custom_link_label_1 }}</a>
+      {% endif %}
+      {% if settings.custom_link_label_2 != blank %}
+        <a {% if settings.custom_link_url_2 != blank %}href="{{ settings.custom_link_url_2 }}"{% else %}role="link" aria-disabled="true"{% endif %} class="link link--text link--hover-underline">{{ settings.custom_link_label_2 }}</a>
+      {% endif %}
+      {% if settings.custom_link_label_3 != blank %}
+        <a {% if settings.custom_link_url_3 != blank %}href="{{ settings.custom_link_url_3 }}"{% else %}role="link" aria-disabled="true"{% endif %} class="link link--text link--hover-underline">{{ settings.custom_link_label_3 }}</a>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endif %}

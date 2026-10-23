@@ -1,0 +1,2811 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_VANEPW": {
+      "type": "section",
+      "blocks": {
+        "hero": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "inherit_color_scheme": false,
+            "scheme_background": "#DBE0F0",
+            "scheme_foreground_heading": "#19264D",
+            "scheme_foreground": "#19264D",
+            "padding-block-start": 100,
+            "padding-block-end": 100
+          },
+          "blocks": {
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>{{ closest.collection.title }}</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "3.6rem",
+                "font_weight": "400",
+                "case": "capitalize",
+                "color": "var(--color-foreground-heading)"
+              }
+            },
+            "blurb": {
+              "type": "text",
+              "settings": {
+                "text": "<p>{{ closest.collection.description }}</p>",
+                "width": "custom",
+                "custom_width": 30,
+                "width_mobile": "custom",
+                "custom_width_mobile": 88,
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.6rem",
+                "font_weight": "400",
+                "color": "var(--color-foreground-heading)"
+              }
+            }
+          },
+          "block_order": [
+            "title",
+            "blurb"
+          ]
+        },
+        "rider": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/pc-category-hero-rider.png",
+            "image_ratio": "adapt",
+            "width": "custom",
+            "unit": "pixel",
+            "custom_width_pixel": 490,
+            "height": "fit",
+            "image_position": "contain"
+          }
+        }
+      },
+      "block_order": [
+        "hero",
+        "rider"
+      ],
+      "custom_css": [
+        ".layout-panel-flex {position: relative; overflow: visible;}",
+        ".group-block {min-height: 389px; justify-content: center;}",
+        ".image-block {position: absolute; right: 0; bottom: 0; width: clamp(240px, 25.5vw, 490px); margin: 0; z-index: 3; pointer-events: none;}",
+        ".image-block img {width: 100%; height: auto; object-fit: contain;}",
+        "@media (max-width: 749px) {.image-block {display: none;} .group-block {min-height: 0;}}"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "section_AFAwz8": {
+      "type": "section",
+      "blocks": {
+        "carousel": {
+          "type": "multicolumn",
+          "settings": {
+            "layout_type": "carousel",
+            "carousel_on_mobile": true,
+            "columns_carousel": 7,
+            "mobile_columns_carousel": "2",
+            "vertical_gap": 16,
+            "column_gap": 16,
+            "gap": 16,
+            "items_same_height": false,
+            "loop": true,
+            "autoplay": false,
+            "navigation": "arrows",
+            "width": "fill",
+            "height": "fit"
+          },
+          "blocks": {
+            "icon_hard_feed_concentrates": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/horse-feed",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-hard-feed-concentrates.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Hard Feed &amp; Concentrates</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_breeding_bone_support": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-breeding-bone-support",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-breeding-bone-support.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Breeding &amp; Bone Support)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_digestive_health_feed_oils": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-digestive-health-feed-oils",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-digestive-health-feed-oils.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Digestive Health/​Feed Oils)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_performance": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-performance",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-performance.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Performance)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_calmers": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-calmers",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-calmers.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Calmers)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_digestive_health_performance": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-digestive-health-performance",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-digestive-health-performance.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Digestive Health/​Performance)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_electrolytes": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-electrolytes",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-electrolytes.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Electrolytes)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_leg_care": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-leg-care",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-leg-care.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Leg Care)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_muscle_support_performance": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-muscle-support-performance",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-muscle-support-performance.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Muscle Support/​Performance)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_muscle_support_performance_breeding_bone_support": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-muscle-support-performance-breeding-bone-support",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-muscle-support-performance-breeding-bone-support.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Muscle Support/​Performance/​Breeding &amp; Bone Support)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            },
+            "icon_mobility": {
+              "type": "group",
+              "settings": {
+                "link": "shopify://collections/supplements-mobility",
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 16,
+                "width": "fill",
+                "border": "none",
+                "horizontal_alignment_flex_direction_column_mobile": "center"
+              },
+              "blocks": {
+                "pic": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/pc-nutrition-icon-mobility.png",
+                    "image_ratio": "adapt",
+                    "width": "custom",
+                    "unit": "pixel",
+                    "custom_width_pixel": 100,
+                    "height": "fit",
+                    "image_position": "contain"
+                  }
+                },
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Mobility)</p>",
+                    "width": "fit-content",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "font_weight": "400",
+                    "case": "capitalize",
+                    "color": "var(--color-foreground-heading)",
+                    "inherit_text_alignment_tablet": false,
+                    "alignment_tablet": "center",
+                    "inherit_text_alignment_mobile": false,
+                    "alignment_mobile": "center"
+                  }
+                }
+              },
+              "block_order": [
+                "pic",
+                "label"
+              ]
+            }
+          },
+          "block_order": [
+            "icon_hard_feed_concentrates",
+            "icon_breeding_bone_support",
+            "icon_digestive_health_feed_oils",
+            "icon_performance",
+            "icon_calmers",
+            "icon_digestive_health_performance",
+            "icon_electrolytes",
+            "icon_leg_care",
+            "icon_muscle_support_performance",
+            "icon_muscle_support_performance_breeding_bone_support",
+            "icon_mobility"
+          ]
+        }
+      },
+      "block_order": [
+        "carousel"
+      ],
+      "custom_css": [
+        ".swiper{position:static}",
+        ".multicolumn{position:relative}",
+        ".spacing-style--section.layout-panel-flex{overflow:visible}",
+        ".swiper-button{opacity:1;background:none;border:0;box-shadow:none;color:#1F2937}",
+        ".swiper-button-prev{left:-64px}",
+        ".swiper-button-next{right:-64px}",
+        "@media (max-width:1024px){.multicolumn{padding-inline:36px}.swiper-button-prev{left:0}.swiper-button-next{right:0}}",
+        ".image-block{height:96px;display:grid;place-items:center}",
+        ".image-block img{max-height:96px;width:auto;object-fit:contain}"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "section_width": "custom",
+        "page_width_custom": 1100,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
+    "section_qePXUa": {
+      "type": "section",
+      "blocks": {
+        "photo": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "width": "custom",
+            "custom_width": 63,
+            "height": "fill",
+            "inherit_color_scheme": true,
+            "background_media": "image",
+            "background_image": "shopify://shop_images/pc-feat-feed-supplements-1.jpg",
+            "background_image_position": "cover"
+          }
+        },
+        "card": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 32,
+            "width": "custom",
+            "custom_width": 35,
+            "height": "fit",
+            "custom_height": 100,
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 100,
+            "padding-block-end": 100,
+            "padding-inline-start": 16,
+            "padding-inline-end": 16,
+            "inherit_color_scheme": false,
+            "scheme_background": "#FFFFFF",
+            "scheme_foreground_heading": "#19264D",
+            "scheme_foreground": "#19264D",
+            "scheme_primary": "#19264D",
+            "scheme_primary_hover": "#C2A260",
+            "scheme_border": "#000000",
+            "horizontal_alignment_flex_direction_column_mobile": "center"
+          },
+          "blocks": {
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Hard Feed &amp; Concentrates</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "4.0rem",
+                "font_weight": "400",
+                "case": "capitalize",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-start": 38,
+                "inherit_text_alignment_tablet": false,
+                "alignment_tablet": "center",
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center"
+              }
+            },
+            "blurb": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Equipment selected for riders who demand more from themselves, their horses and their equipment.</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "2.0rem",
+                "font_weight": "400",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-end": 28,
+                "inherit_text_alignment_tablet": false,
+                "alignment_tablet": "center",
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Hard Feed",
+                "link": "shopify://collections/horse-feed",
+                "style_class": "link",
+                "link_underline": true,
+                "button_type_size_link": "1.8rem",
+                "case": "uppercase",
+                "color": "var(--color-foreground-heading)"
+              }
+            }
+          },
+          "block_order": [
+            "title",
+            "blurb",
+            "cta"
+          ]
+        }
+      },
+      "block_order": [
+        "photo",
+        "card"
+      ],
+      "settings": {
+        "content_direction": "row",
+        "vertical_alignment": "center",
+        "gap": 32,
+        "section_width": "custom",
+        "page_width_custom": 1790,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 32,
+        "padding-block-end": 0
+      },
+      "custom_css": [
+        ".group-block{min-height:60vw}",
+        "@media (min-width:750px){.group-block{min-height:clamp(380px,25.4vw,487px)}}"
+      ]
+    },
+    "section_kNLbDR": {
+      "type": "section",
+      "blocks": {
+        "card": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 32,
+            "width": "custom",
+            "custom_width": 35,
+            "height": "fit",
+            "custom_height": 100,
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 100,
+            "padding-block-end": 100,
+            "padding-inline-start": 16,
+            "padding-inline-end": 16,
+            "inherit_color_scheme": false,
+            "scheme_background": "#FFFFFF",
+            "scheme_foreground_heading": "#19264D",
+            "scheme_foreground": "#19264D",
+            "scheme_primary": "#19264D",
+            "scheme_primary_hover": "#C2A260",
+            "scheme_border": "#000000",
+            "horizontal_alignment_flex_direction_column_mobile": "center"
+          },
+          "blocks": {
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Supplements (Performance)</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "4.0rem",
+                "font_weight": "400",
+                "case": "capitalize",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-start": 38,
+                "inherit_text_alignment_tablet": false,
+                "alignment_tablet": "center",
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center"
+              }
+            },
+            "blurb": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Equipment selected for riders who demand more from themselves, their horses and their equipment.</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "2.0rem",
+                "font_weight": "400",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-end": 28,
+                "inherit_text_alignment_tablet": false,
+                "alignment_tablet": "center",
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Performance",
+                "link": "shopify://collections/supplements-performance",
+                "style_class": "link",
+                "link_underline": true,
+                "button_type_size_link": "1.8rem",
+                "case": "uppercase",
+                "color": "var(--color-foreground-heading)"
+              }
+            }
+          },
+          "block_order": [
+            "title",
+            "blurb",
+            "cta"
+          ]
+        },
+        "photo": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "width": "custom",
+            "custom_width": 63,
+            "height": "fill",
+            "inherit_color_scheme": true,
+            "background_media": "image",
+            "background_image": "shopify://shop_images/pc-feat-feed-supplements-2.jpg",
+            "background_image_position": "cover"
+          }
+        }
+      },
+      "block_order": [
+        "card",
+        "photo"
+      ],
+      "settings": {
+        "content_direction": "row",
+        "vertical_alignment": "center",
+        "gap": 32,
+        "section_width": "custom",
+        "page_width_custom": 1790,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      },
+      "custom_css": [
+        ".group-block{min-height:60vw}",
+        "@media (min-width:750px){.group-block{min-height:clamp(380px,25.4vw,487px)}}"
+      ]
+    },
+    "section_xdbiAH": {
+      "type": "section",
+      "blocks": {
+        "photo": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "width": "custom",
+            "custom_width": 63,
+            "height": "fill",
+            "inherit_color_scheme": true,
+            "background_media": "image",
+            "background_image": "shopify://shop_images/pc-feat-feed-supplements-3.jpg",
+            "background_image_position": "cover"
+          }
+        },
+        "card": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 32,
+            "width": "custom",
+            "custom_width": 35,
+            "height": "fit",
+            "custom_height": 100,
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 100,
+            "padding-block-end": 100,
+            "padding-inline-start": 16,
+            "padding-inline-end": 16,
+            "inherit_color_scheme": false,
+            "scheme_background": "#FFFFFF",
+            "scheme_foreground_heading": "#19264D",
+            "scheme_foreground": "#19264D",
+            "scheme_primary": "#19264D",
+            "scheme_primary_hover": "#C2A260",
+            "scheme_border": "#000000",
+            "horizontal_alignment_flex_direction_column_mobile": "center"
+          },
+          "blocks": {
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Supplements (Calmers)</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "4.0rem",
+                "font_weight": "400",
+                "case": "capitalize",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-start": 38,
+                "inherit_text_alignment_tablet": false,
+                "alignment_tablet": "center",
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center"
+              }
+            },
+            "blurb": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Equipment selected for riders who demand more from themselves, their horses and their equipment.</p>",
+                "width": "100%",
+                "inherit_text_alignment": false,
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "2.0rem",
+                "font_weight": "400",
+                "color": "var(--color-foreground-heading)",
+                "padding-block-end": 28,
+                "inherit_text_alignment_tablet": false,
+                "alignment_tablet": "center",
+                "inherit_text_alignment_mobile": false,
+                "alignment_mobile": "center"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Calmers",
+                "link": "shopify://collections/supplements-calmers",
+                "style_class": "link",
+                "link_underline": true,
+                "button_type_size_link": "1.8rem",
+                "case": "uppercase",
+                "color": "var(--color-foreground-heading)"
+              }
+            }
+          },
+          "block_order": [
+            "title",
+            "blurb",
+            "cta"
+          ]
+        }
+      },
+      "block_order": [
+        "photo",
+        "card"
+      ],
+      "settings": {
+        "content_direction": "row",
+        "vertical_alignment": "center",
+        "gap": 32,
+        "section_width": "custom",
+        "page_width_custom": 1790,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      },
+      "custom_css": [
+        ".group-block{min-height:60vw}",
+        "@media (min-width:750px){.group-block{min-height:clamp(380px,25.4vw,487px)}}"
+      ]
+    },
+    "featured_collection_X6CNNt": {
+      "type": "featured-collection",
+      "blocks": {
+        "section-header": {
+          "type": "_section-header",
+          "disabled": true,
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "content_direction_mobile": "column",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "stretch",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "horizontal_alignment_mobile": "flex-start",
+            "vertical_alignment_mobile": "center",
+            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
+            "vertical_alignment_flex_direction_column_mobile": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 80,
+            "inherit_color_scheme": true,
+            "scheme_background": "#ffffff",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#000000",
+            "scheme_foreground": "#000000",
+            "scheme_primary": "#000f9f",
+            "scheme_primary_hover": "#000000",
+            "scheme_border": "#e6e6e6",
+            "scheme_shadow": "#000000",
+            "border": "none",
+            "border_width": 2,
+            "border_opacity": 0,
+            "border_radius": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "collection_title_aHhG9B": {
+              "type": "_collection_title",
+              "settings": {
+                "text": "<h2>{{ closest.collection.title }}</h2>",
+                "width": "100%",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1.6rem",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "border": "solid",
+                "border_width": 2,
+                "heading_only": true,
+                "heading_effect": "none",
+                "padding-block-start": 0,
+                "padding-inline-end": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0
+              },
+              "blocks": {}
+            },
+            "view_all_button_XJJXA7": {
+              "type": "_view_all_button",
+              "settings": {
+                "label": "View all",
+                "collection": "{{ closest.collection }}",
+                "only_when_more_products": false,
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "button_style": "default",
+                "button_type_size_link": "1.2rem",
+                "link_underline": true,
+                "link_reveal": false,
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_aHhG9B",
+            "view_all_button_XJJXA7"
+          ]
+        },
+        "product-slide-item": {
+          "type": "card-product-flex",
+          "name": "Product card",
+          "static": true,
+          "settings": {
+            "product": "{{ closest.product }}",
+            "inherit_color_scheme": false,
+            "scheme_background": "rgba(0,0,0,0)",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#19264d",
+            "scheme_foreground": "#19264d",
+            "scheme_primary": "#19264d",
+            "scheme_primary_hover": "#c2a260",
+            "scheme_border": "#e5e7eb",
+            "scheme_shadow": "#000000",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "content_direction": "column",
+            "wrap": "no-wrap",
+            "align_items": "stretch",
+            "justify_content": "start",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "height": "fit-content",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card_product_media_flex_Xdr9iL": {
+              "type": "_card-product-media-flex",
+              "name": "Group: Product media",
+              "settings": {
+                "product": "{{ closest.product }}",
+                "image_ratio": "adapt",
+                "show_secondary_image": true,
+                "show_badges": false,
+                "width_option": "full",
+                "unit": "percent",
+                "custom_width": 100,
+                "custom_width_pixel": 90,
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            },
+            "card_product_information_QBx4pH": {
+              "type": "_card-product-information",
+              "name": "Group: Information",
+              "settings": {
+                "width_option": "full",
+                "custom_width": 80,
+                "content_direction": "column",
+                "content_direction_mobile": "column",
+                "wrap": "wrap",
+                "wrap_tablet": "wrap",
+                "vertical_alignment": "center",
+                "horizontal_alignment": "flex-start",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap_y": 6,
+                "gap_x": 10,
+                "inherit_color_scheme": true,
+                "scheme_background": "#ffffff",
+                "scheme_background_gradient": "",
+                "scheme_foreground_heading": "#000000",
+                "scheme_foreground": "#000000",
+                "scheme_primary": "#000f9f",
+                "scheme_primary_hover": "#000000",
+                "scheme_border": "#e6e6e6",
+                "scheme_shadow": "#000000",
+                "padding_top": 0,
+                "padding_right": 0,
+                "padding_bottom": 0,
+                "padding_left": 16,
+                "padding_top_mb": 0,
+                "padding_right_mb": 0,
+                "padding_bottom_mb": 0,
+                "padding_left_mb": 0
+              },
+              "blocks": {
+                "card_product_title_flex_N3KY3P": {
+                  "type": "_card-product-title-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "width": "fit-content",
+                    "unit": "percent",
+                    "custom_width": 100,
+                    "custom_width_pixel": 500,
+                    "alignment": "left",
+                    "clamp": false,
+                    "clamp_row": 2,
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "weight": "400",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-end": 0,
+                    "padding-inline-start": 0
+                  },
+                  "blocks": {}
+                },
+                "card_product_price_flex_KVpAd4": {
+                  "type": "_card-product-price-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "type_preset": "custom",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "width_mobile": "fit-content",
+                    "alignment_mobile": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.2rem",
+                    "font_weight": "400",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "custom_price_regular": true,
+                    "font_size_regular": "1.2rem",
+                    "font_weight_regular": "400",
+                    "regular_gap": 10,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "spacer_yGQAQQ": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 16,
+                    "spacer_width": 0,
+                    "hide_on_tablet": false,
+                    "hide_on_mobile": false
+                  },
+                  "blocks": {}
+                },
+                "vendor_pc": {
+                  "type": "_card-product-vendor-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.2rem",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "label": "Brand:"
+                  }
+                },
+                "variant_pc": {
+                  "type": "_card-product-variant-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}"
+                  }
+                }
+              },
+              "block_order": [
+                "card_product_title_flex_N3KY3P",
+                "vendor_pc",
+                "card_product_price_flex_KVpAd4",
+                "variant_pc",
+                "spacer_yGQAQQ"
+              ]
+            },
+            "card_product_button_flex_pc": {
+              "type": "_card-product-button-flex",
+              "settings": {
+                "product": "{{ closest.product }}",
+                "quick_add": "standard",
+                "style_class": "button",
+                "corner_radius": 0,
+                "link_underline": false,
+                "font_size": "1.6rem",
+                "case": "uppercase",
+                "weight": "700",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit-content",
+                "custom_height": 52,
+                "padding_block": 0,
+                "padding_inline": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card_product_media_flex_Xdr9iL",
+            "card_product_information_QBx4pH",
+            "card_product_button_flex_pc"
+          ]
+        }
+      },
+      "name": "Product list: Carousel",
+      "settings": {
+        "collection": "horse-feed",
+        "layout_type": "carousel",
+        "widget_layout": "default",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "columns_desktop_widget": "1",
+        "columns_gap": 60,
+        "rows_gap": 8,
+        "media_size": "medium",
+        "link": "",
+        "animation_type": "none",
+        "source": "uploaded",
+        "video_url": "",
+        "video_display_mode": "inline",
+        "video_autoplay": false,
+        "video_loop": true,
+        "alt": "",
+        "position": "left",
+        "align_items": "stretch",
+        "media_ratio": "adapt",
+        "image_position": "cover",
+        "content_media_position": "center",
+        "content_media_alignment": "center",
+        "content_heading": "",
+        "heading_margin_bottom": 0,
+        "heading_type_preset": "rte",
+        "heading_font": "var(--font-body--family)",
+        "heading_font_size": "default",
+        "heading_font_weight": "default",
+        "heading_line_height": "normal",
+        "heading_letter_spacing": "normal",
+        "heading_case": "none",
+        "heading_wrap": "pretty",
+        "heading_color": "var(--color-foreground)",
+        "content_subheading": "",
+        "subheading_margin_bottom": 0,
+        "subheading_type_preset": "rte",
+        "subheading_font": "var(--font-body--family)",
+        "subheading_font_size": "default",
+        "subheading_font_weight": "default",
+        "subheading_line_height": "normal",
+        "subheading_letter_spacing": "normal",
+        "subheading_case": "none",
+        "subheading_wrap": "pretty",
+        "subheading_color": "var(--color-foreground)",
+        "content_text": "",
+        "text_margin_bottom": 0,
+        "text_type_preset": "rte",
+        "text_font": "var(--font-body--family)",
+        "text_font_size": "default",
+        "text_font_weight": "default",
+        "text_line_height": "normal",
+        "text_letter_spacing": "normal",
+        "text_case": "none",
+        "text_wrap": "pretty",
+        "text_color": "var(--color-foreground)",
+        "content_button_label": "",
+        "content_button_style": "button",
+        "content_button_link": "",
+        "show_more_product": false,
+        "show_more_product_text": "Show more",
+        "show_more_font_size": "",
+        "show_more_font_weight": "default",
+        "show_more_product_width": "fit-content",
+        "unit": "percent",
+        "custom_width": 100,
+        "custom_width_pixel": 100,
+        "show_more_product_width_mobile": "fit-content",
+        "custom_width_mobile": 100,
+        "custom_width_mobile_pixel": 100,
+        "show_more_product_top_offset": 40,
+        "loop": false,
+        "full_width": false,
+        "navigation": "arrows",
+        "arrows_position": "inside",
+        "pagination_type": "bullets",
+        "dots_top_offset": 40,
+        "progress_top_offset": 40,
+        "section_width": "custom",
+        "page_width_custom": 1450,
+        "color_scheme": "scheme-1",
+        "swipe_on_mobile": false,
+        "show_arrows": false,
+        "show_dots": true,
+        "padding-block-start": 80,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "featured_collection_kMJbym": {
+      "type": "featured-collection",
+      "blocks": {
+        "section-header": {
+          "type": "_section-header",
+          "disabled": true,
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "content_direction_mobile": "column",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "stretch",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "horizontal_alignment_mobile": "flex-start",
+            "vertical_alignment_mobile": "center",
+            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
+            "vertical_alignment_flex_direction_column_mobile": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 80,
+            "inherit_color_scheme": true,
+            "scheme_background": "#ffffff",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#000000",
+            "scheme_foreground": "#000000",
+            "scheme_primary": "#000f9f",
+            "scheme_primary_hover": "#000000",
+            "scheme_border": "#e6e6e6",
+            "scheme_shadow": "#000000",
+            "border": "none",
+            "border_width": 2,
+            "border_opacity": 0,
+            "border_radius": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "collection_title_Nnc7xq": {
+              "type": "_collection_title",
+              "settings": {
+                "text": "<h2>{{ closest.collection.title }}</h2>",
+                "width": "100%",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1.6rem",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "border": "solid",
+                "border_width": 2,
+                "heading_only": true,
+                "heading_effect": "none",
+                "padding-block-start": 0,
+                "padding-inline-end": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0
+              },
+              "blocks": {}
+            },
+            "view_all_button_mMaeNJ": {
+              "type": "_view_all_button",
+              "settings": {
+                "label": "View all",
+                "collection": "{{ closest.collection }}",
+                "only_when_more_products": false,
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "button_style": "default",
+                "button_type_size_link": "1.2rem",
+                "link_underline": true,
+                "link_reveal": false,
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_Nnc7xq",
+            "view_all_button_mMaeNJ"
+          ]
+        },
+        "product-slide-item": {
+          "type": "card-product-flex",
+          "name": "Product card",
+          "static": true,
+          "settings": {
+            "product": "{{ closest.product }}",
+            "inherit_color_scheme": false,
+            "scheme_background": "rgba(0,0,0,0)",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#19264d",
+            "scheme_foreground": "#19264d",
+            "scheme_primary": "#19264d",
+            "scheme_primary_hover": "#c2a260",
+            "scheme_border": "#e5e7eb",
+            "scheme_shadow": "#000000",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "content_direction": "column",
+            "wrap": "no-wrap",
+            "align_items": "stretch",
+            "justify_content": "start",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "height": "fit-content",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card_product_media_flex_Xdr9iL": {
+              "type": "_card-product-media-flex",
+              "name": "Group: Product media",
+              "settings": {
+                "product": "{{ closest.product }}",
+                "image_ratio": "adapt",
+                "show_secondary_image": true,
+                "show_badges": false,
+                "width_option": "full",
+                "unit": "percent",
+                "custom_width": 100,
+                "custom_width_pixel": 90,
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            },
+            "card_product_information_QBx4pH": {
+              "type": "_card-product-information",
+              "name": "Group: Information",
+              "settings": {
+                "width_option": "full",
+                "custom_width": 80,
+                "content_direction": "column",
+                "content_direction_mobile": "column",
+                "wrap": "wrap",
+                "wrap_tablet": "wrap",
+                "vertical_alignment": "center",
+                "horizontal_alignment": "flex-start",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap_y": 6,
+                "gap_x": 10,
+                "inherit_color_scheme": true,
+                "scheme_background": "#ffffff",
+                "scheme_background_gradient": "",
+                "scheme_foreground_heading": "#000000",
+                "scheme_foreground": "#000000",
+                "scheme_primary": "#000f9f",
+                "scheme_primary_hover": "#000000",
+                "scheme_border": "#e6e6e6",
+                "scheme_shadow": "#000000",
+                "padding_top": 0,
+                "padding_right": 0,
+                "padding_bottom": 0,
+                "padding_left": 16,
+                "padding_top_mb": 0,
+                "padding_right_mb": 0,
+                "padding_bottom_mb": 0,
+                "padding_left_mb": 0
+              },
+              "blocks": {
+                "card_product_title_flex_N3KY3P": {
+                  "type": "_card-product-title-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "width": "fit-content",
+                    "unit": "percent",
+                    "custom_width": 100,
+                    "custom_width_pixel": 500,
+                    "alignment": "left",
+                    "clamp": false,
+                    "clamp_row": 2,
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "weight": "400",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-end": 0,
+                    "padding-inline-start": 0
+                  },
+                  "blocks": {}
+                },
+                "card_product_price_flex_KVpAd4": {
+                  "type": "_card-product-price-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "type_preset": "custom",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "width_mobile": "fit-content",
+                    "alignment_mobile": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.2rem",
+                    "font_weight": "400",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "custom_price_regular": true,
+                    "font_size_regular": "1.2rem",
+                    "font_weight_regular": "400",
+                    "regular_gap": 10,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "spacer_yGQAQQ": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 16,
+                    "spacer_width": 0,
+                    "hide_on_tablet": false,
+                    "hide_on_mobile": false
+                  },
+                  "blocks": {}
+                },
+                "vendor_pc": {
+                  "type": "_card-product-vendor-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.2rem",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "label": "Brand:"
+                  }
+                },
+                "variant_pc": {
+                  "type": "_card-product-variant-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}"
+                  }
+                }
+              },
+              "block_order": [
+                "card_product_title_flex_N3KY3P",
+                "vendor_pc",
+                "card_product_price_flex_KVpAd4",
+                "variant_pc",
+                "spacer_yGQAQQ"
+              ]
+            },
+            "card_product_button_flex_pc": {
+              "type": "_card-product-button-flex",
+              "settings": {
+                "product": "{{ closest.product }}",
+                "quick_add": "standard",
+                "style_class": "button",
+                "corner_radius": 0,
+                "link_underline": false,
+                "font_size": "1.6rem",
+                "case": "uppercase",
+                "weight": "700",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit-content",
+                "custom_height": 52,
+                "padding_block": 0,
+                "padding_inline": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card_product_media_flex_Xdr9iL",
+            "card_product_information_QBx4pH",
+            "card_product_button_flex_pc"
+          ]
+        }
+      },
+      "name": "Product list: Carousel",
+      "settings": {
+        "collection": "supplements-performance",
+        "layout_type": "carousel",
+        "widget_layout": "default",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "columns_desktop_widget": "1",
+        "columns_gap": 60,
+        "rows_gap": 8,
+        "media_size": "medium",
+        "link": "",
+        "animation_type": "none",
+        "source": "uploaded",
+        "video_url": "",
+        "video_display_mode": "inline",
+        "video_autoplay": false,
+        "video_loop": true,
+        "alt": "",
+        "position": "left",
+        "align_items": "stretch",
+        "media_ratio": "adapt",
+        "image_position": "cover",
+        "content_media_position": "center",
+        "content_media_alignment": "center",
+        "content_heading": "",
+        "heading_margin_bottom": 0,
+        "heading_type_preset": "rte",
+        "heading_font": "var(--font-body--family)",
+        "heading_font_size": "default",
+        "heading_font_weight": "default",
+        "heading_line_height": "normal",
+        "heading_letter_spacing": "normal",
+        "heading_case": "none",
+        "heading_wrap": "pretty",
+        "heading_color": "var(--color-foreground)",
+        "content_subheading": "",
+        "subheading_margin_bottom": 0,
+        "subheading_type_preset": "rte",
+        "subheading_font": "var(--font-body--family)",
+        "subheading_font_size": "default",
+        "subheading_font_weight": "default",
+        "subheading_line_height": "normal",
+        "subheading_letter_spacing": "normal",
+        "subheading_case": "none",
+        "subheading_wrap": "pretty",
+        "subheading_color": "var(--color-foreground)",
+        "content_text": "",
+        "text_margin_bottom": 0,
+        "text_type_preset": "rte",
+        "text_font": "var(--font-body--family)",
+        "text_font_size": "default",
+        "text_font_weight": "default",
+        "text_line_height": "normal",
+        "text_letter_spacing": "normal",
+        "text_case": "none",
+        "text_wrap": "pretty",
+        "text_color": "var(--color-foreground)",
+        "content_button_label": "",
+        "content_button_style": "button",
+        "content_button_link": "",
+        "show_more_product": false,
+        "show_more_product_text": "Show more",
+        "show_more_font_size": "",
+        "show_more_font_weight": "default",
+        "show_more_product_width": "fit-content",
+        "unit": "percent",
+        "custom_width": 100,
+        "custom_width_pixel": 100,
+        "show_more_product_width_mobile": "fit-content",
+        "custom_width_mobile": 100,
+        "custom_width_mobile_pixel": 100,
+        "show_more_product_top_offset": 40,
+        "loop": false,
+        "full_width": false,
+        "navigation": "arrows",
+        "arrows_position": "inside",
+        "pagination_type": "bullets",
+        "dots_top_offset": 40,
+        "progress_top_offset": 40,
+        "section_width": "custom",
+        "page_width_custom": 1450,
+        "color_scheme": "scheme-1",
+        "swipe_on_mobile": false,
+        "show_arrows": false,
+        "show_dots": true,
+        "padding-block-start": 80,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "featured_collection_HHGbhF": {
+      "type": "featured-collection",
+      "blocks": {
+        "section-header": {
+          "type": "_section-header",
+          "disabled": true,
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "content_direction_mobile": "column",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "stretch",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "horizontal_alignment_mobile": "flex-start",
+            "vertical_alignment_mobile": "center",
+            "horizontal_alignment_flex_direction_column_mobile": "flex-start",
+            "vertical_alignment_flex_direction_column_mobile": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 80,
+            "inherit_color_scheme": true,
+            "scheme_background": "#ffffff",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#000000",
+            "scheme_foreground": "#000000",
+            "scheme_primary": "#000f9f",
+            "scheme_primary_hover": "#000000",
+            "scheme_border": "#e6e6e6",
+            "scheme_shadow": "#000000",
+            "border": "none",
+            "border_width": 2,
+            "border_opacity": 0,
+            "border_radius": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "collection_title_TNRtj3": {
+              "type": "_collection_title",
+              "settings": {
+                "text": "<h2>{{ closest.collection.title }}</h2>",
+                "width": "100%",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1.6rem",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "border": "solid",
+                "border_width": 2,
+                "heading_only": true,
+                "heading_effect": "none",
+                "padding-block-start": 0,
+                "padding-inline-end": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0
+              },
+              "blocks": {}
+            },
+            "view_all_button_9z6wWb": {
+              "type": "_view_all_button",
+              "settings": {
+                "label": "View all",
+                "collection": "{{ closest.collection }}",
+                "only_when_more_products": false,
+                "open_in_new_tab": false,
+                "style_class": "link",
+                "button_style": "default",
+                "button_type_size_link": "1.2rem",
+                "link_underline": true,
+                "link_reveal": false,
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_TNRtj3",
+            "view_all_button_9z6wWb"
+          ]
+        },
+        "product-slide-item": {
+          "type": "card-product-flex",
+          "name": "Product card",
+          "static": true,
+          "settings": {
+            "product": "{{ closest.product }}",
+            "inherit_color_scheme": false,
+            "scheme_background": "rgba(0,0,0,0)",
+            "scheme_background_gradient": "",
+            "scheme_foreground_heading": "#19264d",
+            "scheme_foreground": "#19264d",
+            "scheme_primary": "#19264d",
+            "scheme_primary_hover": "#c2a260",
+            "scheme_border": "#e5e7eb",
+            "scheme_shadow": "#000000",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "content_direction": "column",
+            "wrap": "no-wrap",
+            "align_items": "stretch",
+            "justify_content": "start",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "height": "fit-content",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card_product_media_flex_Xdr9iL": {
+              "type": "_card-product-media-flex",
+              "name": "Group: Product media",
+              "settings": {
+                "product": "{{ closest.product }}",
+                "image_ratio": "adapt",
+                "show_secondary_image": true,
+                "show_badges": false,
+                "width_option": "full",
+                "unit": "percent",
+                "custom_width": 100,
+                "custom_width_pixel": 90,
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0
+              },
+              "blocks": {}
+            },
+            "card_product_information_QBx4pH": {
+              "type": "_card-product-information",
+              "name": "Group: Information",
+              "settings": {
+                "width_option": "full",
+                "custom_width": 80,
+                "content_direction": "column",
+                "content_direction_mobile": "column",
+                "wrap": "wrap",
+                "wrap_tablet": "wrap",
+                "vertical_alignment": "center",
+                "horizontal_alignment": "flex-start",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap_y": 6,
+                "gap_x": 10,
+                "inherit_color_scheme": true,
+                "scheme_background": "#ffffff",
+                "scheme_background_gradient": "",
+                "scheme_foreground_heading": "#000000",
+                "scheme_foreground": "#000000",
+                "scheme_primary": "#000f9f",
+                "scheme_primary_hover": "#000000",
+                "scheme_border": "#e6e6e6",
+                "scheme_shadow": "#000000",
+                "padding_top": 0,
+                "padding_right": 0,
+                "padding_bottom": 0,
+                "padding_left": 16,
+                "padding_top_mb": 0,
+                "padding_right_mb": 0,
+                "padding_bottom_mb": 0,
+                "padding_left_mb": 0
+              },
+              "blocks": {
+                "card_product_title_flex_N3KY3P": {
+                  "type": "_card-product-title-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "width": "fit-content",
+                    "unit": "percent",
+                    "custom_width": 100,
+                    "custom_width_pixel": 500,
+                    "alignment": "left",
+                    "clamp": false,
+                    "clamp_row": 2,
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.6rem",
+                    "weight": "400",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-end": 0,
+                    "padding-inline-start": 0
+                  },
+                  "blocks": {}
+                },
+                "card_product_price_flex_KVpAd4": {
+                  "type": "_card-product-price-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "type_preset": "custom",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "width_mobile": "fit-content",
+                    "alignment_mobile": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.2rem",
+                    "font_weight": "400",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "custom_price_regular": true,
+                    "font_size_regular": "1.2rem",
+                    "font_weight_regular": "400",
+                    "regular_gap": 10,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "spacer_yGQAQQ": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 16,
+                    "spacer_width": 0,
+                    "hide_on_tablet": false,
+                    "hide_on_mobile": false
+                  },
+                  "blocks": {}
+                },
+                "vendor_pc": {
+                  "type": "_card-product-vendor-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.2rem",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "label": "Brand:"
+                  }
+                },
+                "variant_pc": {
+                  "type": "_card-product-variant-flex",
+                  "settings": {
+                    "product": "{{ closest.product }}"
+                  }
+                }
+              },
+              "block_order": [
+                "card_product_title_flex_N3KY3P",
+                "vendor_pc",
+                "card_product_price_flex_KVpAd4",
+                "variant_pc",
+                "spacer_yGQAQQ"
+              ]
+            },
+            "card_product_button_flex_pc": {
+              "type": "_card-product-button-flex",
+              "settings": {
+                "product": "{{ closest.product }}",
+                "quick_add": "standard",
+                "style_class": "button",
+                "corner_radius": 0,
+                "link_underline": false,
+                "font_size": "1.6rem",
+                "case": "uppercase",
+                "weight": "700",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit-content",
+                "custom_height": 52,
+                "padding_block": 0,
+                "padding_inline": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card_product_media_flex_Xdr9iL",
+            "card_product_information_QBx4pH",
+            "card_product_button_flex_pc"
+          ]
+        }
+      },
+      "name": "Product list: Carousel",
+      "settings": {
+        "collection": "supplements-calmers",
+        "layout_type": "carousel",
+        "widget_layout": "default",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "columns_desktop_widget": "1",
+        "columns_gap": 60,
+        "rows_gap": 8,
+        "media_size": "medium",
+        "link": "",
+        "animation_type": "none",
+        "source": "uploaded",
+        "video_url": "",
+        "video_display_mode": "inline",
+        "video_autoplay": false,
+        "video_loop": true,
+        "alt": "",
+        "position": "left",
+        "align_items": "stretch",
+        "media_ratio": "adapt",
+        "image_position": "cover",
+        "content_media_position": "center",
+        "content_media_alignment": "center",
+        "content_heading": "",
+        "heading_margin_bottom": 0,
+        "heading_type_preset": "rte",
+        "heading_font": "var(--font-body--family)",
+        "heading_font_size": "default",
+        "heading_font_weight": "default",
+        "heading_line_height": "normal",
+        "heading_letter_spacing": "normal",
+        "heading_case": "none",
+        "heading_wrap": "pretty",
+        "heading_color": "var(--color-foreground)",
+        "content_subheading": "",
+        "subheading_margin_bottom": 0,
+        "subheading_type_preset": "rte",
+        "subheading_font": "var(--font-body--family)",
+        "subheading_font_size": "default",
+        "subheading_font_weight": "default",
+        "subheading_line_height": "normal",
+        "subheading_letter_spacing": "normal",
+        "subheading_case": "none",
+        "subheading_wrap": "pretty",
+        "subheading_color": "var(--color-foreground)",
+        "content_text": "",
+        "text_margin_bottom": 0,
+        "text_type_preset": "rte",
+        "text_font": "var(--font-body--family)",
+        "text_font_size": "default",
+        "text_font_weight": "default",
+        "text_line_height": "normal",
+        "text_letter_spacing": "normal",
+        "text_case": "none",
+        "text_wrap": "pretty",
+        "text_color": "var(--color-foreground)",
+        "content_button_label": "",
+        "content_button_style": "button",
+        "content_button_link": "",
+        "show_more_product": false,
+        "show_more_product_text": "Show more",
+        "show_more_font_size": "",
+        "show_more_font_weight": "default",
+        "show_more_product_width": "fit-content",
+        "unit": "percent",
+        "custom_width": 100,
+        "custom_width_pixel": 100,
+        "show_more_product_width_mobile": "fit-content",
+        "custom_width_mobile": 100,
+        "custom_width_mobile_pixel": 100,
+        "show_more_product_top_offset": 40,
+        "loop": false,
+        "full_width": false,
+        "navigation": "arrows",
+        "arrows_position": "inside",
+        "pagination_type": "bullets",
+        "dots_top_offset": 40,
+        "progress_top_offset": 40,
+        "section_width": "custom",
+        "page_width_custom": 1450,
+        "color_scheme": "scheme-1",
+        "swipe_on_mobile": false,
+        "show_arrows": false,
+        "show_dots": true,
+        "padding-block-start": 80,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "collection_list_c9rfbJ": {
+      "type": "section",
+      "blocks": {
+        "tiles": {
+          "type": "multicolumn",
+          "settings": {
+            "layout_type": "grid",
+            "columns_grid": 3,
+            "mobile_columns_grid": "1",
+            "vertical_gap": 64,
+            "column_gap": 64,
+            "gap": 64,
+            "items_same_height": false,
+            "width": "fill"
+          },
+          "blocks": {
+            "tile_breeding_bone": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-breeding-bone.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Breeding &amp; Bone Support)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-breeding-bone-support",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            },
+            "tile_digestive_feed_oils": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-digestive-feed-oils.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Digestive Health/​Feed Oils)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-digestive-health-feed-oils",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            },
+            "tile_digestive_performance": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-digestive-performance.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Digestive Health/​Performance)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-digestive-health-performance",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            },
+            "tile_electrolytes": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-electrolytes.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Electrolytes)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-electrolytes",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            },
+            "tile_leg_care": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-leg-care.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Leg Care)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-leg-care",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            },
+            "tile_muscle_support": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-muscle-support.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Muscle Support/​Performance/​Breeding &amp; Bone Support)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-muscle-support-performance-breeding-bone-support",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            },
+            "tile_mobility": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "fill",
+                "height": "fit",
+                "inherit_color_scheme": false,
+                "scheme_background": "rgba(0,0,0,0)",
+                "scheme_foreground_heading": "#FFFFFF",
+                "scheme_foreground": "#FFFFFF",
+                "background_media": "image",
+                "background_image": "shopify://shop_images/pc-tile-feed-supplements-mobility.jpg",
+                "background_image_position": "cover",
+                "content_overlay": true,
+                "content_match_height": false,
+                "image_ratio": "adapt",
+                "image_ratio_mobile": "adapt",
+                "border": "none",
+                "toggle_overlay": true,
+                "overlay_color": "#19264D80",
+                "overlay_style": "gradient",
+                "gradient_direction": "to top",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "horizontal_alignment_flex_direction_column_mobile": "center",
+                "vertical_alignment_flex_direction_column_mobile": "flex-end"
+              },
+              "blocks": {
+                "label": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Supplements (Mobility)</p>",
+                    "width": "100%",
+                    "inherit_text_alignment": false,
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2.8rem",
+                    "font_weight": "700",
+                    "case": "uppercase",
+                    "color": "var(--color-foreground)"
+                  }
+                },
+                "cta": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Shop Now",
+                    "link": "shopify://collections/supplements-mobility",
+                    "style_class": "button"
+                  }
+                },
+                "bottom_space": {
+                  "type": "spacer",
+                  "settings": {
+                    "spacer_height": 30,
+                    "spacer_width": 0
+                  }
+                }
+              },
+              "block_order": [
+                "label",
+                "cta",
+                "bottom_space"
+              ]
+            }
+          },
+          "block_order": [
+            "tile_breeding_bone",
+            "tile_digestive_feed_oils",
+            "tile_digestive_performance",
+            "tile_electrolytes",
+            "tile_leg_care",
+            "tile_muscle_support",
+            "tile_mobility"
+          ]
+        }
+      },
+      "block_order": [
+        "tiles"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "section_width": "custom",
+        "page_width_custom": 1720,
+        "color_scheme": "scheme-3",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      },
+      "custom_css": [
+        ".multicolumn-list{display:flex;flex-wrap:wrap;justify-content:center;gap:64px}",
+        ".multicolumn-list>.grid__item{flex:0 0 calc((100% - 192px)/4);max-width:calc((100% - 192px)/4)}",
+        "@media (max-width:1024px){.multicolumn-list{gap:32px}.multicolumn-list>.grid__item{flex-basis:calc((100% - 32px)/2);max-width:calc((100% - 32px)/2)}}",
+        "@media (max-width:749px){.multicolumn-list>.grid__item{flex-basis:100%;max-width:100%}}"
+      ]
+    }
+  },
+  "order": [
+    "section_VANEPW",
+    "section_AFAwz8",
+    "section_qePXUa",
+    "featured_collection_X6CNNt",
+    "section_kNLbDR",
+    "featured_collection_kMJbym",
+    "section_xdbiAH",
+    "featured_collection_HHGbhF",
+    "collection_list_c9rfbJ"
+  ]
+}

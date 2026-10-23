@@ -1,0 +1,634 @@
+{%- liquid
+  assign s = section.settings
+  assign hero_heading_regular = settings.type_header_font | font_modify: 'weight', '400'
+  assign hero_heading_italic = hero_heading_regular | font_modify: 'style', 'italic'
+-%}
+<style>
+  {{ hero_heading_regular | font_face: font_display: 'swap' }}
+  {{ hero_heading_italic | font_face: font_display: 'swap' }}
+  #pc-hero-{{ section.id }} {
+    --pc-navy: #19264D;
+    --pc-navy-dark: #1A2137;
+    --pc-gold: #C2A260;
+    --pc-pad: clamp(20px, 7.8125vw, 150px);
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: clamp(440px, 34.17vw, {{ s.height }}px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: {{ s.focal }};
+    z-index: 0;
+  }
+  /* Figma 26:18 - three stacked overlays */
+  #pc-hero-{{ section.id }} .pc-hero__scrim {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    opacity: {{ s.overlay_opacity | default: 100 | divided_by: 100.0 }};
+    background:
+      linear-gradient(87.86deg, rgba(102,102,102,0) 82.16%, rgba(26,33,55,0.7) 91.7%),
+      linear-gradient(to right, rgba(26,33,55,0.7) 0%, rgba(43,47,57,0.55) 35.1%, rgba(102,102,102,0) 67.8%),
+      linear-gradient(to right, var(--pc-navy-dark) 0%, rgba(43,47,57,0.79) 35.1%, rgba(102,102,102,0) 67.8%);
+  }
+  #pc-hero-{{ section.id }} .pc-hero__inner {
+    position: relative; z-index: 2;
+    min-height: clamp(440px, 34.17vw, {{ s.height }}px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 40px;
+    padding: var(--pc-pad) clamp(20px, 8.333vw, 160px);
+    box-sizing: border-box;
+  }
+
+  /* ---- column 1: text ---- */
+  #pc-hero-{{ section.id }} .pc-hero__text {
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: clamp(16px, 1.667vw, 32px);
+    max-width: clamp(280px, 32.55vw, 625px);
+    min-width: 0;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__copy {
+    display: flex; flex-direction: column; gap: clamp(12px, 1.25vw, 24px);
+  }
+  #pc-hero-{{ section.id }} .pc-hero__eyebrow {
+    margin: 0 0 calc(clamp(12px, 1.25vw, 24px) * -0.5 - clamp(8px, .9375vw, 18px));
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 400;
+    font-size: clamp(14px, 1.042vw, 20px);
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--pc-gold);
+  }
+  #pc-hero-{{ section.id }} .pc-hero__title {
+    margin: 0;
+    font-family: {{ hero_heading_regular.family }}, {{ hero_heading_regular.fallback_families }};
+    font-weight: 400;
+    font-size: clamp(32px, 3.4375vw, 66px);
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__title em {
+    font-style: italic;
+    color: var(--pc-gold);
+    font-weight: 400;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__sub {
+    margin: 0;
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 400;
+    font-size: clamp(15px, 1.042vw, 20px); line-height: 1.5;
+    letter-spacing: 0.25px;
+    max-width: 30em;
+    color: #E2E5E9;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--pc-gold); color: #ffffff;
+    padding: clamp(10px, .625vw, 12px) clamp(20px, 1.667vw, 32px);
+    border-radius: var(--style-border-radius-buttons-primary);
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 700; font-size: clamp(12px, .729vw, 14px); line-height: 20px;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    text-decoration: none; white-space: nowrap;
+    transition: background .2s ease, color .2s ease;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__cta:hover { background: #ffffff; color: var(--pc-navy); }
+
+  /* ---- column 2: glass filter bar (Figma 59:2) ---- */
+  #pc-hero-{{ section.id }} .pc-hero__filter {
+    display: flex; align-items: stretch; justify-self: end;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__fields {
+    display: flex; align-items: stretch;
+    background: rgba(255,255,255,0.5);
+    -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+    border-radius: var(--inputs-radius) 0 0 var(--inputs-radius);
+    overflow: hidden;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__field {
+    position: relative; width: clamp(150px, 10.4167vw, 200px);
+  }
+  #pc-hero-{{ section.id }} .pc-hero__field + .pc-hero__field::before {
+    content: ""; position: absolute; left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 1px; height: 24px;
+    background: rgba(25,38,77,0.25);
+  }
+  #pc-hero-{{ section.id }} .pc-hero__field select {
+    appearance: none; -webkit-appearance: none;
+    width: 100%; height: 100%;
+    background: transparent; border: 0; outline: none;
+    padding: clamp(10px, .625vw, 12px) clamp(28px, 2.1vw, 40px) clamp(10px, .625vw, 12px) clamp(16px, 1.667vw, 32px);
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 700; font-size: clamp(12px, .729vw, 14px); line-height: 20px;
+    letter-spacing: 1.4px; text-transform: capitalize;
+    color: var(--pc-navy); cursor: pointer;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__chev {
+    position: absolute; right: clamp(12px, 1.25vw, 24px); top: 50%; transform: translateY(-50%);
+    width: 11px; height: 6px; pointer-events: none;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__field .pc-hero__chev svg { display: block; width: 11px; height: 6px; min-width: 0; min-height: 0; }
+  #pc-hero-{{ section.id }} .pc-hero__go {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    width: clamp(110px, 7.8125vw, 150px);
+    background: var(--pc-gold); color: #ffffff;
+    border: 0; border-radius: 0 var(--inputs-radius) var(--inputs-radius) 0;
+    padding: clamp(10px, .625vw, 12px) clamp(14px, 1.25vw, 24px); cursor: pointer;
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 700; font-size: clamp(12px, .729vw, 14px); line-height: 20px;
+    letter-spacing: 1.4px; text-transform: uppercase;
+  }
+  #pc-hero-{{ section.id }} .pc-hero__go svg { width: 15px; height: 15px; flex: 0 0 15px; }
+  #pc-hero-{{ section.id }} .pc-hero__go:hover { background: #ffffff; color: var(--pc-navy); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1200px) {
+    #pc-hero-{{ section.id }} .pc-hero__inner { grid-template-columns: 1fr; gap: 32px; }
+    #pc-hero-{{ section.id }} .pc-hero__filter { justify-self: start; }
+  }
+  @media (max-width: 900px) {
+    #pc-hero-{{ section.id }} { --pc-pad: 32px; min-height: 520px; }
+    #pc-hero-{{ section.id }} .pc-hero__inner { min-height: 520px; }
+            #pc-hero-{{ section.id }} .pc-hero__filter { flex-wrap: wrap; gap: 8px; }
+    #pc-hero-{{ section.id }} .pc-hero__fields { flex-wrap: wrap; border-radius: var(--inputs-radius); }
+    #pc-hero-{{ section.id }} .pc-hero__go { border-radius: var(--inputs-radius); }
+  }
+  @media (max-width: 749px) {
+    /* Phones crop away the image's own dark side, so always darken behind the copy */
+    #pc-hero-{{ section.id }} .pc-hero__scrim {
+      opacity: 1;
+      background: linear-gradient(to bottom, rgba(26,33,55,0.8) 0%, rgba(26,33,55,0.55) 60%, rgba(26,33,55,0.35) 100%);
+    }
+  }
+  @media (max-width: 600px) {
+    #pc-hero-{{ section.id }} { --pc-pad: 20px; min-height: 460px; }
+    #pc-hero-{{ section.id }} .pc-hero__inner { min-height: 460px; }
+            #pc-hero-{{ section.id }} .pc-hero__text { gap: 24px; }
+    #pc-hero-{{ section.id }} .pc-hero__copy { gap: 16px; }
+    #pc-hero-{{ section.id }} .pc-hero__field,
+    #pc-hero-{{ section.id }} .pc-hero__go { width: 100%; }
+    #pc-hero-{{ section.id }} .pc-hero__field + .pc-hero__field::before { display: none; }
+    #pc-hero-{{ section.id }} .pc-hero__field + .pc-hero__field { border-top: 1px solid rgba(25,38,77,0.14); }
+  }
+
+  /* ---------- Branded pickers (replace the browser's native select list) ----------
+     JS adds .is-enhanced and a trigger button per <select>; the selects stay in the
+     form (visually hidden) so submit logic and no-JS fallback are unchanged. */
+  #pc-hero-{{ section.id }} pc-hero-filter.is-enhanced .pc-hero__field select {
+    position: absolute; inset: 0; opacity: 0; pointer-events: none;
+  }
+  #pc-hero-{{ section.id }} .pc-pick__trigger {
+    display: flex; align-items: center; width: 100%; height: 100%; min-height: 44px;
+    background: transparent; border: 0; margin: 0; cursor: pointer; text-align: left;
+    padding: clamp(10px, .625vw, 12px) clamp(28px, 2.1vw, 40px) clamp(10px, .625vw, 12px) clamp(16px, 1.667vw, 32px);
+    font-family: var(--font-body--family, sans-serif);
+    font-weight: 700; font-size: clamp(12px, .729vw, 14px); line-height: 20px;
+    letter-spacing: 1.4px; text-transform: capitalize; color: var(--pc-navy);
+    -webkit-tap-highlight-color: transparent;
+  }
+  #pc-hero-{{ section.id }} .pc-pick__trigger .pc-pick__value {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  #pc-hero-{{ section.id }} .pc-pick__trigger[aria-disabled="true"] { color: rgba(25,38,77,0.5); }
+  #pc-hero-{{ section.id }} .pc-pick__trigger:focus-visible { outline: 2px solid var(--pc-gold); outline-offset: -2px; }
+  #pc-hero-{{ section.id }} .pc-pick__trigger[aria-expanded="true"] ~ .pc-hero__chev { transform: translateY(-50%) rotate(180deg); }
+  #pc-hero-{{ section.id }} .pc-hero__chev { transition: transform .2s ease; }
+
+  /* The panel is moved to <body> so the hero's overflow/backdrop-filter can't clip it */
+  .pc-pick__panel {
+    --pc-navy: #19264D; --pc-navy-dark: #141C33; --pc-gold: #C2A260;
+    position: fixed; z-index: 1000; box-sizing: border-box;
+    background: var(--pc-navy-dark);
+    color: #E2E5E9;
+    border: 1px solid rgba(194,162,96,0.35);
+    border-radius: 6px;
+    box-shadow: 0 18px 48px rgba(10,14,28,0.45);
+    font-family: var(--font-body--family, sans-serif);
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity .18s ease, transform .18s ease;
+    overflow: hidden;
+  }
+  .pc-pick__panel.is-open { opacity: 1; transform: none; }
+  .pc-pick__panel[hidden] { display: none; }
+  .pc-pick__head { display: none; }
+  .pc-pick__list {
+    list-style: none; margin: 0; padding: 6px 0;
+    max-height: min(360px, 60vh); overflow-y: auto; overscroll-behavior: contain;
+    scrollbar-width: thin; scrollbar-color: rgba(194,162,96,0.5) transparent;
+  }
+  .pc-pick__option {
+    position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    box-sizing: border-box; margin: 0; padding: 11px 20px 11px 22px; cursor: pointer;
+    font-size: 14px; line-height: 20px; letter-spacing: .3px; font-weight: 500;
+    color: #E2E5E9; outline: none;
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .pc-pick__option + .pc-pick__option { box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+  .pc-pick__option:hover, .pc-pick__option:focus-visible { background: rgba(194,162,96,0.12); color: #fff; }
+  .pc-pick__option::before {
+    content: ""; position: absolute; left: 0; top: 50%; width: 2px; height: 0;
+    background: var(--pc-gold); transform: translateY(-50%); transition: height .15s ease;
+  }
+  .pc-pick__option[aria-selected="true"] { color: var(--pc-gold); font-weight: 700; }
+  .pc-pick__option[aria-selected="true"]::before { height: 60%; }
+  .pc-pick__check { width: 14px; height: 14px; flex: 0 0 14px; opacity: 0; color: var(--pc-gold); }
+  .pc-pick__option[aria-selected="true"] .pc-pick__check { opacity: 1; }
+  .pc-pick__backdrop {
+    position: fixed; inset: 0; z-index: 999; background: rgba(10,14,28,0.55);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    opacity: 0; transition: opacity .22s ease;
+  }
+  .pc-pick__backdrop.is-open { opacity: 1; }
+  .pc-pick__backdrop[hidden] { display: none; }
+
+  /* Phones: a branded bottom sheet instead of the Android/iOS native list */
+  @media (max-width: 749px) {
+    .pc-pick__panel {
+      left: 0 !important; right: 0; bottom: 0; top: auto !important; width: auto !important;
+      border-radius: 18px 18px 0 0; border-width: 1px 0 0;
+      transform: translateY(100%); opacity: 1;
+      transition: transform .28s cubic-bezier(.2,.8,.2,1);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .pc-pick__panel.is-open { transform: none; }
+    .pc-pick__head {
+      display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 4px 12px;
+      padding: 26px 20px 16px; position: relative;
+      border-bottom: 1px solid rgba(194,162,96,0.25);
+    }
+    .pc-pick__grab {
+      position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+      width: 40px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.22);
+    }
+    .pc-pick__eyebrow {
+      grid-column: 1 / -1; margin: 0;
+      font-size: 11px; line-height: 16px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--pc-gold);
+    }
+    .pc-pick__title {
+      margin: 0; color: #fff; font-weight: 400; font-size: 24px; line-height: 1.25; letter-spacing: .3px;
+      font-family: {{ hero_heading_regular.family }}, {{ hero_heading_regular.fallback_families }};
+    }
+    .pc-pick__close {
+      width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18);
+      background: transparent; color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; padding: 0;
+    }
+    .pc-pick__close svg { width: 12px; height: 12px; }
+    .pc-pick__list { max-height: 62vh; padding: 4px 0 12px; }
+    .pc-pick__option { min-height: 52px; padding: 14px 22px 14px 24px; font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pc-pick__panel, .pc-pick__backdrop, #pc-hero-{{ section.id }} .pc-hero__chev { transition: none; }
+  }
+</style>
+
+
+<section id="pc-hero-{{ section.id }}" class="pc-hero">
+  {%- if s.image != blank -%}
+    <img
+      class="pc-hero__bg"
+      src="{{ s.image | image_url: width: 2600 }}"
+      srcset="{{ s.image | image_url: width: 900 }} 900w, {{ s.image | image_url: width: 1400 }} 1400w, {{ s.image | image_url: width: 1920 }} 1920w, {{ s.image | image_url: width: 2600 }} 2600w"
+      sizes="100vw"
+      width="{{ s.image.width }}"
+      height="{{ s.image.height }}"
+      alt="{{ s.image.alt | escape }}"
+      loading="eager"
+      fetchpriority="high"
+    >
+  {%- endif -%}
+  <div class="pc-hero__scrim"></div>
+
+  <div class="pc-hero__inner">
+    <div class="pc-hero__text">
+      <div class="pc-hero__copy">
+        {%- if s.eyebrow != blank -%}
+          <p class="pc-hero__eyebrow">{{ s.eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="pc-hero__title">{{ s.heading }}{% if s.heading_accent != blank %} <em>{{ s.heading_accent }}</em>{% endif %}</h1>
+        {%- if s.subheading != blank -%}
+          <p class="pc-hero__sub">{{ s.subheading }}</p>
+        {%- endif -%}
+      </div>
+      {%- if s.cta_label != blank -%}
+        <a class="pc-hero__cta" href="{{ s.cta_link | default: routes.all_products_collection_url }}">{{ s.cta_label }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if s.show_filter -%}
+      {%- liquid
+        assign filter_menu = s.filter_menu | default: 'main-menu'
+        assign filter_links = linklists[filter_menu].links
+      -%}
+      <pc-hero-filter data-eyebrow="{{ s.eyebrow | escape }}">
+        <form class="pc-hero__filter" action="{{ routes.collections_url }}/vendors" method="get" role="search">
+          <div class="pc-hero__fields">
+            <div class="pc-hero__field">
+              <select data-role="category" aria-label="{{ s.filter_label_1 | escape }}">
+                <option value="">{{ s.filter_label_1 }}</option>
+                {%- for link in filter_links -%}
+                  {%- if link.type == 'collection_link' and link.object.handle != 'brands' -%}
+                    <option value="{{ link.url }}" data-children="{{ forloop.index0 }}">{{ link.title }}</option>
+                  {%- endif -%}
+                {%- endfor -%}
+              </select>
+              <span class="pc-hero__chev" aria-hidden="true">
+                <svg viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="#19264D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="pc-hero__field">
+              <select data-role="subcategory" aria-label="{{ s.filter_label_2 | escape }}">
+                <option value="">{{ s.filter_label_2 }}</option>
+              </select>
+              <span class="pc-hero__chev" aria-hidden="true">
+                <svg viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="#19264D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div class="pc-hero__field">
+              <select data-role="brand" name="q" aria-label="{{ s.filter_label_3 | escape }}">
+                <option value="">{{ s.filter_label_3 }}</option>
+                {%- for vendor in shop.vendors -%}
+                  <option value="{{ vendor | escape }}">{{ vendor }}</option>
+                {%- endfor -%}
+              </select>
+              <span class="pc-hero__chev" aria-hidden="true">
+                <svg viewBox="0 0 11 6" fill="none"><path d="M1 1l4.5 4L10 1" stroke="#19264D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+          <button class="pc-hero__go" type="submit">
+            {{ s.search_label }}
+            <svg viewBox="0 0 18 19" fill="none" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 1 1 2.85 3.5a5.784 5.784 0 0 1 8.18 8.18m.26 1.12a6.78 6.78 0 1 1 .72-.7l5.4 5.4a.5.5 0 1 1-.71.7z" clip-rule="evenodd"/></svg>
+          </button>
+        </form>
+        <script type="application/json" data-role="children">
+          [
+            {%- for link in filter_links -%}
+              [
+                {%- for child in link.links -%}
+                  {"title": {{ child.title | json }}, "url": {{ child.url | json }}}{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              ]{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        </script>
+      </pc-hero-filter>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  if (!customElements.get('pc-hero-filter')) {
+    customElements.define('pc-hero-filter', class extends HTMLElement {
+      connectedCallback() {
+        this.form = this.querySelector('form');
+        this.category = this.querySelector('[data-role="category"]');
+        this.subcategory = this.querySelector('[data-role="subcategory"]');
+        this.brand = this.querySelector('[data-role="brand"]');
+        this.subPlaceholder = this.subcategory.options[0].textContent;
+        try { this.childLinks = JSON.parse(this.querySelector('[data-role="children"]').textContent); } catch (e) { this.childLinks = []; }
+        this.category.addEventListener('change', () => this.fillSubcategories());
+        this.form.addEventListener('submit', (event) => this.onSubmit(event));
+        this.fillSubcategories();
+        this.enhance();
+      }
+      disconnectedCallback() {
+        this.closePicker(true);
+        (this.pickers || []).forEach((p) => p.panel.remove());
+        if (this.backdrop) this.backdrop.remove();
+        if (this.onDocKey) document.removeEventListener('keydown', this.onDocKey);
+        if (this.onDocClick) document.removeEventListener('click', this.onDocClick);
+        if (this.onReflow) { window.removeEventListener('scroll', this.onReflow, true); window.removeEventListener('resize', this.onReflow); }
+      }
+      fillSubcategories() {
+        const opt = this.category.selectedOptions[0];
+        const kids = opt && opt.dataset.children ? this.childLinks[+opt.dataset.children] || [] : [];
+        this.subcategory.replaceChildren(new Option(this.subPlaceholder, ''));
+        kids.forEach((kid) => this.subcategory.add(new Option(kid.title, kid.url)));
+        this.subcategory.disabled = kids.length === 0;
+        this.syncTriggers();
+      }
+
+      /* ---- Branded pickers: replace the native select list with a navy panel
+         (anchored dropdown on desktop, bottom sheet on phones). The <select>s stay
+         the source of truth, so the submit logic above is untouched. ---- */
+      enhance() {
+        this.mobile = window.matchMedia('(max-width: 749px)');
+        this.backdrop = document.createElement('div');
+        this.backdrop.className = 'pc-pick__backdrop';
+        this.backdrop.hidden = true;
+        this.backdrop.addEventListener('click', () => this.closePicker());
+        document.body.appendChild(this.backdrop);
+        this.pickers = [this.category, this.subcategory, this.brand].map((select) => this.buildPicker(select));
+        this.classList.add('is-enhanced');
+        this.syncTriggers();
+        this.onDocKey = (e) => this.handleKey(e);
+        document.addEventListener('keydown', this.onDocKey);
+        this.onReflow = () => { if (this.open && !this.mobile.matches) this.place(this.open); };
+        window.addEventListener('scroll', this.onReflow, true);
+        window.addEventListener('resize', this.onReflow);
+        this.onDocClick = (e) => {
+          if (!this.open) return;
+          if (this.open.panel.contains(e.target) || this.pickers.some((p) => p.trigger.contains(e.target))) return;
+          this.closePicker();
+        };
+        document.addEventListener('click', this.onDocClick);
+      }
+      buildPicker(select) {
+        const field = select.closest('.pc-hero__field');
+        const name = select.getAttribute('aria-label') || '';
+        const uid = 'pc-pick-' + Math.random().toString(36).slice(2, 8);
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'pc-pick__trigger';
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-controls', uid);
+        trigger.innerHTML = '<span class="pc-pick__value"></span>';
+        select.setAttribute('tabindex', '-1');
+        select.setAttribute('aria-hidden', 'true');
+        field.insertBefore(trigger, select);
+
+        const panel = document.createElement('div');
+        panel.className = 'pc-pick__panel';
+        panel.hidden = true;
+        panel.innerHTML =
+          '<div class="pc-pick__head"><span class="pc-pick__grab" aria-hidden="true"></span>' +
+          '<p class="pc-pick__eyebrow"></p><p class="pc-pick__title"></p>' +
+          '<button type="button" class="pc-pick__close" aria-label="Close"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>' +
+          '<ul class="pc-pick__list" role="listbox" tabindex="-1"></ul>';
+        panel.querySelector('.pc-pick__eyebrow').textContent = this.dataset.eyebrow || '';
+        panel.querySelector('.pc-pick__title').textContent = name;
+        const list = panel.querySelector('.pc-pick__list');
+        list.id = uid;
+        list.setAttribute('aria-label', name);
+        panel.querySelector('.pc-pick__close').addEventListener('click', () => this.closePicker());
+        document.body.appendChild(panel);
+
+        const picker = { select, trigger, panel, list, field };
+        trigger.addEventListener('click', () => {
+          if (trigger.getAttribute('aria-disabled') === 'true') {
+            // Subcategory before a category: guide the shopper to the category list
+            const cat = this.pickers[0];
+            if (cat !== picker) { this.openPicker(cat); }
+            return;
+          }
+          this.open === picker ? this.closePicker() : this.openPicker(picker);
+        });
+        list.addEventListener('click', (e) => {
+          const li = e.target.closest('.pc-pick__option');
+          if (li) this.choose(picker, li.dataset.value);
+        });
+        return picker;
+      }
+      syncTriggers() {
+        (this.pickers || []).forEach(({ select, trigger }) => {
+          const opt = select.selectedOptions[0] || select.options[0];
+          trigger.querySelector('.pc-pick__value').textContent = opt ? opt.textContent : '';
+          trigger.setAttribute('aria-disabled', select.disabled ? 'true' : 'false');
+          trigger.setAttribute('aria-label', (select.getAttribute('aria-label') || '') + (select.value ? ': ' + opt.textContent : ''));
+        });
+      }
+      renderOptions(picker) {
+        const { select, list } = picker;
+        list.replaceChildren();
+        Array.from(select.options).forEach((opt) => {
+          if (!opt.value) return; // the placeholder is the trigger label, not a choice
+          const li = document.createElement('li');
+          li.className = 'pc-pick__option';
+          li.setAttribute('role', 'option');
+          li.tabIndex = -1;
+          li.dataset.value = opt.value;
+          li.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+          const label = document.createElement('span');
+          label.textContent = opt.textContent;
+          li.appendChild(label);
+          li.insertAdjacentHTML('beforeend', '<svg class="pc-pick__check" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5l3.2 3L12 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+          list.appendChild(li);
+        });
+      }
+      place(picker) {
+        const r = picker.field.getBoundingClientRect();
+        const width = Math.max(r.width, 260);
+        const left = Math.min(r.left, window.innerWidth - width - 12);
+        const below = window.innerHeight - r.bottom;
+        picker.panel.style.width = width + 'px';
+        picker.panel.style.left = Math.max(12, left) + 'px';
+        if (below < 240 && r.top > below) {
+          picker.panel.style.top = 'auto';
+          picker.panel.style.bottom = (window.innerHeight - r.top + 8) + 'px';
+        } else {
+          picker.panel.style.bottom = 'auto';
+          picker.panel.style.top = (r.bottom + 8) + 'px';
+        }
+      }
+      openPicker(picker) {
+        if (this.open) this.closePicker(true);
+        this.renderOptions(picker);
+        this.open = picker;
+        picker.trigger.setAttribute('aria-expanded', 'true');
+        if (this.mobile.matches) {
+          picker.panel.removeAttribute('style');
+          this.backdrop.hidden = false;
+          document.documentElement.style.overflow = 'hidden';
+        } else {
+          this.place(picker);
+        }
+        picker.panel.hidden = false;
+        requestAnimationFrame(() => {
+          picker.panel.classList.add('is-open');
+          this.backdrop.classList.toggle('is-open', this.mobile.matches);
+          const target = picker.list.querySelector('[aria-selected="true"]') || picker.list.querySelector('.pc-pick__option');
+          if (target) { target.focus({ preventScroll: true }); target.scrollIntoView({ block: 'nearest' }); }
+        });
+      }
+      closePicker(immediate) {
+        const picker = this.open;
+        if (!picker) return;
+        this.open = null;
+        picker.trigger.setAttribute('aria-expanded', 'false');
+        picker.panel.classList.remove('is-open');
+        this.backdrop.classList.remove('is-open');
+        document.documentElement.style.overflow = '';
+        const hide = () => { picker.panel.hidden = true; if (!this.open) this.backdrop.hidden = true; };
+        if (immediate) hide(); else setTimeout(hide, 280);
+        if (!immediate) picker.trigger.focus({ preventScroll: true });
+      }
+      choose(picker, value) {
+        picker.select.value = value;
+        picker.select.dispatchEvent(new Event('change', { bubbles: true }));
+        this.syncTriggers();
+        this.closePicker();
+      }
+      handleKey(e) {
+        if (!this.open) return;
+        const items = Array.from(this.open.list.querySelectorAll('.pc-pick__option'));
+        const i = items.indexOf(document.activeElement);
+        if (e.key === 'Escape') { e.preventDefault(); this.closePicker(); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); (items[i + 1] || items[0])?.focus(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); (items[i - 1] || items[items.length - 1])?.focus(); }
+        else if (e.key === 'Home') { e.preventDefault(); items[0]?.focus(); }
+        else if (e.key === 'End') { e.preventDefault(); items[items.length - 1]?.focus(); }
+        else if ((e.key === 'Enter' || e.key === ' ') && i > -1) { e.preventDefault(); this.choose(this.open, items[i].dataset.value); }
+        else if (e.key === 'Tab') { this.closePicker(true); }
+      }
+      onSubmit(event) {
+        const collectionUrl = this.subcategory.value || this.category.value;
+        const brand = this.brand.value;
+        if (!collectionUrl && !brand) { event.preventDefault(); return; }
+        if (!collectionUrl) return; // brand only: /collections/vendors?q=<brand>
+        event.preventDefault();
+        const url = new URL(collectionUrl, window.location.origin);
+        if (brand) url.searchParams.set('filter.p.vendor', brand);
+        window.location.href = url.pathname + url.search;
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Pro Cavalli hero",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    {
+      "type": "select",
+      "id": "focal",
+      "label": "Image focus",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "center top", "label": "Top" },
+        { "value": "center bottom", "label": "Bottom" },
+        { "value": "left center", "label": "Left" },
+        { "value": "right center", "label": "Right" }
+      ],
+      "default": "center center"
+    },
+    { "type": "range", "id": "height", "label": "Height (px)", "min": 400, "max": 896, "step": 8, "default": 656 },
+    { "type": "range", "id": "overlay_opacity", "label": "Dark overlay strength", "info": "Lower it for images that already have a dark left side.", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "header", "content": "Text" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (gold, above heading)", "default": "The Pro Standard" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Egypt's Leading Equestrian" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent (gold italic, optional)", "default": "Store." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Equipment selected for riders who demand more from themselves, their horses and their equipment." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Explore our collection" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Filter bar" },
+    { "type": "checkbox", "id": "show_filter", "label": "Show filter bar", "default": true },
+    { "type": "link_list", "id": "filter_menu", "label": "Category menu", "info": "Field 1 lists this menu's collection links; field 2 lists the chosen link's sub-links.", "default": "main-menu" },
+    { "type": "text", "id": "filter_label_1", "label": "Field 1 label", "default": "For Horses" },
+    { "type": "text", "id": "filter_label_2", "label": "Field 2 label", "default": "Category" },
+    { "type": "text", "id": "filter_label_3", "label": "Field 3 label", "default": "Brand" },
+    { "type": "text", "id": "search_label", "label": "Search button label", "default": "Search" }
+  ],
+  "presets": [{ "name": "Pro Cavalli hero" }]
+}
+{% endschema %}

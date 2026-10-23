@@ -1,0 +1,115 @@
+{%- doc -%}
+  Pro Cavalli: row of products shown under a product tab (used for "Care Products" under the Care Guide tab).
+  Products come from the product's `custom.care_products` metafield (list of products); when empty, from the fallback collection.
+
+  @param {object} product - The product whose page this is
+  @param {string} metafield_key - Product metafield (list of products) with the per-product picks
+  @param {object} [collection] - Fallback collection
+  @param {string} [heading] - Heading above the row
+  @param {number} [limit] - Max products (default 4)
+{%- enddoc -%}
+
+{%- liquid
+  assign limit = limit | default: 4
+  assign picked = product.metafields.custom[metafield_key].value
+  if picked != blank
+    assign tab_products = picked
+  else
+    assign tab_products = collection.products
+  endif
+-%}
+
+{%- if tab_products != blank -%}
+  <div class="pc-tab-products">
+    {%- if heading != blank -%}
+      <p class="pc-tab-products__heading">{{ heading }}</p>
+    {%- endif -%}
+    <ul class="pc-tab-products__list list-unstyled" role="list">
+      {%- for item in tab_products limit: limit -%}
+        {%- if item.id != product.id -%}
+          <li class="pc-tab-products__item">
+            <a class="pc-tab-products__link" href="{{ item.url }}">
+              <div class="pc-tab-products__media">
+                {%- if item.featured_image -%}
+                  {{ item.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', widths: '250, 375, 500', sizes: '(min-width: 1025px) 18vw, 45vw', alt: item.title }}
+                {%- endif -%}
+              </div>
+              <span class="pc-tab-products__title">{{ item.title }}</span>
+              <span class="pc-tab-products__price">
+                {%- if item.compare_at_price > item.price -%}
+                  <s>{{ item.compare_at_price | money }}</s>
+                {%- endif -%}
+                <span>{{ item.price | money }}</span>
+              </span>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .pc-tab-products {
+    margin-block-start: 32px;
+  }
+  .pc-tab-products__heading {
+    margin: 0 0 16px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--pc-navy, #19264D);
+  }
+  .pc-tab-products__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+  }
+  .pc-tab-products__item {
+    flex: 0 0 calc((100% - 3 * 24px) / 4);
+    max-width: calc((100% - 3 * 24px) / 4);
+  }
+  .pc-tab-products__link {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .pc-tab-products__media {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #F4F5F7;
+  }
+  .pc-tab-products__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pc-tab-products__title {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+  .pc-tab-products__price {
+    display: flex;
+    gap: 8px;
+    font-weight: 600;
+  }
+  .pc-tab-products__price s {
+    font-weight: 400;
+    color: #D82C23;
+  }
+  @media (max-width: 749px) {
+    .pc-tab-products__list {
+      gap: 16px;
+    }
+    .pc-tab-products__item {
+      flex-basis: calc((100% - 16px) / 2);
+      max-width: calc((100% - 16px) / 2);
+    }
+  }
+{% endstylesheet %}

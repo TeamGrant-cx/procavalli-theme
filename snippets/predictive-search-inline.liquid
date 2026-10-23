@@ -1,0 +1,98 @@
+{%- liquid
+  assign search_button_position = section.settings.search_button_position | default: 'right'
+  assign search_button_separated = false
+  if section.settings.search_button_gap > 0 or section.settings.search_button_border_radius > 0
+    assign search_button_separated = true
+  endif
+-%}
+<div
+  class="header__search header__search--inline header__search--{{ search_type }}"
+  style="--search-height: {{ section.settings.search_height | default: 45 }}px;"
+>
+  {%- if settings.predictive_search_enabled -%}
+    <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+  {%- else -%}
+    <search-form class="search-modal__form">
+  {%- endif -%}
+  <form
+    action="{{ routes.search_url }}"
+    method="get"
+    role="search"
+    class="search search--inline search-modal__form{% if color_scheme != blank %} color-{{ color_scheme }}{% endif %}"
+  >
+    <div class="predictive-search--center">
+      <div
+        class="field field--search-button-{{ search_button_position }}{% if section.settings.search_underline_opacity > 0 %} field--has-underline{% endif %}{% if search_button_separated %} field--search-button-separated{% endif %}"
+        style="
+          --search-underline-opacity: {{ section.settings.search_underline_opacity }};
+          --search-button-gap: {{ section.settings.search_button_gap | default: 0 }}px;
+          --search-button-border-radius: {{ section.settings.search_button_border_radius | default: 0 }}px;
+        "
+      >
+        {% unless search_button_position == 'none' %}
+          <button class="search__button field__button z-2" aria-label="{{ 'content.search' | t }}">
+            <span class="svg-wrapper">
+              {{- 'icon-search.svg' | inline_asset_content -}}
+            </span>
+          </button>
+        {% endunless %}
+        <input
+          class="search__input field__input {{ search_input_class }}"
+          id="{{ input_id }}"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'content.breadcrumb.search_header' | t }}"
+          style="{{ search_input_typography_style }}"
+          {%- if settings.predictive_search_enabled -%}
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          {%- endif -%}
+        >
+        {% comment %} <label class="field__label" for="{{ input_id }}">{{ 'content.search' | t }}</label> {% endcomment %}
+        <input type="hidden" name="options[prefix]" value="last">
+        <button
+          type="reset"
+          class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+          aria-label="{{ 'content.clear_search_term' | t }}"
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
+    </div>
+    {%- if settings.predictive_search_enabled -%}
+      <div
+        id="SearchDropdown"
+        class="details__list absolute w-full top-full right-0 z-1 global-settings-popup"
+        style="--min-w: 100%;"
+        tabindex="-1"
+      >
+        <div
+          class="predictive-search predictive-search--header predictive-search--center cus-scrollbar"
+          tabindex="-1"
+          data-predictive-search
+        >
+          {% render 'predictive-search-empty-state', shadow_opacity: 0.1, products_test_id: products_test_id, resource_direction: 'column' %}
+        </div>
+      </div>
+
+      <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+    {%- endif -%}
+  </form>
+
+  {%- if settings.predictive_search_enabled -%}
+    </predictive-search>
+  {%- else -%}
+    </search-form>
+  {%- endif -%}
+</div>

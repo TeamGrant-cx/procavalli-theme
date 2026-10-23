@@ -1,0 +1,54 @@
+{%- doc -%}
+  Pro Cavalli: container that only shows its blocks while the current product is in the cart.
+  Used for "Pairs well with": hidden on first view, revealed after the customer adds the product, hidden again if it is removed.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  assign in_cart = false
+  for item in cart.items
+    if item.product_id == product.id
+      assign in_cart = true
+      break
+    endif
+  endfor
+  if request.design_mode and block.settings.show_in_editor
+    assign in_cart = true
+  endif
+-%}
+
+<pc-show-if-in-cart
+  class="pc-show-if-in-cart"
+  data-product-id="{{ product.id }}"
+  {% unless in_cart %}hidden{% endunless %}
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</pc-show-if-in-cart>
+
+<script src="{{ 'pc-show-if-in-cart.js' | asset_url }}" defer="defer"></script>
+
+{% stylesheet %}
+  pc-show-if-in-cart {
+    display: block;
+  }
+  pc-show-if-in-cart[hidden] {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Show only if in cart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Everything inside appears only after this product has been added to the cart."
+    },
+    { "type": "checkbox", "id": "show_in_editor", "label": "Always show in the theme editor", "default": true }
+  ],
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "presets": [{ "name": "Show only if in cart" }]
+}
+{% endschema %}

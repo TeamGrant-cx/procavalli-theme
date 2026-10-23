@@ -1,0 +1,129 @@
+{%- doc -%}
+  Pro Cavalli: "Book an appointment" button.
+  Only renders for products whose `custom.booking_enabled` metafield is true.
+  On those products it hides the Add to cart / quantity / subtotal so booking replaces purchase.
+  The button links to a booking page (an app's booking page or contact page) and passes the product name.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  assign enabled = product.metafields.custom.booking_enabled.value
+  if block.settings.always_show or request.design_mode and block.settings.preview_in_editor
+    assign enabled = true
+  endif
+  assign booking_url = block.settings.link | default: routes.root_url
+  if booking_url contains '?'
+    assign joiner = '&'
+  else
+    assign joiner = '?'
+  endif
+-%}
+
+{%- if enabled -%}
+  <div class="pc-booking" {{ block.shopify_attributes }}>
+    <a class="pc-booking__button" href="{{ booking_url }}{{ joiner }}product={{ product.title | url_encode }}">
+      <svg class="pc-booking__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+        <rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/>
+      </svg>
+      <span>{{ block.settings.label }}</span>
+    </a>
+    {%- if block.settings.note != blank -%}
+      <p class="pc-booking__note">{{ block.settings.note }}</p>
+    {%- endif -%}
+  </div>
+
+  <script>
+    // If a booking app (Appointo) has put its own button on the page, open its calendar from ours;
+    // otherwise the link above is followed (booking page / contact page).
+    if (!window.pcBookingBound) {
+      window.pcBookingBound = true;
+      document.addEventListener('click', function (event) {
+        var trigger = event.target.closest('.pc-booking__button');
+        if (!trigger) return;
+        var appButton = document.querySelector('#appointo-btn');
+        if (appButton) {
+          event.preventDefault();
+          appButton.click();
+        }
+      });
+    }
+  </script>
+
+  {%- if block.settings.hide_app_button -%}
+    <style>
+      product-info[data-product-id="{{ product.id }}"] #appointo-btn {
+        display: none;
+      }
+    </style>
+  {%- endif -%}
+
+  {%- if block.settings.replace_add_to_cart -%}
+    <style>
+      product-info[data-product-id="{{ product.id }}"] .buy-buttons-block,
+      product-info[data-product-id="{{ product.id }}"] .sticky-add-to-cart {
+        display: none;
+      }
+    </style>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .pc-booking {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .pc-booking__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 24px;
+    background: #000000;
+    color: #FFFFFF;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  .pc-booking__button:hover {
+    background: #19264D;
+  }
+  .pc-booking__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+  }
+  .pc-booking__note {
+    margin: 0;
+    font-size: 12px;
+    color: #4B5563;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Book an appointment",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows only on products with the 'Book an appointment' metafield ticked."
+    },
+    { "type": "checkbox", "id": "always_show", "label": "Show on every product using this template", "info": "Used by the 'fitting' product template; ignores the metafield.", "default": false },
+    { "type": "text", "id": "label", "label": "Button label", "default": "Book an appointment" },
+    { "type": "url", "id": "link", "label": "Booking page", "info": "Used only when no booking app calendar is linked to the product. The product name is passed as ?product=..." },
+    { "type": "text", "id": "note", "label": "Note under the button", "default": "Personal fitting with our team — at our store or your stable." },
+    { "type": "checkbox", "id": "replace_add_to_cart", "label": "Hide Add to cart on bookable products", "default": true },
+    { "type": "checkbox", "id": "hide_app_button", "label": "Hide the booking app's own button", "info": "Our button opens the app calendar instead (Appointo).", "default": false },
+    { "type": "checkbox", "id": "preview_in_editor", "label": "Always show in the theme editor", "default": false }
+  ],
+  "presets": [{ "name": "Book an appointment" }]
+}
+{% endschema %}

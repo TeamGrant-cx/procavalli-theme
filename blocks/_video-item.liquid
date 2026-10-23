@@ -1,0 +1,457 @@
+{% capture video_style %}
+  {%  render 'spacing-style', settings: block.settings %}
+  {% render 'border-override', settings: block.settings %}
+   --size-style-aspect-ratio: {% if block.settings.source == 'uploaded' %}{{ block.settings.video.aspect_ratio | default: 'auto' }}{% else %}auto{% endif %};
+{% endcapture %}
+
+<div class="video-item grid__item swiper-slide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %} style="--animation-order: 1;"{% endif %} {{ block.shopify_attributes }}>
+  <div class="video-wrapper">
+    {% if block.settings.source == 'uploaded' %}
+      {% render 'video',
+        video: block.settings.video,
+        video_class: 'video-section__media spacing-style size-style border-style',
+        video_loop: true,
+        video_style: video_style,
+        video_preview_image: block.settings.video.preview_image,
+        video_layout: block.settings.video_layout,
+        additional_attributes: block.shopify_attributes
+      %}
+    {% else %}
+      {% render 'video',
+        video_from_url: true,
+        video: block.settings.video_url.id,
+        video_class: 'video-section__media spacing-style size-style border-style',
+        video_type: block.settings.video_url.type,
+        video_style: video_style,
+        video_alt: block.settings.alt,
+        video_preview_image: block.settings.cover_image,
+        video_layout: block.settings.video_layout,
+        additional_attributes: block.shopify_attributes
+      %}
+    {% endif %}
+  </div>
+
+  {%- if block.settings.featured_product != blank -%}
+    {%- if section.settings.layout == 'style-2' -%}
+      <div class="video-content-wrapper video-content-wrapper--style-2">
+        <div
+          class="video-item-testimonial border-style"
+          style="
+            --border-width: {{ block.settings.featured_product_border_width }}px;
+            --border-style: {{ block.settings.featured_product_border }};
+            --border-radius: {{ block.settings.featured_product_border_radius }}px;
+            --border-color: rgb(var(--color-border-rgb) / 100);
+            {% if block.settings.featured_product_border != 'none' and block.settings.featured_product_border_width > 0 %}
+              --p: .5rem;
+            {% endif %}
+            {% if block.settings.featured_product_border != 'none' and block.settings.featured_product_border_radius > 0 %}
+              overflow: hidden;
+            {% endif %}
+          "
+        >
+          {%- if block.settings.testimonial_rating > 0 -%}
+            <div
+              class="testimonial-stars"
+              style="
+                --rated-color: {{ block.settings.rated_color }};
+                --unrated-color: {{ block.settings.unrated_color }};
+                --unrated-border-color: {{ block.settings.unrated_border_color }};
+              "
+            >
+              {%- for star in (1..5) -%}
+                <span class="star-icon">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="{% if star <= block.settings.testimonial_rating %}currentColor{% else %}var(--unrated-color){% endif %}"
+                    stroke="{% if star <= block.settings.testimonial_rating %}currentColor{% else %}var(--unrated-border-color){% endif %}"
+                    stroke-width="1"
+                  >
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                  </svg>
+                </span>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.testimonial_text != blank -%}
+            <div class="testimonial-quote">
+              {{ block.settings.testimonial_text }}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.testimonial_author != blank -%}
+            <cite class="testimonial-author">{{ block.settings.testimonial_author }}</cite>
+          {%- endif -%}
+
+          <div class="testimonial-product-card">
+            {%- assign card_product = block.settings.featured_product -%}
+            <div class="mini-product-img">
+              {%- if card_product.featured_media -%}
+                {{ card_product.featured_media | image_url: width: 120 | image_tag: loading: 'lazy', class: 'motion-reduce' }}
+              {%- else -%}
+                {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            <div class="mini-product-info">
+              <span class="mini-product-vendor">{{ card_product.vendor | default: card_product.type }}</span>
+              <div class="mini-product-title">
+                <a href="{{ card_product.url }}" class="full-unstyled-link">{{ card_product.title }}</a>
+              </div>
+            </div>
+            
+            <div class="mini-product-action">
+              {% assign product_form_id = 'quick-add-' | append: section.id | append: card_product.id %}
+              {%- liquid
+                assign qty_rules = false
+                if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
+                  assign qty_rules = true
+                endif
+              -%}
+              {%- if card_product.variants.size > 1 or qty_rules -%}
+                <modal-opener data-modal="#QuickAddStandard">
+                  <button
+                    id="{{ product_form_id }}-submit"
+                    type="submit"
+                    name="add"
+                    class="quick-add-plus-btn add-to-cart-button"
+                    aria-haspopup="dialog"
+                    aria-labelledby="{{ product_form_id }}-submit title-{{ section.id }}-{{ card_product.id }}"
+                    data-product-url="{{ card_product.url }}"
+                  >
+                    <span class="plus-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" overflow="visible"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+                    </span>
+                    {%- render 'loading-spinner' -%}
+                  </button>
+                </modal-opener>
+              {%- else -%}
+                <product-form-component data-section-id="{{ section.id }}">
+                  {%- form 'product',
+                    card_product,
+                    id: product_form_id,
+                    class: 'form',
+                    novalidate: 'novalidate',
+                    data-type: 'add-to-cart-form'
+                  -%}
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="{{ card_product.selected_or_first_available_variant.id }}"
+                      class="product-variant-id"
+                      {% if card_product.selected_or_first_available_variant.available == false %}
+                        disabled
+                      {% endif %}
+                    >
+                    <button
+                      id="{{ product_form_id }}-submit"
+                      type="submit"
+                      name="add"
+                      class="quick-add-plus-btn add-to-cart-button"
+                      aria-haspopup="dialog"
+                      aria-labelledby="{{ product_form_id }}-submit title-{{ section.id }}-{{ card_product.id }}"
+                      aria-live="polite"
+                      data-sold-out-message="true"
+                      {% if card_product.selected_or_first_available_variant.available == false %}
+                        disabled
+                      {% endif %}
+                    >
+                      <span class="plus-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" overflow="visible"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+                      </span>
+                      {%- render 'loading-spinner' -%}
+                    </button>
+                  {%- endform -%}
+                </product-form-component>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="video-content-wrapper">
+        <div
+          class="product border-style"
+          style="
+            --border-width: {{ block.settings.featured_product_border_width }}px;
+            --border-style: {{ block.settings.featured_product_border }};
+            --border-radius: {{ block.settings.featured_product_border_radius }}px;
+            --border-color: rgb(var(--color-border-rgb) / 100);
+            {% if block.settings.featured_product_border != 'none' and block.settings.featured_product_border_width > 0 %}
+              --p: .5rem;
+            {% endif %}
+            {% if block.settings.featured_product_border != 'none' and block.settings.featured_product_border_radius > 0 %}
+              overflow: hidden;
+            {% endif %}
+          "
+        >
+          {% render 'product-card-list',
+            class: 'product-card-list-video-item',
+            card_product: block.settings.featured_product,
+            media_aspect_ratio: 'portrait',
+            show_secondary_image: false,
+            section_id: section.id,
+            quick_add: 'standard'
+          %}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:names.video",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "source",
+      "label": "t:settings.video_source",
+      "options": [
+        {
+          "value": "uploaded",
+          "label": "t:options.video_uploaded"
+        },
+        {
+          "value": "url",
+          "label": "t:options.video_external_url"
+        }
+      ],
+      "default": "uploaded"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:settings.video",
+      "visible_if": "{{ block.settings.source == 'uploaded' }}"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "t:settings.video_external_url",
+      "info": "t:info.video_external",
+      "accept": ["youtube", "vimeo"],
+      "visible_if": "{{ block.settings.source == 'url' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "t:settings.cover_image",
+      "visible_if": "{{ block.settings.source == 'url' }}"
+    },
+    {
+      "type": "select",
+      "id": "video_layout",
+      "label": "Video Controls Layout",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default Controls"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Minimal Controls"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "t:settings.video_alt_text",
+      "info": "t:info.video_alt_text",
+      "visible_if": "{{ block.settings.source == 'url' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.borders"
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "solid",
+          "label": "t:options.solid"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.thickness",
+      "default": 1,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "Featured product"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_text",
+      "label": "Testimonial text/quote",
+      "default": "“Effortless style, timeless appeal. Every garment is designed with precision to bring confidence, comfort, and contemporary elegance to your wardrobe.”",
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_author",
+      "label": "Testimonial author name",
+      "default": "Victoria Jenny",
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "range",
+      "id": "testimonial_rating",
+      "label": "Rating (Stars)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 5,
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "color",
+      "id": "rated_color",
+      "label": "Rated color",
+      "default": "#ffc107",
+      "alpha": true,
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "color",
+      "id": "unrated_color",
+      "label": "t:settings.unrated_color",
+      "default": "#C2C2C2",
+      "alpha": true,
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "color",
+      "id": "unrated_border_color",
+      "label": "t:settings.unrated_border_color",
+      "default": "#C2C2C2",
+      "alpha": true,
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "select",
+      "id": "featured_product_border",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "solid",
+          "label": "t:options.solid"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "range",
+      "id": "featured_product_border_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.thickness",
+      "default": 1,
+      "visible_if": "{{ block.settings.featured_product_border != 'none' and block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "range",
+      "id": "featured_product_border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.featured_product_border != 'none' and block.settings.featured_product != blank }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.video",
+      "category": "t:categories.basic"
+    }
+  ]
+}
+{% endschema %}

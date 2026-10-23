@@ -1,0 +1,628 @@
+/* Pro Cavalli — Figma alignment. Node 26:50 (announcement bar).
+   Figma: navy band, ONE row, gap 32px, py 8px, px 100px.
+   Countdown = single gold pill, radius 50px, inline "07 DAYS : 15 HOURS".
+   NOTE: section lives in a section group, so its DOM id is
+   shopify-section-sections--<id>__announcement_bar — target by the
+   block's own class instead. */
+
+/* NOTE ON BUTTON COLOURS — no CSS needed.
+   Buttons are coloured by the SECTION's colour scheme, via
+   primary_button_background / _text / _border (+ hover variants).
+   Not by the `button` block (44 settings, none for colour) and not by a
+   group's scheme_* settings (background/foreground/primary only).
+     story + event -> scheme-gold  (solid #C2A260, white label)
+     banner tiles  -> scheme-2     (white outline, fills white on hover)
+   ------------------------------------------------------------------ */
+
+/* NOTE ON "SHOP BY BRAND" (Figma 30:280) — no CSS needed.
+   It used to be an `image-carousel`, which holds one image per item and
+   nothing else, so four rules here forced 7-per-view and sized the slides.
+   It is now `multicolumn` in carousel mode with a `group` per brand
+   (border + padding + its own colour scheme) wrapping an `image` and a
+   `text` block, which is the card Figma draws. Everything — column count
+   7.6, 32px gaps, arrows, 1px #808080 border, radius 5 — is a setting.
+   ------------------------------------------------------------------ */
+
+/* ---- Footer (Figma 213:5749) --------------------------------------
+   Built from the theme's `footer` section + `menu` blocks. The menu
+   block's `details_content_*` settings only take effect in accordion
+   mode, so the flat list's size/case are set here. The heading also
+   reads scheme_foreground, not scheme_foreground_heading, hence white
+   is forced rather than configured. */
+[id*="footer"] .menu__heading__default {
+  color: #FFFFFF;
+}
+[id*="footer"] .menu__details .link__text,
+[id*="footer"] .menu__details a {
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: none;      /* Figma is Title Case, not uppercase */
+  letter-spacing: 0;
+}
+
+/* ---- Instagram gallery (Figma 95:196) -----------------------------
+   The `_media-gallery` wrapper block is static and cannot be written to
+   the template JSON, so the nine tiles sit directly in the section and
+   are laid out here: 3 columns, gap 32, tiles 1:1. */
+[id$="__pc_gallery"] .section { background: #F9FAFB; }
+
+/* Figma 95:248 — 1534x748 staggered collage, three visual columns.
+   Columns 1 and 3 run pair-then-tall; column 2 runs tall-then-pair.
+
+   That looks like it needs per-column row heights, which CSS grid cannot
+   do — but it decomposes into THREE rows: 224 / 236 / 224 with 32 gaps.
+     paired band  = row 1 (or 3)            = 224
+     tall tile    = two rows + the gap      = 236 + 32 + 224 = 492
+     total        = 224+32+236+32+224       = 748   (Figma exactly)
+   Six sub-columns give the pairs; a tall tile spans two of them.
+
+   The section renders all eleven blocks in one flex container
+   (.section-resource-list__content): title, subtitle, then nine tiles —
+   hence the nth-child(n+3) offset. */
+[id$="__pc_gallery"] .section-resource-list__content {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  /* rows 1-2: title, subtitle (each its own row — putting both on row 1
+     overlaps them). rows 3-5: the 224 / 236 / 224 collage bands. */
+  grid-template-rows:
+    auto
+    auto
+    clamp(90px, 11.67vw, 224px)
+    clamp(95px, 12.29vw, 236px)
+    clamp(90px, 11.67vw, 224px);
+  gap: clamp(12px, 1.667vw, 32px);
+  max-width: 1534px;
+  margin-inline: auto;
+}
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(1) { grid-column: 1 / -1; grid-row: 1; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(-n + 2) p { text-align: center; }
+
+/* column 1 — pair, then tall */
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(3)  { grid-column: 1;          grid-row: 3; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(4)  { grid-column: 2;          grid-row: 3; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(5)  { grid-column: 1 / span 2; grid-row: 4 / span 2; }
+/* column 2 — tall, then pair */
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(6)  { grid-column: 3 / span 2; grid-row: 3 / span 2; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(7)  { grid-column: 3;          grid-row: 5; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(8)  { grid-column: 4;          grid-row: 5; }
+/* column 3 — pair, then tall */
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(9)  { grid-column: 5;          grid-row: 3; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(10) { grid-column: 6;          grid-row: 3; }
+[id$="__pc_gallery"] .section-resource-list__content > *:nth-child(11) { grid-column: 5 / span 2; grid-row: 4 / span 2; }
+
+/* Figma 95:196 — pt 40, pb 80. Without this the collage butts into the footer. */
+[id$="__pc_gallery"] .section {
+  padding-block-start: clamp(28px, 2.0833vw, 40px);
+  padding-block-end: clamp(40px, 4.1667vw, 80px);
+}
+
+[id$="__pc_gallery"] .shopify-block:has(.instagram-item) { width: 100%; height: 100%; }
+[id$="__pc_gallery"] .instagram-item,
+[id$="__pc_gallery"] .instagram-item__image,
+[id$="__pc_gallery"] .instagram-item .image-block {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--product-card-corner-radius);
+}
+[id$="__pc_gallery"] .instagram-item .image-block__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   Header rows — Figma 123:450 (logo bar) and 26:94 (nav)
+   ============================================================ */
+
+/* Nav row: white, 1px #E5E7EB bottom border + faint shadow */
+.header__row--bottom {
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Top-level nav items: Inter 14px, 0.7px tracking, uppercase, #1F2937 (Figma 26:94) */
+.header__inline-menu .menu__link--level-1,
+.header__inline-menu > ul > li > a.header__menu-item,
+.header__inline-menu > ul > li > details > summary.header__menu-item {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #1F2937;
+}
+
+/* Active item: gold #C9A66B, SemiBold (Figma 26:107 "Home") */
+.header__inline-menu .header__active-menu-item,
+.header__inline-menu .list-menu__item--active,
+.header__inline-menu [aria-current='page'],
+.header__inline-menu > ul > li > a.header__menu-item[aria-current],
+.header__inline-menu .menu__link--level-1:hover {
+  color: #C9A66B;
+  font-weight: 600;
+}
+
+/* Inner pages: compact navy nav bar, white links (Figma 155:1057 / 177:2615 / 217:6365) */
+body:not(.template-index) .header__row--bottom,
+body:not(.template-index) .header:hover .header__row--bottom,
+body:not(.template-index) .header[data-sticky-state='active'] .header__row--bottom {
+  background: var(--pc-navy, #19264D);
+  border-bottom: 0;
+  padding-block: 4px;
+}
+body:not(.template-index) .header__inline-menu .menu__link--level-1,
+body:not(.template-index) .header__inline-menu > ul > li > a.header__menu-item,
+body:not(.template-index) .header__inline-menu > ul > li > details > summary.header__menu-item {
+  color: #FFFFFF;
+  font-size: 13px;
+  line-height: 20px;
+  padding-block: 0;
+  min-height: 20px;
+}
+body:not(.template-index) .header__inline-menu [aria-current='page'],
+body:not(.template-index) .header__inline-menu .menu__link--level-1:hover {
+  color: var(--pc-gold, #C2A260);
+}
+
+/* CART (0) in gold — Figma 123:476 */
+.header__icons .cart-count-bubble,
+.header__icon--cart .header-utility__text {
+  color: #C2A260;
+}
+
+/* Logo row: 1px #E2E4E9 bottom border — Figma 123:450 */
+.header-top,
+.header__row--top {
+  border-bottom: 1px solid #E2E4E9;
+}
+
+/* ============================================================
+   Row 2 — logo / search / utilities.  Figma 123:450
+   Verified class names from snippets/header-search.liquid and
+   snippets/header-functions.liquid (NOT .header__icons — no such node).
+   ============================================================ */
+
+/* --- Search submit button: gold, 62px wide (Figma px-24 + 14px icon) ---
+   .field__button has overflow:hidden, so padding must not squeeze the icon. */
+.header__search .search__button {
+  background: #C2A260 !important;
+  border-color: #C2A260 !important;
+  color: #ffffff !important;
+  border-radius: 0 var(--inputs-radius) var(--inputs-radius) 0 !important;
+  width: 62px !important;
+  min-width: 62px !important;
+  flex: 0 0 62px !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  --icon-size: 14px;
+}
+.header__search .search__button .svg-wrapper {
+  width: 14px !important;
+  height: 14px !important;
+  display: inline-flex !important;
+  overflow: visible !important;
+}
+.header__search .search__button svg {
+  width: 14px !important;
+  height: 14px !important;
+  display: block !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  color: #ffffff !important;
+}
+/* icon-search.svg has fill="none" on <svg> and fill="currentColor" on <path> */
+.header__search .search__button svg path {
+  fill: currentColor !important;
+}
+
+/* --- Search input: white, 1px #D1D5DB, 6px left radius --- */
+.header__search .field,
+.header__search .search__input {
+  border-radius: var(--inputs-radius) 0 0 var(--inputs-radius) !important;
+  border-color: #D1D5DB !important;
+  background: #ffffff !important;
+}
+.header__search .search__input,
+.header__search .field__label {
+  font-size: 14px !important;
+  color: #6B7280 !important;
+}
+
+/* --- CART in gold #C2A260 — Figma 123:476 --- */
+.header .header__icon--cart .cart-text,
+.header .header__icon--cart .cart-text *,
+.header .header__icon--cart .svg-wrapper,
+.header .header__icon--cart .svg-wrapper svg,
+.header .header__icon--cart .header-action-icon {
+  color: #C2A260 !important;
+}
+.header .header__icon--cart .svg-wrapper svg path {
+  fill: currentColor !important;
+}
+.header .cart-count-bubble {
+  background: #C2A260 !important;
+  color: #19264D !important;
+}
+
+/* --- LOG IN / WISHLISTS: Inter Regular 12px #4B5563 --- */
+.header .wishlist-text,
+.header .account-button__signed-out,
+.header .header__icon--account .text {
+  color: #4B5563 !important;
+}
+.header .header__icon--account .svg-wrapper svg,
+.header .header__icon--wishlist .svg-wrapper svg { color: #4B5563 !important; }
+
+/* --- Nav centred, single line at laptop widths --- */
+.header__inline-menu { justify-content: center; }
+@media (max-width: 1500px) {
+  .header__inline-menu .menu__link--level-1,
+  .header__inline-menu > ul > li > a.header__menu-item,
+  .header__inline-menu > ul > li > details > summary.header__menu-item {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .header__inline-menu > ul { --gap-x: 20px; }
+}
+
+/* ============================================================
+   Header logo row + utilities — Figma 155:508 / 123:450
+   Row: 20px / 21px padding, logo 217x38, utilities inline
+   (14px icon + 4px gap + 12px label), 24px between items.
+   ============================================================ */
+@media screen and (min-width: 1025px) {
+  .header__row--top .header__heading-link {
+    padding-block: 0;
+  }
+  .header__row--top .header__column--right {
+    gap: 24px;
+  }
+  .header__row--top .header__column--right .header__icon {
+    height: auto;
+    min-height: 0;
+    min-width: 0;
+    padding: 0;
+    gap: 4px;
+  }
+  .header__row--top .header__column--right .header__icon.header__icon--both .svg-wrapper,
+  .header__row--top .header__column--right .header__icon.header__icon--both .header-action-icon {
+    width: 14px;
+    height: 14px;
+    padding-inline: 0;
+  }
+  .header__row--top .header__column--right .header__icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  .header__row--top .header__column--right > .header__column-action--both:last-child {
+    margin-inline-end: 0;
+  }
+}
+/* shopify-account renders a 44px shadow-DOM box; clamp it to the label row */
+@media screen and (min-width: 1025px) {
+  .header__row--top shopify-account.header__icon {
+    max-height: 16px;
+    overflow: visible;
+  }
+}
+/* Desktop shows the count in the label — "CART (0)" (Figma 123:476) — so drop the icon bubble */
+@media screen and (min-width: 1025px) {
+  .header__row--top .header__icon--cart .cart-count-bubble,
+  .header__row--top .header__icon--wishlist .wishlist-count-bubble {
+    display: none; /* desktop shows the count in the label instead */
+  }
+  .header__row--top .header__icon--wishlist .wishlist-text-count {
+    margin-inline-start: 0.3em;
+  }
+  .header__row--top .header__icon--cart .cart-text [data-cart-count] {
+    margin-inline-start: 0.3em;
+  }
+}
+
+/* ============================================================
+   Product page — Figma 198:4516 (ProductOverviewSection)
+   ============================================================ */
+/* Add to cart uses the primary button style from the colour scheme (review
+   10 Oct 2026: gold background, navy text) - it was black here before. */
+.template-product product-form-component .wishlist-button,
+.template-product product-form-component .button.w-full.h-full {
+  background: #FFFFFF;
+  color: #1F2937;
+  border: 1px solid #E5E7EB;
+}
+.template-product .quantity__button {
+  background: transparent;
+  color: #1F2937;
+}
+/* Figma has no Buy it now / accelerated checkout under Add to cart */
+.template-product .shopify-payment-button {
+  display: none;
+}
+/* Brand / SKU / Availability: 12px grey labels, darker values */
+.template-product .product-info-item {
+  font-size: 12px;
+  color: #4B5563;
+}
+.template-product .product-info-value {
+  color: #1F2937;
+}
+/* price: 24px semibold, compare-at small */
+.template-product product-info .price,
+.template-product product-info .price .price-item--sale,
+.template-product product-info .price .price-item--last {
+  font-size: 24px;
+  font-weight: 600;
+}
+.template-product product-info .price s,
+.template-product product-info .price s *,
+.template-product product-info .price .compare-at-price {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--pc-sale, #D82C23);
+}
+/* "Pairs well with" (Figma 198:4544): complementary recommendations; heading only once products load */
+.template-product product-info product-recommendations:has(a[href*="/products/"])::before {
+  content: "Pairs well with";
+  display: block;
+  margin-block-end: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--pc-navy, #19264D);
+}
+/* Product tabs — Figma 404:747: small 12px tab titles, active underlined */
+.template-product .product-tabs [role="tab"],
+.template-product .tabs-header [role="tab"],
+.template-product .product-tabs__title {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+}
+.template-product .tabs-list .tab-title {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+}
+
+/* Laptop widths (1025-1365px): keep the 8-item main menu on one line */
+@media screen and (min-width: 1025px) and (max-width: 1365px) {
+  .header__inline-menu .menu__link--level-1,
+  .header__inline-menu > ul > li > a.header__menu-item,
+  .header__inline-menu > ul > li > details > summary.header__menu-item {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+  }
+  .header__inline-menu > ul { --gap-x: 12px; }
+}
+@media screen and (min-width: 1025px) and (max-width: 1199px) {
+  .header__inline-menu .menu__link--level-1,
+  .header__inline-menu > ul > li > a.header__menu-item,
+  .header__inline-menu > ul > li > details > summary.header__menu-item {
+    font-size: 11px;
+    letter-spacing: 0;
+    padding-inline: 6px;
+  }
+  .header__inline-menu > ul { --gap-x: 4px; }
+}
+
+/* Care Guide / tab content from a page: keep images and videos a readable size */
+.template-product .section-product-tabs .toggle-content img,
+.template-product .section-product-tabs .tab-content img {
+  display: block;
+  max-width: min(100%, 560px);
+  height: auto;
+}
+.template-product .section-product-tabs .toggle-content iframe,
+.template-product .section-product-tabs .toggle-content video {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+/* Product tabs: content is contained (1100px, like the tiles below) and centred */
+.template-product .section-product-tabs .tab-content > .toggle-content,
+.template-product .section-product-tabs .tab-content {
+  text-align: center;
+}
+.template-product .section-product-tabs .toggle-content {
+  max-width: 1100px;
+  margin-inline: auto;
+}
+.template-product .section-product-tabs .toggle-content img,
+.template-product .section-product-tabs .toggle-content iframe,
+.template-product .section-product-tabs .toggle-content video {
+  margin-inline: auto;
+}
+
+/* ============================================================
+   Cart drawer: each line showed its price twice, the unit price under the
+   name (the cart page's mobile price, which the drawer always shows) and
+   the line total on the right. Keep the line total. The cart page itself
+   is unchanged. */
+cart-drawer .cart-item__details .cart-item__price-wrapper {
+  display: none;
+}
+
+/* ============================================================
+   One price style everywhere, as on the product page (Figma 198:4516):
+   sale price first, larger and navy; compare-at price after it, small, red
+   and struck through. The colours are theme settings (sale_price navy,
+   compare_price red). This sets the order and size for the shared price
+   snippet: product cards, cart drawer suggestions, sticky add-to-cart. The
+   product page uses price-product and keeps its own 24/14px sizes above. */
+.price--on-sale .price__sale {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5em;
+}
+.price--on-sale .price__sale > .price-item--last {
+  order: -1;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+/* Cart lines (drawer and cart page) use the same price colours as everywhere
+   else: price in the price colour, compare-at struck in the compare colour
+   (theme settings default_price / compare_price). */
+.cart-item .price {
+  color: var(--default-price-color);
+}
+.cart-item .cart-item__old-price {
+  color: var(--default-compare-color);
+  opacity: 1;
+}
+
+/* ============================================================
+   Frequently Bought Together (review 10 Oct 2026, item 6)
+   ============================================================ */
+/* the per-item "Choose options" button is hard-coded secondary in the theme
+   block; give it the primary (gold) colours like "Add all to cart" */
+.bundle-product-toggle.button-secondary {
+  --color-secondary-button-text: var(--color-primary-button-text);
+  --color-secondary-button-background: var(--color-primary-button-background);
+  --color-secondary-button-border: var(--color-primary-button-border);
+  --color-secondary-button-hover-text: var(--color-primary-button-hover-text);
+  --color-secondary-button-hover-background: var(--color-primary-button-hover-background);
+  --color-secondary-button-hover-border: var(--color-primary-button-hover-border);
+  --button-border-radius: var(--style-border-radius-buttons-primary);
+}
+/* total: bundle price large navy, the full price before the bundle discount
+   small, red and struck through - the site price style */
+.bundle-product-totalPrice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 10px;
+}
+.bundle-product-totalPrice .bundle-old-price {
+  order: 2;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--pc-red, #D82C23);
+  text-decoration: line-through;
+}
+.bundle-product-totalPrice .bundle-price {
+  order: 1;
+  font-weight: 600;
+  color: var(--pc-navy, #19264D);
+}
+/* the discount line reads "Get a [discount]% discount..." until a rate is set
+   on the product (metafield custom.bundle_discount_rate); product-bundle.js
+   fills in the rate and shows the line when there is one */
+.bundle-product-information .bundle-product-text {
+  display: none;
+}
+
+/* Homepage tab rows (Horse Tack, Rider Apparel...): a row with fewer
+   products than columns sits centred, as the Figma rows do. Same columns
+   and gaps as the theme grid (4 / 3 / 2), as a wrapping flex row so a
+   short row can centre. */
+.type-style--tabs-grid ul.grid-layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--grid-desktop-horizontal-spacing);
+  row-gap: var(--grid-desktop-vertical-spacing);
+}
+.type-style--tabs-grid ul.grid-layout > li {
+  flex: 0 0 calc((100% - 3 * var(--grid-desktop-horizontal-spacing)) / 4);
+  max-width: calc((100% - 3 * var(--grid-desktop-horizontal-spacing)) / 4);
+}
+@media screen and (max-width: 1024px) {
+  .type-style--tabs-grid ul.grid-layout {
+    column-gap: var(--grid-tablet-horizontal-spacing);
+    row-gap: var(--grid-tablet-vertical-spacing);
+  }
+  .type-style--tabs-grid ul.grid-layout > li {
+    flex-basis: calc((100% - 2 * var(--grid-tablet-horizontal-spacing)) / 3);
+    max-width: calc((100% - 2 * var(--grid-tablet-horizontal-spacing)) / 3);
+  }
+}
+@media screen and (max-width: 749px) {
+  .type-style--tabs-grid ul.grid-layout {
+    column-gap: var(--grid-mobile-horizontal-spacing);
+    row-gap: var(--grid-mobile-vertical-spacing);
+  }
+  .type-style--tabs-grid ul.grid-layout > li {
+    flex-basis: calc((100% - var(--grid-mobile-horizontal-spacing)) / 2);
+    max-width: calc((100% - var(--grid-mobile-horizontal-spacing)) / 2);
+  }
+}
+
+/* Short pages (wishlist, empty search, empty cart): the footer sits at the
+   bottom of the window instead of halfway up it. The page is a full-height
+   column and the main content takes the spare height. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body > #MainContent {
+  flex: 1 0 auto;
+}
+
+/* Cart drawer tool buttons (order note...): they use the primary button
+   class, which is now gold - keep them quiet so CHECKOUT is the only gold
+   action in the drawer. */
+.drawer--function-blocks .function-block.button {
+  --color-primary-button-background: transparent;
+  --color-primary-button-text: var(--pc-navy, #19264D);
+  --color-primary-button-border: #E5E7EB;
+  --color-primary-button-hover-background: #F4F5F7;
+  --color-primary-button-hover-text: var(--pc-navy, #19264D);
+  --color-primary-button-hover-border: #E5E7EB;
+}
+
+/* Links: hover uses the colour scheme's "primary hover" (gold in every Pro Cavalli scheme).
+   Ella's rich-text rules below otherwise switch to --color-primary (navy) on hover. */
+@media screen and (min-width: 1025px) {
+  .rte a:hover,
+  .inline-richtext a:hover,
+  .underlined-link:hover,
+  .customer a:not(.button):hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+/* Cart drawer + cart page: "2 pc · 26,800 EGP" under Check out (data-pc-summary set in snippets/cart-drawer.liquid and cart-checkout.liquid),
+   same treatment as the product page Add to cart button (blocks/subtotal.liquid) */
+.cart__checkout-button:not([disabled]) .button-text-main[data-pc-summary] {
+  display: block;
+  text-align: center;
+  line-height: 1.25;
+}
+.cart__checkout-button:not([disabled]) .button-text-main[data-pc-summary]::after {
+  content: attr(data-pc-summary);
+  display: block;
+  margin-block-start: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: none;
+}
+/* keep label + summary in place on hover (Ella's slide-in copy only holds the label) */
+.cart__ctas .cart__checkout-button:is(.button, .button-secondary) .button-overflow:has(> [data-pc-summary])::after {
+  display: none;
+}
+.cart__ctas .cart__checkout-button:is(.button, .button-secondary):hover .button-overflow .button-text-main[data-pc-summary] {
+  transform: none;
+  opacity: 1;
+}
+
+/* Free-delivery bar (cart drawer + cart page): note under the message, set in Theme settings › Pro Cavalli › Delivery */
+.grantCalculatorShipping .pc-delivery-note {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #6F7786;
+}
+.grantCalculatorShipping .progress.progress-free + .message {
+  font-weight: 600;
+}

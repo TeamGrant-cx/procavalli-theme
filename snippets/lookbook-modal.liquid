@@ -1,0 +1,28 @@
+<lookbook-modal
+  id="LookbookModal"
+  class="lookbook-modal modal--popup fixed top-0 left-0 z-9 w-screen h-full flex justify-center no-js-hidden"
+>
+  <div id="Modal-Overlay" class="drawer__overlay fixed inset-0 cursor-pointer"></div>
+  <div
+    class="popup__inner lookbook-modal__inner w-auto h-full absolute-c-c flex flex-column global-settings-popup cus-scrollbar"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Lookbook"
+    tabindex="-1"
+    style="--modal-max-width: var(--lookbook-modal-width, 93.5rem); --p: 0;"
+  >    <div class="drawer__header center relative" style="--p: 2.5rem 0 0 0;">
+      <h2 class="drawer__heading break m-0 h5">Shop the look</h2>
+      <button
+        type="button"
+        class="lookbook-modal__close drawer__close block t-button bor-none rounded-full cursor-pointer absolute button-close-circle"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+        style="--top: 1rem; --right: 1.5rem;"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+    <div class="lookbook-modal__content-info"></div>
+  </div>
+</lookbook-modal>

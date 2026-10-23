@@ -1,0 +1,219 @@
+{%- doc -%}
+  Pro Cavalli: WhatsApp button ("Request a consultation" / "Book a fitting session").
+  On a product page the prefilled message names the product, the selected size/colour, the SKU and
+  the product link, and follows the customer's variant choice. Elsewhere (e.g. the contact page) it
+  sends the plain message. The number comes from the block, or from Theme settings > Pro Cavalli.
+  Optionally shows the wishlist and share buttons on the same row.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  assign has_product = false
+  if product != blank
+    assign has_product = true
+  endif
+
+  assign enabled = true
+  if has_product
+    assign enabled = product.metafields.custom.show_whatsapp.value
+    if block.settings.always_show or request.design_mode and block.settings.preview_in_editor
+      assign enabled = true
+    endif
+  endif
+
+  assign show_button = block.settings.show_button
+  assign phone = block.settings.phone | default: settings.pc_whatsapp_number
+  assign phone = phone | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+
+  if has_product
+    assign variant = product.selected_or_first_available_variant
+    assign base_message = block.settings.message | replace: '[product]', product.title
+    assign message = base_message
+    unless product.has_only_default_variant
+      assign message = message | append: ' (' | append: variant.title | append: ')'
+    endunless
+    if variant.sku != blank
+      assign message = message | append: ', SKU ' | append: variant.sku
+    endif
+    assign product_link = request.origin | append: product.url
+    assign message = message | append: ' ' | append: product_link | append: '?variant=' | append: variant.id
+  else
+    assign message = block.settings.message | remove: '[product]' | strip
+  endif
+  # url_encode turns spaces into "+", which WhatsApp shows literally; a real "+" is already %2B
+  assign encoded = message | url_encode | replace: '+', '%20'
+-%}
+
+{%- liquid
+  assign render_row = false
+  if show_button
+    if enabled and phone != blank
+      assign render_row = true
+    endif
+  elsif has_product
+    assign render_row = true
+  endif
+-%}
+
+{%- if render_row -%}
+  <div class="pc-whatsapp-row" {{ block.shopify_attributes }}>
+    {%- if show_button -%}
+    <pc-whatsapp
+      class="pc-whatsapp-wrap"
+      style="--pc-wa-color: {{ block.settings.button_color | default: '#128C4A' }};"
+      data-phone="{{ phone }}"
+      {%- if has_product %}
+        data-product-id="{{ product.id }}"
+        data-message="{{ base_message | escape }}"
+        data-link="{{ product_link | escape }}"
+        data-default-variant="{{ product.has_only_default_variant }}"
+      {%- endif %}
+    >
+      <a
+        class="pc-whatsapp"
+        href="https://wa.me/{{ phone }}?text={{ encoded }}"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg class="pc-whatsapp__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07s.88 2.4 1.01 2.57c.12.17 1.74 2.65 4.21 3.72.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.17-.48-.29z"/>
+        </svg>
+        <span>{{ block.settings.label }}</span>
+      </a>
+    </pc-whatsapp>
+    {%- endif -%}
+    {%- if has_product and block.settings.show_wishlist -%}
+      {% render 'product-wishlist-button',
+        card_product: product,
+        class_button: 'button h-full center cursor-pointer flex items-center justify-center relative leading-none',
+        class_text: 'visually-hidden',
+        class_text_inner: 'text-inner text-sm inline-block'
+      %}
+    {%- endif -%}
+    {%- if has_product and block.settings.show_share -%}
+      {% render 'social-share-button', product: product %}
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% javascript %}
+  if (!customElements.get('pc-whatsapp')) {
+    class PcWhatsapp extends HTMLElement {
+      connectedCallback() {
+        if (!this.dataset.productId) return;
+        this.onVariant = (event) => {
+          const detail = event.detail || {};
+          const variant = detail.resource;
+          const productId = detail.data && detail.data.productId;
+          if (!variant || String(productId) !== this.dataset.productId) return;
+          this.update(variant);
+        };
+        const eventName = (window.MainEvents && window.MainEvents.variantUpdate) || 'variant:update';
+        this.eventName = eventName;
+        document.addEventListener(eventName, this.onVariant);
+      }
+
+      disconnectedCallback() {
+        if (this.onVariant) document.removeEventListener(this.eventName, this.onVariant);
+      }
+
+      update(variant) {
+        let message = this.dataset.message;
+        if (this.dataset.defaultVariant !== 'true' && variant.title) message += ` (${variant.title})`;
+        if (variant.sku) message += `, SKU ${variant.sku}`;
+        message += ` ${this.dataset.link}?variant=${variant.id}`;
+        const link = this.querySelector('a');
+        if (link) link.href = `https://wa.me/${this.dataset.phone}?text=${encodeURIComponent(message)}`;
+      }
+    }
+    customElements.define('pc-whatsapp', PcWhatsapp);
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+  .pc-whatsapp-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+  .pc-whatsapp-wrap {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .pc-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    min-height: 52px;
+    padding: 12px 24px;
+    border: 1px solid var(--pc-wa-color, #128C4A);
+    border-radius: var(--style-border-radius-buttons-primary, 0);
+    background: #FFFFFF;
+    color: var(--pc-wa-color, #128C4A);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  /* .pc-whatsapp-wrap prefix outranks base.css a:not(.button):hover, which turns links gold on desktop */
+  .pc-whatsapp-wrap .pc-whatsapp:hover,
+  .pc-whatsapp-wrap .pc-whatsapp:focus-visible {
+    background: var(--pc-wa-color, #128C4A);
+    color: #FFFFFF;
+  }
+  .pc-whatsapp__icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+  }
+  /* wishlist + share sit to the right as square icon buttons, like the old Add to cart row */
+  .pc-whatsapp-row > .card-product__group-item {
+    flex: 0 0 52px;
+    width: 52px;
+    min-height: 52px;
+  }
+  .pc-whatsapp-row > .card-product__group-item .button {
+    width: 100%;
+    height: 100%;
+    min-height: 52px;
+    padding: 0;
+    border: 1px solid #E5E7EB;
+    border-radius: var(--style-border-radius-buttons-primary, 0);
+    background: #FFFFFF;
+    color: #1F2937;
+  }
+  .pc-whatsapp-row > .card-product__group-item .button:hover {
+    border-color: var(--pc-navy, #19264D);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WhatsApp button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On product pages the message adds the product, the selected size/colour, the SKU and the link. On other pages it sends the message as written."
+    },
+    { "type": "checkbox", "id": "show_button", "label": "Show the WhatsApp button", "info": "Off: only the wishlist and share buttons of this row are shown.", "default": true },
+    { "type": "checkbox", "id": "always_show", "label": "Show on every product using this template", "info": "Off: only on products with the 'Show WhatsApp button' metafield ticked.", "default": true },
+    { "type": "text", "id": "phone", "label": "WhatsApp number (optional)", "info": "Leave empty to use Theme settings > Pro Cavalli > WhatsApp number." },
+    { "type": "text", "id": "label", "label": "Button label", "default": "Request a consultation" },
+    { "type": "color", "id": "button_color", "label": "Button colour", "info": "Border and text; fills the button on hover with white text.", "default": "#128C4A" },
+    { "type": "text", "id": "message", "label": "Prefilled message", "info": "[product] is replaced with the product name; on product pages the size/colour, SKU and link are added at the end.", "default": "Hi Pro Cavalli, I would like a consultation about [product]" },
+    { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist button next to it", "default": false },
+    { "type": "checkbox", "id": "show_share", "label": "Show share button next to it", "default": false },
+    { "type": "checkbox", "id": "preview_in_editor", "label": "Always show in the theme editor", "default": true }
+  ],
+  "presets": [{ "name": "WhatsApp button" }]
+}
+{% endschema %}

@@ -1,0 +1,377 @@
+{%- liquid
+  assign block_id = block.id
+  assign block_stts = block.settings
+  assign type_preset = 'custom'
+  assign tab_font_weight = block_stts.font_weight
+  if tab_font_weight == 'default'
+    assign tab_font_weight = blank
+  endif
+
+  capture tab_trigger_classes
+    echo type_preset
+    echo ' custom-typography'
+    if block_stts.font_size != blank
+      echo ' custom-font-size'
+    endif
+  endcapture
+  
+  assign has_collections = false
+  if block_stts.collection_list != blank
+    assign collection_count = 0
+    for col in block_stts.collection_list
+      assign collection_count = collection_count | plus: 1
+    endfor
+    if collection_count > 0
+      assign has_collections = true
+    endif
+  endif
+-%}
+
+<div class="featured-tab-bundle__content-col featured-tab-bundle-block--{{ block_id }}"
+  style="
+    --featured-tab-bundle-accent: {{ block_stts.accent_color }};
+    --featured-tab-bundle-accent-hover: {{ block_stts.accent_color_hover }};
+  "
+>
+  <featured-tab-bundle class="w-full">
+    <tabs-component>
+      {%- if has_collections -%}
+        <div class="featured-tab-bundle__tabs-header-wrapper">
+          <div class="featured-tab-bundle__tabs-header">
+            {%- for collection in block_stts.collection_list -%}
+              <a
+                href="#tab-pane-{{ block_id }}-{{ forloop.index }}"
+                class="featured-tab-bundle__tab-trigger tabs-component-panel-trigger {{ tab_trigger_classes }}{% if forloop.first %} --active{% endif %}"
+                style="{% render 'typography-style', settings: block_stts, preset: type_preset, weight: tab_font_weight %}"
+              >
+                {{ collection.title | escape }}
+              </a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- if has_collections -%}
+        {%- for collection in block_stts.collection_list -%}
+          <div id="tab-pane-{{ block_id }}-{{ forloop.index }}" class="featured-tab-bundle__tab-content tabs-component-content{% if forloop.first %} --active{% endif %}">
+            <div class="featured-tab-bundle__products-list">
+              {%- if collection.products.size > 0 -%}
+                {%- for product in collection.products limit: block_stts.products_to_show -%}
+                  {%- assign variant = product.selected_or_first_available_variant -%}
+                  <div class="featured-tab-bundle__product-item" data-variant-id="{{ variant.id }}" data-available="{{ variant.available }}">
+                    {%- content_for 'block', type: 'card-product-flex', id: 'product-bundle-item', closest.product: product -%}
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                <p class="center" style="--p: var(--padding-4xl);">{{ 'content.sorry_no_products' | t }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+      
+      <div class="featured-tab-bundle__action">
+        <button type="button" class="featured-tab-bundle__cta-button button">
+          <span class="featured-tab-bundle__cta-text">{{ block_stts.cta_text | default: 'GET THE BUNDLE' }}</span>
+          <span class="featured-tab-bundle__cta-spinner loading__spinner hidden">
+            <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+            </svg>
+          </span>
+        </button>
+      </div>
+      
+    </tabs-component>
+  </featured-tab-bundle>
+</div>
+
+{% schema %}
+{
+  "name": "Product bundle",
+  "tag": null,
+  "settings": [
+    {
+      "type": "collection_list",
+      "id": "collection_list",
+      "label": "Collections (Tabs)",
+      "limit": 5
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Maximum products per bundle"
+    },
+    {
+      "type": "header",
+      "content": "Tab title settings"
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "t:settings.font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "t:options.body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "t:options.subheading"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "t:options.heading"
+        }
+      ],
+      "default": "var(--font-heading--family)"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "t:settings.size",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "1.0rem",
+          "label": "10px"
+        },
+        {
+          "value": "1.2rem",
+          "label": "12px"
+        },
+        {
+          "value": "1.4rem",
+          "label": "14px"
+        },
+        {
+          "value": "1.6rem",
+          "label": "16px"
+        },
+        {
+          "value": "1.8rem",
+          "label": "18px"
+        },
+        {
+          "value": "2.0rem",
+          "label": "20px"
+        },
+        {
+          "value": "2.2rem",
+          "label": "22px"
+        },
+        {
+          "value": "2.4rem",
+          "label": "24px"
+        },
+        {
+          "value": "2.6rem",
+          "label": "26px"
+        },
+        {
+          "value": "2.8rem",
+          "label": "28px"
+        },
+        {
+          "value": "3.0rem",
+          "label": "30px"
+        },
+        {
+          "value": "3.2rem",
+          "label": "32px"
+        },
+        {
+          "value": "3.4rem",
+          "label": "34px"
+        },
+        {
+          "value": "3.6rem",
+          "label": "36px"
+        },
+        {
+          "value": "4.0rem",
+          "label": "40px"
+        },
+        {
+          "value": "4.8rem",
+          "label": "48px"
+        },
+        {
+          "value": "5.0rem",
+          "label": "50px"
+        },
+        {
+          "value": "6.0rem",
+          "label": "60px"
+        },
+        {
+          "value": "6.4rem",
+          "label": "64px"
+        },
+        {
+          "value": "7.0rem",
+          "label": "70px"
+        },
+        {
+          "value": "8.0rem",
+          "label": "80px"
+        },
+        {
+          "value": "9.0rem",
+          "label": "90px"
+        },
+        {
+          "value": "10.0rem",
+          "label": "100px"
+        },
+        {
+          "value": "12.0rem",
+          "label": "120px"
+        }
+      ],
+      "default": "2.4rem"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "t:settings.weight",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.default"
+        },
+        {
+          "value": "400",
+          "label": "t:options.regular"
+        },
+        {
+          "value": "600",
+          "label": "t:options.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.bold"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "line_height",
+      "label": "t:settings.line_height",
+      "options": [
+        {
+          "value": "tight",
+          "label": "t:options.tight"
+        },
+        {
+          "value": "normal",
+          "label": "t:options.normal"
+        },
+        {
+          "value": "loose",
+          "label": "t:options.loose"
+        },
+        {
+          "value": "extra-loose",
+          "label": "Extra loose"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "select",
+      "id": "letter_spacing",
+      "label": "t:settings.letter_spacing",
+      "options": [
+        {
+          "value": "tight",
+          "label": "t:options.tight"
+        },
+        {
+          "value": "normal",
+          "label": "t:options.normal"
+        },
+        {
+          "value": "loose",
+          "label": "t:options.loose"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "select",
+      "id": "case",
+      "label": "t:settings.case",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.default"
+        },
+        {
+          "value": "uppercase",
+          "label": "t:options.uppercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "t:options.capitalize"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "wrap",
+      "label": "t:settings.wrap",
+      "default": "nowrap",
+      "options": [
+        {
+          "value": "pretty",
+          "label": "t:options.pretty"
+        },
+        {
+          "value": "balance",
+          "label": "t:options.balance"
+        },
+        {
+          "value": "nowrap",
+          "label": "t:options.none"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#E24C21"
+    },
+    {
+      "type": "color",
+      "id": "accent_color_hover",
+      "label": "Accent Color Hover",
+      "default": "#C13B13"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Label",
+      "default": "GET THE BUNDLE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product bundle"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+{%- liquid
+  assign localization_icon_style = localization_icon_style | default: 'global'
+  assign show_country = show_country | default: false
+  assign show_language = show_language | default: false
+-%}
+
+{%- if localization_icon_style == 'flag' and country_style == true -%}
+  {%- if show_country -%}
+    <span class="icon-flag icon-flag--{{ localization.country.iso_code }} icon-flag--{{ flag_style }}"></span>
+  {%- elsif show_language -%}
+    <span class="icon-flag icon-flag--{{ localization.language.iso_code }} icon-flag--{{ flag_style }}"></span>
+  {%- endif -%}
+{%- elsif localization_icon_style == 'hamburger' -%}
+  <span class="{% unless is_sidebar %}svg-wrapper{% endunless %}">
+    {{- 'icon-hamburger_2.svg' | inline_asset_content -}}
+  </span>
+{%- elsif localization_icon_style == 'global' -%}
+  <span class="{% unless is_sidebar %}svg-wrapper{% endunless %}">
+    {{- 'icon-global.svg' | inline_asset_content -}}
+  </span>
+{%- endif -%}

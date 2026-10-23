@@ -1,0 +1,174 @@
+{% liquid
+  assign image = block.settings.image
+  assign cluster = block.settings.cluster | default: 'left'
+  assign image_role = block.settings.image_role | default: 'main'
+  assign rotate = block.settings.rotate | default: 0
+  assign radius = block.settings.border_radius | default: 24
+  assign link = block.settings.link
+  assign featured_product = block.settings.featured_product
+
+  assign media_width_desktop = '40vw'
+  assign media_width_mobile = '50vw'
+  assign sizes = 'auto, (min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
+  assign widths = '300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2000'
+%}
+
+{%- capture image_style -%}
+  {%- if image != blank and image.presentation.focal_point != '50.0% 50.0%' -%}
+    object-position: {{ image.presentation.focal_point }};
+  {%- endif -%}
+{%- endcapture -%}
+
+<div
+  class="scroll-showcase__image scroll-showcase__image--{{ image_role }} scroll-showcase__image--{{ cluster }}"
+  style="
+    --image-rotate: {{ rotate }}deg;
+    --image-width: 30vw;
+    --image-width-tablet: 36vw;
+    --image-width-mobile: 46vw;
+    --image-radius: {{ radius }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="scroll-showcase__image-frame">
+    {%- if link != blank -%}
+      <a class="scroll-showcase__image-link" href="{{ link }}">
+    {%- endif -%}
+
+    {%- if image != blank -%}
+      {%- render 'image',
+        image: image,
+        class: 'scroll-showcase__image-media',
+        height: image.height,
+        sizes: sizes,
+        widths: widths,
+        style: image_style
+      -%}
+    {%- else -%}
+      <div class="scroll-showcase__image-placeholder placeholder">
+        {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+
+    {%- if link != blank -%}
+      </a>
+    {%- endif -%}
+
+    {%- if image_role == 'main' and featured_product != blank -%}
+      <a class="scroll-showcase__featured-product" href="{{ featured_product.url }}">
+        <div class="scroll-showcase__featured-product-img">
+          {%- if featured_product.featured_media -%}
+            {{ featured_product.featured_media | image_url: width: 180 | image_tag: loading: 'lazy', class: 'motion-reduce' }}
+          {%- else -%}
+            {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        <div class="scroll-showcase__featured-product-info">
+          {%- if featured_product.type != blank or featured_product.vendor != blank -%}
+            <span class="scroll-showcase__featured-product-type">
+              {{ featured_product.type | default: featured_product.vendor }}
+            </span>
+          {%- endif -%}
+          <span class="scroll-showcase__featured-product-title">{{ featured_product.title }}</span>
+        </div>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Scroll showcase image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "cluster",
+      "label": "Cluster",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:options.left"
+        },
+        {
+          "value": "right",
+          "label": "t:options.right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "image_role",
+      "label": "Role",
+      "options": [
+        {
+          "value": "main",
+          "label": "Main"
+        },
+        {
+          "value": "overlay",
+          "label": "Overlay"
+        }
+      ],
+      "default": "main"
+    },
+    {
+      "type": "range",
+      "id": "rotate",
+      "label": "Rotate",
+      "min": -45,
+      "max": 45,
+      "step": 1,
+      "unit": "deg",
+      "default": -31
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Featured product"
+    },
+    {
+      "type": "paragraph",
+      "content": "Only applies when Role is set to Main. Overlay images will not show the featured product card."
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll showcase image"
+    }
+  ]
+}
+{% endschema %}

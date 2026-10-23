@@ -1,0 +1,88 @@
+<div class="color-{{ section.settings.color_scheme }}">
+  <div class="spacing-style spacing-style--section"
+    style="
+      {% render 'spacing-style', settings: section.settings, type: 'section' %}
+    "
+  >
+    {{ section.settings.custom_liquid }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.custom_liquid",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["custom.popup", "aside"]
+  },
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "t:settings.liquid_code",
+      "info": "t:info.liquid_code_info"
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.bottom",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_start",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_end",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.right",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.custom_liquid",
+      "category": "t:categories.layout"
+    }
+  ]
+}
+{% endschema %}

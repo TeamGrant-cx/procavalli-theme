@@ -1,0 +1,36 @@
+{%- liquid
+  assign style_class = style_class | default: 'button'
+  assign button_style = button_style | default: 'default'
+-%}
+
+<div class="cart-purchase-conditions" data-purchase-conditions>
+  {% render 'purchase-conditions', id_suffix: 'cart-checkout' %}
+
+  <div class="cart__ctas">
+    <button
+      type="submit"
+      id="checkout"
+      class="cart__checkout-button {{ style_class }}{% if button_style == 'outline' %} button--outline{% endif %}"
+      name="checkout"
+      {% if cart == empty or settings.enable_purchase_conditions and settings.purchase_conditions_text != blank %}
+        disabled
+      {% endif %}
+      form="cart"
+    >
+      <span class="button-overflow relative overflow-hidden" data-button-text="{{ 'content.checkout' | t }}">
+        {%- comment -%} Pro Cavalli: "2 pc · 26,800 EGP" under the label (Theme settings > Pro Cavalli > Cart) {%- endcomment -%}
+        <span class="button-text-main inline-block relative z-1"{% if settings.pc_checkout_summary and cart != empty %} data-pc-summary="{{ cart.item_count }} {{ settings.pc_checkout_unit | escape }} · {{ cart.total_price | money | strip_html | escape }}"{% endif %}>
+          {{- 'content.checkout' | t -}}
+        </span>
+      </span>
+    </button>
+  </div>
+
+  {%- if additional_checkout_buttons -%}
+    <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+      {{ content_for_additional_checkout_buttons }}
+    </div>
+  {%- endif -%}
+</div>
+
+<div id="cart-errors"></div>

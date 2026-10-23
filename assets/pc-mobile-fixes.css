@@ -1,0 +1,22 @@
+/* Pro Cavalli: mobile breathing room (client feedback, 13 Oct 2026).
+   The theme's phone page margin was 1rem (10px), so text in most sections sat
+   almost on the screen edge while the hero and bundle used 20px. One gutter
+   everywhere on phones: 20px, matching the hero. */
+@media screen and (max-width: 749px) {
+  html:root {
+    --page-margin: 2rem;
+  }
+
+  /* Homepage category tiles (Horse Tack, Rider Apparel...): the theme scales the
+     tile padding down to 12px on phones. Give the copy the same 20px. */
+  [id$="__pc_banners"] .group-block--height-custom {
+    padding-inline: 20px !important;
+  }
+
+  /* ...and size the tile titles so "SUPPLEMENTS" fits a half-width tile
+     instead of running past its edge. */
+  [id$="__pc_banners"] .text-block[class*="__title"] p {
+    font-size: 19px !important;
+    line-height: 1.25;
+  }
+}
