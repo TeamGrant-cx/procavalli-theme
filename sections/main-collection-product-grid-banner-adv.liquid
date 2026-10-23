@@ -128,7 +128,7 @@
             {% capture children %}
               {% for product in collection.products %}
                 {% if forloop.index == banner_position_1 and section.settings.show_banner_1 %}
-                  <li class="{{ class_banner }}" data-product-banner="1" data-first-position="{{ banner_position_1 }}">
+                  <li class="{{ class_banner }}" data-pc-gate data-product-banner="1" data-first-position="{{ banner_position_1 }}">
                     <div class="{{ class_banner_img }}">
                       <a
                         class="{{ class_tag_a }}"
@@ -147,7 +147,7 @@
                   </li>
                 {% endif %}
                 {% if forloop.index == banner_position_2 and section.settings.show_banner_2 %}
-                  <li class="{{ class_banner }}" data-product-banner="2" data-first-position="{{ banner_position_2 }}">
+                  <li class="{{ class_banner }}" data-pc-gate data-product-banner="2" data-first-position="{{ banner_position_2 }}">
                     <div class="{{ class_banner_img }}">
                       <a
                         class="{{ class_tag_a }}"
@@ -166,7 +166,7 @@
                   </li>
                 {% endif %}
                 {% if forloop.index == banner_position_3 and section.settings.show_banner_3 %}
-                  <li class="{{ class_banner }}" data-product-banner="3" data-first-position="{{ banner_position_3 | plus: 2 }}">
+                  <li class="{{ class_banner }}" data-pc-gate data-product-banner="3" data-first-position="{{ banner_position_3 | plus: 2 }}">
                     <div class="{{ class_banner_img }}">
                       <a
                         class="{{ class_tag_a }}"
