@@ -1,5 +1,8 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
+{%- if __pc_check contains 'pc-ok' -%}
 <div
   id="ProductInformation-{{ section.id }}"
+  data-pc-gate
   class="product-details{% if block.settings.inherit_color_scheme == false %} color-scheme-custom{% endif %}"
   data-testid="product-information-details"
   {% if settings.transition_to_main_product %}
@@ -29,6 +32,7 @@
 
   {% render 'group', children: children, settings: block.settings, shopify_attributes: block.shopify_attributes %}
 </div>
+{%- endif -%}
 
 {% schema %}
 {

@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {% assign bl_stts = block.settings %}
 
 {%- if bl_stts.zoom and bl_stts.zoom_type == 'dialog' -%}
@@ -297,7 +298,9 @@
   endcapture
 %}
 
+{%- if __pc_check contains 'pc-ok' -%}
 <media-gallery
+  data-pc-gate
   class="
     slideshow
     spacing-style
@@ -873,6 +876,7 @@
     <script src="{{ 'product-model.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 </media-gallery>
+{%- endif -%}
 
 {% schema %}
 {

@@ -157,8 +157,11 @@ endcapture
 | In-grid collection banners | `sections/main-collection-product-grid-banner-adv.liquid` |
 | Media gallery | `sections/media-gallery.liquid` |
 | Product bundle | `sections/pc-bundle.liquid` |
+| Product page — details column (title, price, variants, buy, blocks placed inside) | `blocks/_product-details.liquid` |
+| Product page — media gallery (product images) | `blocks/_product-media-gallery.liquid` |
+| Product page — full description tab | `blocks/_product-tabs-description.liquid` |
 
-Product pages and checkout are unaffected unless their elements are explicitly integrated with the gate.
+Checkout is unaffected. On product pages, the details-column wrapper is gated as a single block, so title/price/variants/buy and any blocks placed inside the details group hide together. The media gallery and the full-description tab are gated separately because they usually sit outside the details column.
 
 ### Optional placeholder
 

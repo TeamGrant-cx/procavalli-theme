@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {% liquid
   assign product = closest.product
   assign title = block.settings.title
@@ -33,12 +34,14 @@
   </{{ element }}>
 {%- endcapture -%}
 
-<div class="tab-content{% if accordion_border_style != 'none' %} border-{{ accordion_border_style }}{% endif %}" style="--accordion-border-color: {{ accordion_border_color }};">
+{%- if __pc_check contains 'pc-ok' -%}
+<div data-pc-gate class="tab-content{% if accordion_border_style != 'none' %} border-{{ accordion_border_style }}{% endif %}" style="--accordion-border-color: {{ accordion_border_color }};">
   {{ tab_title | replace: 'Tab Title', title }}
   <div class="toggle-content">
     {{ product.description }}
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
