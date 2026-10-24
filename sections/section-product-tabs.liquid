@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {%- liquid
   assign tabs_design = section.settings.tabs_design
 
@@ -101,7 +102,8 @@ style="
   </{{ element }}>
 {%- endcapture -%}
 
-<div class="section section-product-tabs section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}" {{ section.shopify_attributes }}
+{%- if __pc_check contains 'pc-ok' -%}
+<div class="section section-product-tabs section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}" data-pc-gate {{ section.shopify_attributes }}
   style="
     {% if section.settings.section_width == 'custom' %}
       --page-content-width: {{ section.settings.page_width_custom | divided_by: 10 }}rem;
@@ -304,6 +306,7 @@ style="
   {%- if view_content == 'sidebar' -%}
     {% render 'global-sidebar', drawer_direction: 'left' %}
   {%- endif -%}
+{%- endif -%}
 {%- endif -%}
 
 {% javascript %}

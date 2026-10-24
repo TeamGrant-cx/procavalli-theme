@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {% assign bl_stts = block.settings %}
 
 {% assign icon_block_class = 'icon-block__media icon-block_' | append: bl_stts.icon | append: ' icon-block-' | append: block.id %}
@@ -99,6 +100,7 @@
   {% endif %}
 {% endcapture %}
 
+{%- if __pc_check contains 'pc-ok' -%}
 <div
   class="
     image-with-content-block flex
@@ -110,6 +112,7 @@
     {% if bl_stts.width == '100%' %}text-block--align-{{ bl_stts.alignment }}{% endif %}
     {% if bl_stts.icon_position == 'icon-left' %}justify-start{% else %}justify-end{% endif %}
   "
+  data-pc-gate
   style="
     {% render 'layout-panel-style', settings: bl_stts, scale_min: 8 %}
     {% render 'spacing-style', settings: bl_stts %}
@@ -130,6 +133,7 @@
     {{ icon }}
   {% endif %}
 </div>
+{%- endif -%}
 
 {% schema %}
 {

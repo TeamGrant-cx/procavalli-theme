@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'collection-wrapper.css' | asset_url | stylesheet_tag }}
 
@@ -20,8 +21,10 @@
   endif
 -%}
 
+{%- if __pc_check contains 'pc-ok' -%}
 <div
   class="template-collection{%- if section.settings.product_grid_width == 'full-width' %} template-collection--full-width{% endif %} collection-wrapper grid-base gap-style gradient color-{{ section.settings.color_scheme }} spacing"
+  data-pc-gate
   style="
     --p-spacing-t: {{ section.settings.padding_top }}px;
     --p-spacing-b: {{ section.settings.padding_bottom }}px;
@@ -141,6 +144,7 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+{%- endif -%}
 
 {% schema %}
 {

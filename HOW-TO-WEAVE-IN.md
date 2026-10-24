@@ -160,6 +160,12 @@ endcapture
 | Product page — details column (title, price, variants, buy, blocks placed inside) | `blocks/_product-details.liquid` |
 | Product page — media gallery (product images) | `blocks/_product-media-gallery.liquid` |
 | Product page — full description tab | `blocks/_product-tabs-description.liquid` |
+| Product page — tabs section (whole tabs area: description, reviews, HTML, Liquid tabs) | `sections/section-product-tabs.liquid` |
+| Product page — featured product banner (hero banner above the fold) | `sections/featured-product-banner.liquid` |
+| Collection page — main product grid (every card + filters area) | `sections/main-collection-product-grid.liquid` |
+| Image carousel block (used as the icon-selector carousel on collection pages, and anywhere else it appears) | `blocks/image-carousel.liquid` |
+| Media banner section with text (used on both collection and product pages) | `sections/media-banner.liquid` |
+| Image-with-content block (used on both collection and product pages) | `blocks/image-with-content.liquid` |
 
 Checkout is unaffected. On product pages, the details-column wrapper is gated as a single block, so title/price/variants/buy and any blocks placed inside the details group hide together. The media gallery and the full-description tab are gated separately because they usually sit outside the details column.
 

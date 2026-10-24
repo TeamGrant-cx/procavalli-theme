@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {%- liquid
   assign bl_stts = block.settings
 
@@ -53,8 +54,10 @@
   <div class="{{ pagi_class }}" {{ pagi_style }}></div>
 {%- endcapture -%}
 
+{%- if __pc_check contains 'pc-ok' -%}
 <div
   class="{{ class }}"
+  data-pc-gate
   {{ block.shopify_attributes }}
   style="{{ style }}"
 >
@@ -101,6 +104,7 @@
     </div>
   </swiper-component>
 </div>
+{%- endif -%}
 
 {% schema %}
 {

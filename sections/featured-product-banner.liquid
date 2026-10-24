@@ -1,3 +1,4 @@
+{%- capture __pc_check -%}{%- render 'pc-gates', section_check: true -%}{%- endcapture -%}
 {%- liquid
     assign section_width = section.settings.section_width
     assign page_width_custom = section.settings.page_width_custom
@@ -49,7 +50,9 @@
     endif
   -%}
 
+{%- if __pc_check contains 'pc-ok' -%}
 <div class="featured-product-banner-container small-hide color-{{ color_scheme }} section section--{{ section_width }}"
+data-pc-gate
 style="
   {% if section_width == 'custom' %}
     --page-content-width: {{ page_width_custom | divided_by: 10 }}rem;
@@ -131,6 +134,7 @@ style="
     {% endif %}
   </{{ element }}>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
