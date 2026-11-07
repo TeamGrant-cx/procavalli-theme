@@ -241,6 +241,7 @@
     },
     "pc_announcement": {
       "type": "pc-announcement",
+      "disabled": true,
       "settings": {
         "background": "#19264D",
         "message": "Meet us at the Longines Global Champions Tour of Cairo",

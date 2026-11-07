@@ -7733,6 +7733,7 @@
       "block_order": [
         "content"
       ],
+      "disabled": true,
       "custom_css": [
         ".text-block[style*=\"1.8vw\"] p {letter-spacing: 0.21em;}",
         ".text-block em {color: #C2A260; font-style: italic;}",
